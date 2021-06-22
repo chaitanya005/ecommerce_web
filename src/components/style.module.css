@@ -1,0 +1,33 @@
+.starsRow {
+  margin: 5px 0px;
+  display: flex;
+  justify-content: space-between;
+  /* font-family: Nunito Sans; */
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+  color: #acb4bc;
+}
+
+.priceTag {
+  display: flex;
+  border: none;
+  /* font-family: Nunito Sans; */
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+  color: #33393f;
+}
+
+.priceTagPrice {
+  padding: 2px 5px;
+  background: #eec200;
+}
+
+.triangle {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #eec200;
+}
