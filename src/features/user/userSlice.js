@@ -37,4 +37,6 @@ export const getUserEmail = state => state.user.email
 export const getUserPhoto = state => state.user.photo
 export const getUserUid = state => state.user.uid
 
+export const getUserDetails = state => state.user
+
 export default userSlice.reducer

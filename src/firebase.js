@@ -14,14 +14,14 @@ const firebaseConfig = {
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
-const auth =  firebase.auth();
+const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider()
 const storage = firebase.storage();
 
-const firestore = firebase.firestore()
+export const firestore = firebase.firestore()
 
 export const createUserDocument = async (user) => {
-  if (!user)  return;
+  if (!user) return;
 
   const userRef = firestore.doc(`users/${user.uid}`)
 
@@ -43,7 +43,7 @@ export const createUserDocument = async (user) => {
         uid,
         createdAt: new Date()
       })
-    } catch(error) {
+    } catch (error) {
       console.log('Error while creating user', error);
     }
   }

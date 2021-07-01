@@ -1,10 +1,18 @@
-import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Login from './components/Login'
-import Header from './components/Header'
-import Home from './components/Home'
-import MenShirts from './components/Men/Men_shirts'
-import ProductPage from './components/Men/Product_page';
+import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "./components/Login";
+import Header from "./components/Header";
+import Home from "./components/Home";
+import MenShirts from "./components/Men/Men_shirts";
+import ProductPage from "./components/Men/Product_page";
+import Cart from "./components/Cart/Cart";
+import Notion from "./notion";
+import HomePage from "./components/Veggies/Homepage";
+import VeggiesLandingPage from "./components/Veggies/VeggiesLandingPage";
+import Footer from "./components/Veggies/Footer";
+import Shop from "./components/Veggies/Shop";
+import VeggieProduct from "./components/Veggies/ProductPage";
+import CheckoutPage from "./components/Cart/Checkout";
 
 function App() {
   return (
@@ -12,19 +20,38 @@ function App() {
       <Router>
         <Header />
         <Switch>
-          <Route exact path = "/">
+          {/* <Route exact path="/">
             <Login />
-          </Route>
-          <Route path = "/home">
+          </Route> */}
+          <Route exact path="/">
             <Home />
           </Route>
-          <Route path = "/men-shirts">
-           <MenShirts />
+          <Route path="/men-shirts">
+            <MenShirts />
           </Route>
-          <Route path = "/product-detail">
+          <Route path="/product-detail">
             <ProductPage />
           </Route>
+          <Route path="/cart">
+            <Cart />
+          </Route>
+          <Route path="/notion">
+            <Notion />
+          </Route>
+          <Route exact path="/veggies">
+            <VeggiesLandingPage />
+          </Route>
+          <Route exact path="/veggies/shop">
+            <Shop />
+          </Route>
+          <Route exact path="/veggies/shop/product">
+            <VeggieProduct />
+          </Route>
+          <Route path="/checkout">
+            <CheckoutPage />
+          </Route>
         </Switch>
+        <Footer />
       </Router>
     </div>
   );

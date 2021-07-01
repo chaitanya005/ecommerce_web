@@ -16,7 +16,18 @@
   /* font-family: Nunito Sans; */
   font-style: normal;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 16px;
+  line-height: 14px;
+  color: #33393f;
+}
+
+.actualPriceTag {
+  display: flex;
+  border: none;
+  /* font-family: Nunito Sans; */
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
   line-height: 16px;
   color: #33393f;
 }
@@ -26,8 +37,54 @@
   background: #eec200;
 }
 
+.actualPriceTagPrice {
+  padding: 2px 5px;
+  /* background: grey; */
+  /* border: 1px solid grey; */
+  color: grey;
+  text-decoration: line-through;
+}
+
 .triangle {
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-left: 10px solid #eec200;
 }
+
+.actualTriangle {
+ /*  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid grey; */
+}
+
+
+/* .vc {
+  background: #39b6ba;
+  color: #fff;
+  width: 58px;
+  height: 25px;
+  text-align: center;
+  padding: 6.5px 18px;
+  position: relative;
+}
+.vc:after {
+  width: 0;
+  height: 0;
+  border: 12.5px solid transparent;
+  position: absolute;
+  content: "";
+  border-top-color: #39b6ba;
+  right: -23px;
+  top: 0px;
+  border-left-color: #39b6ba;
+}
+.vc:before {
+    width: 0;
+    height: 0;
+    border: 13px solid transparent;
+    position: absolute;
+    content: "";
+    border-bottom-color: #39b6ba;
+    right: -23px;
+    top: -1px;
+} */
