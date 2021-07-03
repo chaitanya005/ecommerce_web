@@ -13,8 +13,16 @@ import Footer from "./components/Veggies/Footer";
 import Shop from "./components/Veggies/Shop";
 import VeggieProduct from "./components/Veggies/ProductPage";
 import CheckoutPage from "./components/Cart/Checkout";
+import PageNotFound from "./components/404";
+import { getToken } from "./firebase";
+import { useState } from "react";
+import OrderConfirmation from "./components/OrderConfirmation";
+import OrderFailure from "./components/OrderFailure";
 
 function App() {
+  const [isTokenFound, setTokenFound] = useState(false);
+  getToken(setTokenFound);
+
   return (
     <div className="App">
       <Router>
@@ -50,6 +58,15 @@ function App() {
           <Route path="/checkout">
             <CheckoutPage />
           </Route>
+          <Route path="/order/confirm">
+            <OrderConfirmation />
+          </Route>
+          <Route path="/order/failure">
+            <OrderFailure />
+          </Route>
+          {/* <Route path="*">
+            <PageNotFound />
+          </Route> */}
         </Switch>
         <Footer />
       </Router>

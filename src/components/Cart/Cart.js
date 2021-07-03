@@ -103,11 +103,18 @@ const Cart = () => {
   const uId = useSelector(getUserUid);
   const history = useHistory();
 
-  let subTotal = 0;
+  let yourBill = 0;
+  let marketPrice = 0;
+  let saveTotal = 0;
 
   for (let item of cartStore) {
-    subTotal = subTotal + item.newPrice;
+    yourBill = yourBill + item.newPrice;
+    marketPrice += item.actual_price * item.qty;
   }
+
+  saveTotal += marketPrice - yourBill;
+
+  // console.log(cartStore);
 
   const [state, setState] = React.useState({
     open: false,
@@ -173,11 +180,11 @@ const Cart = () => {
               <h1 className="section-title">Shop Cart</h1>
               <div className="mt-3">
                 <div className="page-breadcrumbs">
-                  <a className="content-link" href="homepage-1.html">
-                    Home
+                  <a className="content-link" href="/veggies">
+                    Veggies
                   </a>
                   <span className="mx-2">\</span>
-                  <a className="content-link" href="shop-sidebar-right.html">
+                  <a className="content-link" href="/veggies/shop">
                     Shop
                   </a>
                   <span className="mx-2">\</span>
@@ -354,18 +361,26 @@ const Cart = () => {
                 <div className="cart-block">
                   <ul className="cart-totals list-titled">
                     <li>
-                      <span className="list-item-title">Sub Total</span>
-                      <span className="list-item-value">Rs.{subTotal}</span>
+                      <span className="list-item-title">Market Price</span>
+                      <span className="list-item-value">Rs.{marketPrice}</span>
+                    </li>
+                    <li>
+                      <span className="list-item-title">Your Bill</span>
+                      <span className="list-item-value">Rs.{yourBill}</span>
                     </li>
                     <li>
                       <span className="list-item-title">Shipping</span>
                       <span className="list-item-value">Rs.20.00</span>
                     </li>
+                    <li>
+                      <span className="list-item-title">You Save</span>
+                      <span className="list-item-value">Rs.{saveTotal}</span>
+                    </li>
                     <li className="separator-line"></li>
                     <li className="cart-total">
                       <span className="list-item-title">Total</span>
                       <span className="list-item-value">
-                        Rs.{subTotal + 20}
+                        Rs.{yourBill + 20}
                       </span>
                     </li>
                   </ul>
@@ -400,7 +415,7 @@ const BgImage = styled.div`
 const CartItems = ({ cartItem }) => {
   // const classes = useStyles();
 
-  console.log(cartStore.length);
+  // console.log(cartStore.length);
 
   const [count, setCounter] = useState(1);
   const [updatePrice, setUpdatePrice] = useState(cartItem.price);

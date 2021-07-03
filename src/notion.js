@@ -54,16 +54,15 @@ const Notion = () => {
 
 export default Notion; */
 
-import React from 'react'
-import axios from 'axios'
+import React from "react";
+import axios from "axios";
 
 const Notion = () => {
-
-    const request = () => {
-        /* axios.get('/users')
+  const request = () => {
+    /* axios.get('/users')
             .then(res => console.log(res))
             .catch(err => console.log(err)) */
-     /*    var data = JSON.stringify({"parent":{"database_id":"746cbc16c13a4c2a959cd6b81033983f"},"properties":{"title":{"title":[{"text":{"content":"Yurts in Big Sur, California"}}]}}});
+    /*    var data = JSON.stringify({"parent":{"database_id":"746cbc16c13a4c2a959cd6b81033983f"},"properties":{"title":{"title":[{"text":{"content":"Yurts in Big Sur, California"}}]}}});
 
         var config = {
         method: 'post',
@@ -76,9 +75,9 @@ const Notion = () => {
         data : data
         };
          */
-//https://cors-anywhere.herokuapp.com/
+    //https://cors-anywhere.herokuapp.com/
 
-        /* const headers = {
+    /* const headers = {
           'Authorization': 'Bearer secret_nVMXTaXGC6XnMhivTGu5sIK5tnXTIOYIRTfhf23UbMi', 
                 'Content-Type': 'application/x-www-form-urlencoded', 
                 'Notion-Version': '2021-05-13',
@@ -86,7 +85,7 @@ const Notion = () => {
                 'Access-Control-Allow-Credentials': true
         } */
 
-       /*  axios.post('https://api.notion.com/v1/pages', {
+    /*  axios.post('https://api.notion.com/v1/pages', {
           body: {
               parent: { database_id: "746cbc16c13a4c2a959cd6b81033983f" },
               properties: {
@@ -106,7 +105,7 @@ const Notion = () => {
         .then(res => console.log(res))
         .catch(err => console.log(err)) */
 
-        /* axios(config)
+    /* axios(config)
         .then(function (response) {
         console.log(JSON.stringify(response.data));
         })
@@ -114,25 +113,38 @@ const Notion = () => {
         console.log(error);
         }); */
 
-        axios.get("https://notion-demo.herokuapp.com/")
-          .then(res => console.log(res))
-          .catch(err => console.log(err))
-          
-        axios.post('https://notion-demo.herokuapp.com/notion', {
-          // method: 'POST',
-          body: {},
-        })
-          .then((response) => console.log(response))
-          .then((json) => console.log(json));
+    console.log("calling");
 
-       
-    }
+    /*  axios
+      .get("https://notion-demo.herokuapp.com/notion")
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err)); */
 
-    return (
-        <button onClick = {request}>Hey</button>
-    )
-}
+    axios
+      .post("http://localhost:8000/notion", {
+        // method: 'POST',
+        body: {},
+      })
+      .then((response) => console.log(response))
+      .then((json) => console.log(json))
+      .catch((err) => console.log(err));
+  };
+
+  const getRequest = () => {
+    axios
+      .get("https://notion-demo.herokuapp.com/getNotion")
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  return (
+    <>
+      <button onClick={request}>POST</button>
+      <button onClick={getRequest}>GET</button>
+    </>
+  );
+};
 
 // axios.defaults.proxy = 'https://api.notion.com/v1';
 
-export default Notion
+export default Notion;

@@ -5,19 +5,64 @@ import { storeCart } from "../../features/cart/cart";
 import firestore from "../../firebase";
 import { useHistory } from "react-router-dom";
 import { getUserDetails } from "../../features/user/userSlice";
+import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import { getUserUid, getUserName } from "../../features/user/userSlice";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  wrapper: {
+    margin: theme.spacing(1),
+    position: "relative",
+  },
+  buttonProgress: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12,
+  },
+}));
 
 const CheckoutPage = () => {
+  const classes = useStyles();
   const cartItems = useSelector(storeCart);
   const userDetails = useSelector(getUserDetails);
+  const userName = useSelector(getUserName);
+  const [loading, setLoading] = React.useState(false);
 
   // console.log(cartItems);
 
-  let subTotal = 0;
+  let yourBill = 0;
+  let marketPrice = 0;
+  let saveTotal = 0;
   const history = useHistory();
+  const uId = useSelector(getUserUid);
 
   for (let item of cartItems) {
-    subTotal = subTotal + item.newPrice;
+    yourBill = yourBill + item.newPrice;
+    marketPrice += item.actual_price * item.qty;
   }
+
+  saveTotal += marketPrice - yourBill;
+
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
   /* 
   useEffect(() => {
     effect
@@ -33,6 +78,8 @@ const CheckoutPage = () => {
     town: "",
     pincode: "",
     phone: "",
+    district: "",
+    additionInfo: "",
   });
 
   const handleChange = (e) => {
@@ -45,46 +92,103 @@ const CheckoutPage = () => {
     });
   };
 
-  console.log(userDetails.uid);
+  // console.log(userDetails.uid);
 
+  let orderId =
+    userDetails.email.substring(0, 3) +
+    new Date().getDate() +
+    new Date().getHours() +
+    new Date().getMinutes();
+
+  // console.log(orderId);
   const handlePlaceOrder = () => {
-    if (
-      values.name === "" ||
-      values.address === "" ||
-      values.email === "" ||
-      values.phone === "" ||
-      values.pincode === "" ||
-      values.town === ""
-    ) {
-      alert("Please fill all the fields");
-    } else if (values.phone.length < 10) {
-      alert("Please Enter Valid Phone Number");
+    if (!uId) {
+      setState({ ...state, open: true });
     } else {
-      let order = [{ orderItems: [...cartItems] }, { ...values }];
-      console.log(order);
+      if (
+        values.name === "" ||
+        values.address === "" ||
+        values.email === "" ||
+        values.phone === "" ||
+        values.pincode === "" ||
+        values.town === "" ||
+        values.district === ""
+      ) {
+        alert("Please fill all the fields");
+      } else if (values.phone.length < 10) {
+        alert("Please Enter Valid Phone Number");
+      } else {
+        setLoading(true);
+        let order = [
+          { orderId: orderId },
+          { orderItems: [...cartItems] },
+          { ...values },
+          { total: yourBill + 20 },
+        ];
+        // console.log(order);
 
-      const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
+        const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
 
-      // const snapshot = cartRef.get();
+        // const snapshot = cartRef.get();
 
-      try {
-        firestore
-          .collection("orders")
-          .doc(userDetails.uid)
-          .collection("order")
-          .add({
-            orderDetiails: order,
-          })
-          .then(() => {
-            history.push("/veggies/shop");
-          });
-      } catch (error) {
-        console.log("Error in placing order", error);
+        // handleNotion();
+        try {
+          firestore
+            .collection("orders")
+            .doc(userDetails.uid)
+            .collection("order")
+            .doc(orderId)
+            .set({
+              order,
+            })
+            /*  .add({
+              orderDetiails: order,
+            }) */
+            .then(() => {
+              // history.push("/veggies/shop");
+              handleNotion();
+            });
+        } catch (error) {
+          console.log("Error in placing order", error);
+        }
       }
     }
   };
 
-  console.log(values);
+  const handleNotion = () => {
+    // console.log(cartItems, values);
+
+    let items = "",
+      i = 1;
+
+    for (let item of cartItems) {
+      items += ` (${i} - ${item.name} - ${item.qty} Kg - ${item.price} Price - ${item.newPrice} Total) `;
+      i++;
+    }
+
+    // console.log(items);
+    let total = yourBill + 20;
+
+    axios
+      .post("https://notion-demo.herokuapp.com/order", {
+        items,
+        values,
+        i,
+        orderId,
+        total,
+      })
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+        history.push("/order/confirm");
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        history.push("/order/failure");
+      });
+  };
+  // console.log(values);
 
   return (
     <React.Fragment>
@@ -110,11 +214,11 @@ const CheckoutPage = () => {
               <h1 className="section-title">Shop Checkout</h1>
               <div className="mt-3">
                 <div className="page-breadcrumbs">
-                  <a className="content-link" href="/">
-                    Home
+                  <a className="content-link" href="/veggies">
+                    Veggies
                   </a>
                   <span className="mx-2">\</span>
-                  <a className="content-link" href="/">
+                  <a className="content-link" href="/veggies/shop">
                     Shop
                   </a>
                   <span className="mx-2">\</span>
@@ -179,17 +283,33 @@ const CheckoutPage = () => {
                     </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="input-view-flat input-gray-shadow form-group">
-                    <label class="required">Town / City</label>
-                    <div class="input-group">
+                <div className="col-12">
+                  <div className="input-view-flat input-gray-shadow form-group">
+                    <label className="required">Town / City</label>
+                    <div className="input-group">
                       <input
-                        class="form-control"
+                        className="form-control"
                         name="town"
                         type="text"
                         placeholder="Town / City"
                         required="required"
                         value={values.town}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-12">
+                  <div className="input-view-flat input-gray-shadow form-group">
+                    <label className="required">District</label>
+                    <div className="input-group">
+                      <input
+                        className="form-control"
+                        name="district"
+                        type="text"
+                        placeholder="District"
+                        required="required"
+                        value={values.district}
                         onChange={handleChange}
                       />
                     </div>
@@ -227,6 +347,23 @@ const CheckoutPage = () => {
                     </div>
                   </div>
                 </div>
+                <div className="col-12 mt-5">
+                  <div className="input-view-flat input-gray-shadow form-group">
+                    <label className="h4 mb-3 text-title">
+                      Additional Information
+                    </label>
+                    <div className="input-group">
+                      <textarea
+                        className="form-control"
+                        name="additionInfo"
+                        placeholder="Additional Information"
+                        style={{ borderRadius: "25px" }}
+                        value={values.additionInfo}
+                        onChange={handleChange}
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="col-lg-6">
@@ -248,17 +385,25 @@ const CheckoutPage = () => {
                     </div>
                   ))}
                 <div className="order-subtotal">
-                  <div className="order-line-title">Sub Total</div>
-                  <div className="order-line-total">Rs. {subTotal}</div>
+                  <div className="order-line-title">Market Price</div>
+                  <div className="order-line-total">Rs. {marketPrice}</div>
+                </div>
+                <div className="order-subtotal">
+                  <div className="order-line-title">Your Bill</div>
+                  <div className="order-line-total">Rs. {yourBill}</div>
                 </div>
                 <div className="order-subtotal">
                   <div className="order-line-title">Shipping</div>
                   <div className="order-line-total">Rs. 20.00</div>
                 </div>
+                <div className="order-subtotal">
+                  <div className="order-line-title">Shipping</div>
+                  <div className="order-line-total">Rs. {saveTotal}</div>
+                </div>
                 <div className="separator-line"></div>
                 <div className="order-total">
                   <div className="order-line-title">Total</div>
-                  <div className="order-line-total">Rs. {subTotal + 20}</div>
+                  <div className="order-line-total">Rs. {yourBill + 20}</div>
                 </div>
               </div>
               <h3 className="text-title mb-4">Payment Details</h3>
@@ -283,19 +428,41 @@ const CheckoutPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12">
-                  <div
-                    className="btn-wider btn btn-theme"
-                    onClick={handlePlaceOrder}
-                  >
-                    place order
+                <br />
+                <br />
+                <br />
+                <div className={classes.wrapper}>
+                  <div className="col-12">
+                    <div
+                      className="btn-wider btn btn-theme"
+                      onClick={handlePlaceOrder}
+                    >
+                      place order
+                    </div>
                   </div>
+                  {loading && (
+                    <CircularProgress
+                      size={24}
+                      className={classes.buttonProgress}
+                    />
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </form>
       </section>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        message="Please  Login"
+        key={vertical + horizontal}
+      >
+        <Alert severity="error" onClose={handleClose}>
+          Please Login!
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 };

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import styles from "./style.module.css";
 
 const ImgSlider = () => {
   let settings = {
@@ -17,23 +18,27 @@ const ImgSlider = () => {
   return (
     <Carousel {...settings}>
       <Wrap>
-        <a href="#">
-          <img src="/images/slider-badag.jpg" alt="" />
+        <a href="/veggies/shop" class={styles.myBtnClass}>
+          <img src="/images/vegiee.png" alt="" />
+          <h4 className={styles.btnOver}>Click here</h4>
         </a>
       </Wrap>
       <Wrap>
-        <a href="#">
-          <img src="/images/slider-badging.jpg" alt="" />
+        <a href="#" class={styles.myBtnClass}>
+          <img src="/images/men_wear.png" alt="" />
+          <h4 className={styles.btnOver}>Coming Soon</h4>
         </a>
       </Wrap>
       <Wrap>
-        <a href="#">
-          <img src="/images/slider-scale.jpg" alt="" />
+        <a href="#" class={styles.myBtnClass}>
+          <img src="/images/women_wear.png" alt="" />
+          <h4 className={styles.btnOver}>Coming Soon</h4>
         </a>
       </Wrap>
       <Wrap>
-        <a href="#">
-          <img src="/images/slider-scales.jpg" alt="" />
+        <a href="#" class={styles.myBtnClass}>
+          <img src="/images/kids.png" alt="" />
+          <h4 className={styles.btnOver}>Coming Soon</h4>
         </a>
       </Wrap>
     </Carousel>
@@ -101,6 +106,23 @@ const Wrap = styled.div`
       border: 4px solid rgb(249, 249, 249, 0.8);
       transition-duration: 300ms;
     }
+  }
+`;
+
+const BtnOver = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  top: 0px;
+  align-items: center;
+  justify-content: center;
+  color: #ddd;
+  font-weight: 600;
+
+  .my-btn-class:hover > .btn-over {
+    display: flex;
   }
 `;
 

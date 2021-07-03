@@ -17,7 +17,7 @@ const Footer = () => {
                         data-svg="assets/images/svg/logo-part.svg"
                       ></span>
                     </span>
-                    <span className="logo-text">Veggies</span>
+                    <span className="logo-text">Shop and Ship</span>
                   </span>
                 </a>
                 <p className="footer-text">
@@ -25,23 +25,29 @@ const Footer = () => {
                   faucibus egestas elit.
                 </p>
                 <div className="footer-socials">
-                  <a className="footer-socials-link" href="/#">
+                  {/* <a className="footer-socials-link" href="/#">
                     <i className="fab fa-twitter"></i>
-                  </a>
+                  </a> */}
                   <a className="footer-socials-link" href="#/">
                     <i className="fab fa-facebook-square"></i>
                   </a>
-                  <a className="footer-socials-link" href="#/">
-                    <i className="fab fa-dribbble"></i>
+                  <a
+                    className="footer-socials-link"
+                    href="https://youtube.com/channel/UCHz6ZMeNxgwdM6EfsvhcIVA"
+                  >
+                    <i className="fab fa-youtube-square"></i>
                   </a>
-                  <a className="footer-socials-link" href="#/">
+                  <a
+                    className="footer-socials-link"
+                    href="https://instagram.com/shopandship.co.in?utm_medium=copy_link"
+                  >
                     <i className="fab fa-instagram"></i>
                   </a>
                 </div>
               </div>
               <div className="col-md-12 col-lg-6 order-md-last">
                 <div className="grid row">
-                  <div className="col-md-6">
+                  {/* <div className="col-md-6">
                     <h5 className="footer-title">Pages</h5>
                     <ul className="nav">
                       <li className="nav-item">
@@ -65,8 +71,8 @@ const Footer = () => {
                         </a>
                       </li>
                     </ul>
-                  </div>
-                  <div className="col-md-6">
+                  </div> */}
+                  {/* <div className="col-md-6">
                     <h5 className="footer-title">Policies</h5>
                     <ul className="nav">
                       <li className="nav-item">
@@ -90,14 +96,14 @@ const Footer = () => {
                         </a>
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="col-md-6 col-lg-3 order-lg-last">
-                <h5 className="footer-title">Our info</h5>
+                <h5 className="footer-title">Contact Us</h5>
                 <p className="footer-text-info">
-                  + 88 018 4113 6251
-                  <br />
+                  <i className="fab fa-whatsapp"></i> +91 8970462050 <br />
+                  <i className="fa fa-phone-alt"></i> +91 9030462050
                 </p>
               </div>
             </div>

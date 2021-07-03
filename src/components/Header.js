@@ -16,9 +16,63 @@ import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import createUserDocument from "../firebase";
 import { removeCart } from "../features/cart/cart";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Divider } from "@material-ui/core";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+
+const useStyles = makeStyles((theme) => ({
+  menuButton: {
+    display: "block",
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+  hide: {
+    display: "none",
+  },
+  drawer: {
+    width: 240,
+    flexShrink: 0,
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+  drawerPaper: {
+    width: 240,
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
+  },
+
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+}));
 
 const Header = () => {
-  // const classes = useStyles();
+  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const userName = useSelector(getUserName);
@@ -27,6 +81,7 @@ const Header = () => {
   const [menanchorEl, setMenAnchorEl] = React.useState(null);
   const [womenanchorEl, setWomenAnchorEl] = React.useState(null);
   const [kidsanchorEl, setKidsAnchorEl] = React.useState(null);
+  const [veggieanchorEl, setVeggieAnchorEl] = React.useState(null);
 
   /* useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
@@ -38,6 +93,16 @@ const Header = () => {
     }, [userName]) */
 
   // const open = Boolean(anchorEl);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   const handleAuth = () => {
     if (!userName) {
@@ -95,6 +160,14 @@ const Header = () => {
 
   const handleKidsPopoverClose = () => {
     setKidsAnchorEl(null);
+  };
+
+  const handleVeggiePopoverOpen = (event) => {
+    setVeggieAnchorEl(event.currentTarget);
+  };
+
+  const handleVeggiePopoverClose = () => {
+    setVeggieAnchorEl(null);
   };
 
   return (
@@ -182,17 +255,234 @@ const Header = () => {
           </nav>
         </div>
   </header>*/}
+
+      {/* ------------------------------------- Mobile Bar ------------------------------------ */}
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+
+        <List>
+          <ListItem>
+            <a href="/">
+              <ListItemText primary="Home" />
+            </a>
+          </ListItem>
+          <ListItem>
+            <Typography
+              aria-owns={menanchorEl ? "men" : undefined}
+              aria-haspopup="true"
+              onClick={handleMenPopoverOpen}
+              onMouseOver={handleMenPopoverOpen}
+            ></Typography>
+          </ListItem>
+
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={classes.heading}>
+                <span>MEN</span>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <Link to="/men-shirts" style={{ color: "#000" }}>
+                  Shirts
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/men-pants" style={{ color: "#000" }}>
+                  Pants
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/men-tshirts" style={{ color: "#000" }}>
+                  T-Shirts
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/men-combo" style={{ color: "#000" }}>
+                  Shirt + Pant
+                </Link>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography className={classes.heading}>
+                <span>Women</span>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <Link to="/women-shirts" style={{ color: "#000" }}>
+                  Shirts & T-shirts
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/women-pants" style={{ color: "#000" }}>
+                  Pants
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/women-dresses" style={{ color: "#000" }}>
+                  Punjabi Dresses
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/women-scarfs" style={{ color: "#000" }}>
+                  Duppata's & Scarfs
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/women-lehangas" style={{ color: "#000" }}>
+                  Lehanga's
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/women-night-wear" style={{ color: "#000" }}>
+                  Night Wear
+                </Link>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel3a-content"
+              id="panel3a-header"
+            >
+              <Typography className={classes.heading}>
+                <span>Kids</span>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <Link to="/boys-section" style={{ color: "#000" }}>
+                  Boys
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/girls-section" style={{ color: "#000" }}>
+                  Girls
+                </Link>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel3a-content"
+              id="panel3a-header"
+            >
+              <Typography className={classes.heading}>
+                <Link to="/veggies" style={{ color: "#000" }}>
+                  Vegetables
+                </Link>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <a href="/veggies" style={{ color: "#000" }}>
+                  Veggies
+                </a>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+            <AccordionDetails>
+              <Typography>
+                <Link to="/veggies/shop" style={{ color: "#000" }}>
+                  Veggies Shop
+                </Link>
+              </Typography>
+            </AccordionDetails>
+            <Divider />
+          </Accordion>
+          <ListItem>
+            <a href="/cart">
+              <ListItemText primary="Cart" />
+            </a>
+          </ListItem>
+          <Divider />
+        </List>
+      </Drawer>
+
+      {/* ------------------------------------- Mobile Bar End ------------------------------------ */}
+
       <Nav>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          onClick={handleDrawerOpen}
+          edge="start"
+          className={clsx(classes.menuButton, open && classes.hide)}
+        >
+          <MenuIcon />
+        </IconButton>
         <>
           <NavMenu>
-            <a href="/home">
-              <img src="/images/home-icon.svg" alt="Home" />
+            {/* <a href="/home" style={{ fontSize: "16px" }}>
+              <img src="/images/home-icon.svg" alt="Home" /> 
               <span>HOME</span>
-            </a>
-            <a href="/search">
-              <img src="/images/search-icon.svg" alt="" />
-              <span>SEARCH</span>
-            </a>
+            </a> */}
+
+            <Typography
+              // aria-owns={menanchorEl ? "men" : undefined}
+              aria-haspopup="true"
+              // onClick={handleMenPopoverOpen}
+              // onMouseOver={handleMenPopoverOpen}
+            >
+              <a href="/">
+                <span>HOME</span>
+              </a>
+            </Typography>
 
             <Menu
               id="men"
@@ -296,19 +586,49 @@ const Header = () => {
               </a>
             </Typography>
 
-            <a href="/veggies">
-              <span>VEGETABLES</span>
-            </a>
+            <Typography
+              aria-owns={veggieanchorEl ? "kids" : undefined}
+              aria-haspopup="true"
+              onClick={handleVeggiePopoverOpen}
+              onMouseOver={handleVeggiePopoverOpen}
+            >
+              <a href="/watchlist">
+                <span>VEGETABLES</span>
+              </a>
+            </Typography>
+
+            <Menu
+              id="veggies"
+              anchorEl={veggieanchorEl}
+              open={Boolean(veggieanchorEl)}
+              onClose={handleVeggiePopoverClose}
+              MenuListProps={{ onMouseLeave: handleVeggiePopoverClose }}
+              style={{ top: "5%" }}
+            >
+              <MenuItem>
+                <Link to="/veggies">Veggies</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to="/veggies/shop">Veggies Shop</Link>
+              </MenuItem>
+            </Menu>
           </NavMenu>
+          <CartIcon>
+            <a href="/cart">
+              <ShoppingCartIcon />
+            </a>
+          </CartIcon>
           {!userName ? (
             <Login onClick={handleAuth}>Login</Login>
           ) : (
-            <SignOut>
-              <UserImg src={userPhoto} alt={userName} />
-              <DropDown>
-                <span onClick={handleAuth}>Sign out</span>
-              </DropDown>
-            </SignOut>
+            <React.Fragment>
+              <SignOut>
+                <UserImg src={userPhoto} alt={userName} />
+                <DropDown>
+                  <span onClick={handleAuth}>Sign out</span>
+                </DropDown>
+              </SignOut>
+            </React.Fragment>
           )}
         </>
       </Nav>
@@ -338,6 +658,15 @@ const Logo = styled.a`
   img {
     display: block;
     width: 100%;
+  }
+`;
+
+const CartIcon = styled.div`
+  margin-right: 25px;
+
+  @media (max-width: 770px) {
+    margin-left: 45%;
+    margin-right: 5px;
   }
 `;
 

@@ -115,7 +115,7 @@ const Shop = () => {
             <div className="full-block">
               <div className="section-back-text">Shop</div>
               <img
-                className="d-none d-lg-block z-index-3"
+                className="d-none-1 d-lg-block z-index-3"
                 src="/assets/images/content/x/mandarin.png"
                 alt=""
                 data-size="280px"
@@ -141,8 +141,8 @@ const Shop = () => {
               <h1 className="section-title">Fresh Veggies</h1>
               <div className="mt-3">
                 <div className="page-breadcrumbs">
-                  <a className="content-link" href="/">
-                    Home
+                  <a className="content-link" href="/veggies">
+                    Veggies
                   </a>
                   <span className="mx-2">\</span>
                   <span>Shop</span>
