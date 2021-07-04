@@ -106,8 +106,8 @@ const UserOrders = () => {
           <div className="order-line-head-entity d-none d-md-block">
             <div className="entity-line-head">
               <div className="entity-order-number">Order</div>
-              <div className="entity-title">Products</div>
-              <div className="entity-date">Date</div>
+              <div className="entity-title"></div>
+              <div className="entity-date"></div>
               <div className="entity-total">Total</div>
               <div className="entity-status">Status</div>
             </div>
@@ -145,7 +145,7 @@ const UserOrders = () => {
                             #{eachOrder.id}
                           </div>
                           <div className="entity-break d-sm-none"></div>
-                          <div className="entity-title">Banana</div>
+                          <div className="entity-title"></div>
                           <div className="entity-break d-md-none"></div>
                           <div className="entity-total">
                             Rs.{eachOrder.order[3].total}

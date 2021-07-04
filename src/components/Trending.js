@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Trending = () => {
-  const movies = useSelector(selectOriginals);
+  // const movies = useSelector(selectOriginals);
   // console.log(movies)
   const classes = useStyles();
   return (

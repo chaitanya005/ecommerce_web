@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectRecommend } from "../features/movie/movieSlice";
+// import { selectRecommend } from "../features/movie/movieSlice";
 import CardMedia from "@material-ui/core/CardMedia";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Arrived = () => {
-  const movies = useSelector(selectRecommend);
+  // const movies = useSelector(selectRecommend);
   // console.log(movies)
   const classes = useStyles();
 

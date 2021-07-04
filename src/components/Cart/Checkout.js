@@ -405,7 +405,7 @@ const CheckoutPage = () => {
                   <div className="order-line-total">Rs. 20.00</div>
                 </div>
                 <div className="order-subtotal">
-                  <div className="order-line-title">Shipping</div>
+                  <div className="order-line-title">You Save</div>
                   <div className="order-line-total">Rs. {saveTotal}</div>
                 </div>
                 <div className="separator-line"></div>
