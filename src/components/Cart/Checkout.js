@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { storeCart } from "../../features/cart/cart";
+import { removeCart, setOrderId, storeCart } from "../../features/cart/cart";
 import firestore from "../../firebase";
 import { useHistory } from "react-router-dom";
 import { getUserDetails } from "../../features/user/userSlice";
@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getUserUid, getUserName } from "../../features/user/userSlice";
+import { useDispatch } from "react-redux";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -36,6 +37,7 @@ const CheckoutPage = () => {
   const userDetails = useSelector(getUserDetails);
   const userName = useSelector(getUserName);
   const [loading, setLoading] = React.useState(false);
+  const dispatch = useDispatch();
 
   // console.log(cartItems);
 
@@ -146,6 +148,12 @@ const CheckoutPage = () => {
             }) */
             .then(() => {
               // history.push("/veggies/shop");
+              dispatch(
+                setOrderId({
+                  orderId,
+                })
+              );
+              dispatch(removeCart());
               handleNotion();
             });
         } catch (error) {

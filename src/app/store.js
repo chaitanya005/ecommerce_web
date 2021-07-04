@@ -8,13 +8,15 @@ import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
+import orderReducer from "../features/order";
 
 const reducers = combineReducers({
   user: userReducer,
-  movie: movieReducer,
+  // movie: movieReducer,
   menshirts: menShirtReducer,
   cart: cartReducer,
   veggie: veggiesReducer,
+  order: orderReducer,
 });
 
 const persistConfig = {

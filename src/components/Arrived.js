@@ -26,9 +26,9 @@ const Arrived = () => {
 
   return (
     <Container>
-      <H1>Newly Arrived</H1>
-      <Content>
-        {/* movies && movies.map((movie, key) => (
+      <H1>Mens Wear</H1>
+      {/* <Content> */}
+      {/* movies && movies.map((movie, key) => (
                 <Wrap key = {key}>
                     {movie.id}
                     <Link to = {"/detail/" + movie.id}>
@@ -36,8 +36,8 @@ const Arrived = () => {
                     </Link>
                 </Wrap>
             )) */}
-        <>
-          {/* <Wrap>
+      <>
+        {/* <Wrap>
                     <Link>
                         <img src = "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/C0A883EAB54DDDC924018D08CF4555EE72B3E9A8C214BDADF29CB82B5E2275D7/scale?width=400&aspectRatio=1.78&format=jpeg" alt = "" />
                     </Link>
@@ -57,8 +57,8 @@ const Arrived = () => {
                         <img src = "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/C0A883EAB54DDDC924018D08CF4555EE72B3E9A8C214BDADF29CB82B5E2275D7/scale?width=400&aspectRatio=1.78&format=jpeg" alt = "" />
                     </Link>
                 </Wrap> */}
-        </>
-        <Wrap>
+      </>
+      {/* <Wrap>
           <Card className={classes.root}>
             <CardMedia
               className={classes.media}
@@ -85,15 +85,16 @@ const Arrived = () => {
               </Typography>
             </CardContent>
           </Card>
-        </Wrap>
-        <Wrap>
+      </Wrap> */}
+      <Content>
+        <Wrap className={styles.myBtnClass}>
           <Card className={classes.root}>
             <CardMedia
               className={classes.media}
-              image="/images/photo_1.jpg"
+              image="https://assets.myntassets.com/h_1440,q_90,w_1080/v1/assets/images/11361604/2020/3/3/309a77f1-5362-49ba-b1b2-155a461456701583220451104-WROGN-Men-Shirts-2101583220448547-1.jpg"
               title="Paella "
             />
-            <CardContent>
+            {/* <CardContent>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Typography variant="h5" component="h2">
                   Item One
@@ -111,8 +112,70 @@ const Arrived = () => {
               <Typography gutterBottom variant="h6" component="h2">
                 Silk Saree
               </Typography>
-            </CardContent>
+            </CardContent> */}
           </Card>
+          <br />
+          <div className="pb-4 entity-content">
+            <h4
+              className="entity-title"
+              style={{ color: "#3e4152", textAlign: "center", margin: 0 }}
+            >
+              WRONG
+            </h4>
+            <div
+              className="entity-price"
+              style={{ color: "#3e4152", textAlign: "center" }}
+            >
+              <span className="currency">Rs.</span>800{" "}
+              <span className="price-unit"></span>
+            </div>
+          </div>
+          <h6 className={styles.btnOver}>Coming Soon</h6>
+        </Wrap>
+        <Wrap className={styles.myBtnClass}>
+          <Card className={classes.root}>
+            <CardMedia
+              className={classes.media}
+              image="https://assets.myntassets.com/h_1440,q_90,w_1080/v1/assets/images/11579328/2020/3/4/953b405d-547a-4387-a07f-068c6494783d1583316907336-Moda-Rapido-Men-Shirts-6681583316905761-4.jpg"
+              title="Paella "
+            />
+            {/* <CardContent>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography variant="h5" component="h2">
+                  Item One
+                </Typography>
+                <div
+                  className={styles.starsRow}
+                  style={{ flexDirection: "row-reverse" }}
+                >
+                  <div className={styles.priceTag}>
+                    <div className={styles.priceTagPrice}>{"$100.00"}</div>
+                    <div className={styles.triangle}></div>
+                  </div>
+                </div>
+              </div>
+              <Typography gutterBottom variant="h6" component="h2">
+                Silk Saree
+              </Typography>
+            </CardContent> */}
+          </Card>
+          <br />
+          <div className="pb-4 entity-content">
+            <h4
+              className="entity-title"
+              style={{ color: "#3e4152", textAlign: "center", margin: 0 }}
+            >
+              Moda Rapido
+            </h4>
+            <div
+              className="entity-price"
+              style={{ color: "#3e4152", textAlign: "center" }}
+            >
+              <span className="currency">Rs.</span>1200{" "}
+              <span className="price-unit"></span>
+            </div>
+          </div>
+          <h6 className={styles.btnOver}>Coming Soon</h6>
         </Wrap>
       </Content>
     </Container>
@@ -126,6 +189,10 @@ const H1 = styled.h1`
   color: #3e4152;
   text-align: center;
   text-transform: uppercase;
+
+  @media (max-width: 600px) {
+    font-size: 24px;
+  }
 `;
 
 const Content = styled.div`

@@ -33,8 +33,11 @@ const OrderFailure = () => {
           className="mb-2 entity-title"
           style={{ textTransform: "capitalize", textAlign: "center" }}
         >
-          Order Id: #12345
+          For any queries?
         </h2>
+        <h5 style={{ textTransform: "capitalize", textAlign: "center" }}>
+          Please Contact us @ +91 8970462050
+        </h5>
       </div>
     </React.Fragment>
   );

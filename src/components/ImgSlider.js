@@ -18,25 +18,25 @@ const ImgSlider = () => {
   return (
     <Carousel {...settings}>
       <Wrap>
-        <a href="/veggies/shop" class={styles.myBtnClass}>
+        <a href="/veggies/shop" className={styles.myBtnClass}>
           <img src="/images/vegiee.png" alt="" />
           <h4 className={styles.btnOver}>Click here</h4>
         </a>
       </Wrap>
       <Wrap>
-        <a href="#" class={styles.myBtnClass}>
+        <a href="#" className={styles.myBtnClass}>
           <img src="/images/men_wear.png" alt="" />
           <h4 className={styles.btnOver}>Coming Soon</h4>
         </a>
       </Wrap>
       <Wrap>
-        <a href="#" class={styles.myBtnClass}>
+        <a href="#" className={styles.myBtnClass}>
           <img src="/images/women_wear.png" alt="" />
           <h4 className={styles.btnOver}>Coming Soon</h4>
         </a>
       </Wrap>
       <Wrap>
-        <a href="#" class={styles.myBtnClass}>
+        <a href="#" className={styles.myBtnClass}>
           <img src="/images/kids.png" alt="" />
           <h4 className={styles.btnOver}>Coming Soon</h4>
         </a>

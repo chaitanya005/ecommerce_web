@@ -1,23 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    menshirts: []
-}
+  menshirts: [],
+};
 
 const menShirt = createSlice({
-    name: 'menshirts',
-    initialState,
-    reducers: {
-        saveMenShirts: (state, action) => {
-            state.menshirts = action.payload.documents
-        }
-    }
+  name: "menshirts",
+  initialState,
+  reducers: {
+    saveMenShirts: (state, action) => {
+      state.menshirts = action.payload.documents;
+    },
+  },
 });
 
-export const {
-    saveMenShirts
-} = menShirt.actions
+export const { saveMenShirts } = menShirt.actions;
 
 export const getMenShirts = (state) => state.menshirts;
 
-export default menShirt.reducer
+export default menShirt.reducer;

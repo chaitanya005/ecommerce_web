@@ -12,10 +12,6 @@ import {
   storeCart,
   updateCart,
 } from "../../features/cart/cart";
-import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { Link } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";

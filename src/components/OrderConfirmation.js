@@ -1,6 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { orderId } from "../features/cart/cart";
 
 const OrderConfirmation = () => {
+  const order_id = useSelector(orderId);
+  // console.log(order_id);
+
   return (
     <React.Fragment>
       <section
@@ -33,66 +38,8 @@ const OrderConfirmation = () => {
           className="mb-2 entity-title"
           style={{ textTransform: "capitalize", textAlign: "center" }}
         >
-          Order Id: #12345
+          Order Id: {order_id}
         </h2>
-
-        <div className="section-block">
-          <div className="cols-xl row">
-            <div className="col-auto mx-auto mx-lg-0">
-              <div className="cart-block">
-                <ul className="cart-totals list-titled">
-                  <li>
-                    <span className="list-item-title">Sub Total</span>
-                    <span
-                      className="list-item-value"
-                      style={{ color: "#98c869" }}
-                    >
-                      Rs.
-                    </span>
-                  </li>
-                  <li>
-                    <span className="list-item-title">Shipping</span>
-                    <span
-                      className="list-item-value"
-                      style={{ color: "#98c869" }}
-                    >
-                      Rs.20.00
-                    </span>
-                  </li>
-                  <li>
-                    <span className="list-item-title">You Save</span>
-                    <span
-                      className="list-item-value"
-                      style={{ color: "#98c869" }}
-                    >
-                      Rs.
-                    </span>
-                  </li>
-                  <li
-                    className="separator-line"
-                    style={{ background: "#98c869" }}
-                  ></li>
-                  <li className="cart-total">
-                    <span className="list-item-title">Total</span>
-                    <span
-                      className="list-item-value"
-                      style={{ color: "#98c869" }}
-                    >
-                      Rs.{+20}
-                    </span>
-                  </li>
-                </ul>
-                <a
-                  href="/veggies/shop"
-                  className="w-100 btn btn-theme"
-                  style={{ background: "#98c869" }}
-                >
-                  Contiune Shopping
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </React.Fragment>
   );

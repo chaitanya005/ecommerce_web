@@ -103,7 +103,12 @@ const Footer = () => {
                 <h5 className="footer-title">Contact Us</h5>
                 <p className="footer-text-info">
                   <i className="fab fa-whatsapp"></i> +91 8970462050 <br />
-                  <i className="fa fa-phone-alt"></i> +91 9030462050
+                  <i className="fa fa-phone-alt"></i> +91 9030462050 <br />
+                  <a href="mailto:shopandship.sas@gmail.com">
+                    <i className="fa fa-mail-bulk"></i>
+                    {"  "}
+                    shopandship.sas@gmail.com
+                  </a>
                 </p>
               </div>
             </div>

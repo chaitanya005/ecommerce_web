@@ -1,27 +1,82 @@
 import React from "react";
-import { Helmet } from "react-helmet";
-import styles from "./404.module.css";
 
 const Error = () => {
   return (
-    <>
-      <Helmet>
-        <title>Exploiting | Page Not Found</title>{" "}
-      </Helmet>
-      <div id={styles.notfound}>
-        <div class={styles.notfound}>
-          <div class={styles.notfound404}>
-            <h1 id={styles.oops}>Oops!</h1>
+    <React.Fragment>
+      <section
+        className="
+    after-head
+    top-block-page
+    with-back
+    white-curve-after
+    section-white-text
+  "
+      >
+        <div className="overflow-back bg-orange"></div>
+        <div className="content-offs-stick my-5 container">
+          <div className="section-solid with-back">
+            <div className="full-block">
+              <div className="section-back-text">404</div>
+              <img
+                className="d-none-1 d-lg-block z-index-3"
+                src="/assets/images/content/x/mandarin.png"
+                alt=""
+                data-size="280px"
+                data-at="10%;bottom 35%"
+                style={{ width: "400px" }}
+              />
+              {/* <img
+          className="d-none d-lg-block z-index-3"
+          src="assets/images/content/x/kiwi-blur.png"
+          alt=""
+          data-size="137px"
+          data-at="right 5%;35%"
+        />
+        <img
+          className="d-none d-lg-block z-index-3"
+          src="assets/images/content/x/shpinat-2.png"
+          alt=""
+          data-size="50px"
+          data-at="65%;0%;-25deg"
+        /> */}
+            </div>
+            <div className="z-index-4 position-relative text-center">
+              <h1 className="section-title">Page Not Found</h1>
+              <div className="mt-3">
+                <div className="page-breadcrumbs">
+                  <a className="content-link" href="/">
+                    Home
+                  </a>
+                  <span className="mx-2">\</span>
+                  <span>404</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <h2>404 - Page not found</h2>
-          <p>
-            The page you are looking for might have been removed had its name
-            changed or is temporarily unavailable.
-          </p>
-          <a href="/">Go To Homepage</a>
         </div>
-      </div>
-    </>
+      </section>
+      <section class="section">
+        <div class="container">
+          <div class="row"></div>
+          <div class="text-center">
+            <div>
+              <img
+                class="mw-100 mb-5"
+                src="assets/images/parts/under-construction.png"
+                alt=""
+              />
+            </div>
+            <h2 class="text-title mb-2">
+              The page you're looking for is not Found!
+            </h2>
+
+            <a class="btn btn-theme" href="/veggies/shop">
+              View Shop
+            </a>
+          </div>
+        </div>
+      </section>
+    </React.Fragment>
   );
 };
 

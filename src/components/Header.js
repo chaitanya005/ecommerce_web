@@ -31,6 +31,12 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Divider } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -96,6 +102,14 @@ const Header = () => {
 
   const [open, setOpen] = React.useState(false);
 
+  const [state, setState] = React.useState({
+    openToast: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, openToast } = state;
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -136,6 +150,14 @@ const Header = () => {
         uid: user.uid,
       })
     );
+  };
+
+  const handleClose = () => {
+    setState({ ...state, openToast: false });
+  };
+
+  const handleToastOpen = () => {
+    setState({ ...state, openToast: true });
   };
 
   const handleMenPopoverOpen = (event) => {
@@ -299,7 +321,7 @@ const Header = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                <Link to="/men-shirts" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Shirts
                 </Link>
               </Typography>
@@ -307,7 +329,7 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/men-pants" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Pants
                 </Link>
               </Typography>
@@ -315,7 +337,7 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/men-tshirts" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   T-Shirts
                 </Link>
               </Typography>
@@ -323,7 +345,7 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/men-combo" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Shirt + Pant
                 </Link>
               </Typography>
@@ -342,7 +364,7 @@ const Header = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                <Link to="/women-shirts" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Shirts & T-shirts
                 </Link>
               </Typography>
@@ -350,7 +372,7 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/women-pants" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Pants
                 </Link>
               </Typography>
@@ -358,7 +380,7 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/women-dresses" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Punjabi Dresses
                 </Link>
               </Typography>
@@ -366,7 +388,7 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/women-scarfs" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Duppata's & Scarfs
                 </Link>
               </Typography>
@@ -374,7 +396,7 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/women-lehangas" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Lehanga's
                 </Link>
               </Typography>
@@ -382,7 +404,7 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/women-night-wear" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Night Wear
                 </Link>
               </Typography>
@@ -401,7 +423,7 @@ const Header = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                <Link to="/boys-section" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Boys
                 </Link>
               </Typography>
@@ -409,7 +431,7 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/girls-section" style={{ color: "#000" }}>
+                <Link to="" style={{ color: "#000" }} onClick={handleToastOpen}>
                   Girls
                 </Link>
               </Typography>
@@ -452,6 +474,18 @@ const Header = () => {
           </ListItem>
           <Divider />
         </List>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={openToast}
+          onClose={handleClose}
+          // message="Please  Login"
+          key={vertical + horizontal}
+          // style={{ background: "#fff", color: "#000" }}
+        >
+          <Alert severity="info" onClose={handleClose}>
+            Coming Soon
+          </Alert>
+        </Snackbar>
       </Drawer>
 
       {/* ------------------------------------- Mobile Bar End ------------------------------------ */}
@@ -468,6 +502,7 @@ const Header = () => {
         </IconButton>
         <>
           <NavMenu>
+            <Logo></Logo>
             {/* <a href="/home" style={{ fontSize: "16px" }}>
               <img src="/images/home-icon.svg" alt="Home" /> 
               <span>HOME</span>
@@ -493,16 +528,24 @@ const Header = () => {
               style={{ top: "5%" }}
             >
               <MenuItem>
-                <Link to="/men-shirts">Shirts</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Shirts
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/men-pants">Pants</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Pants
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/men-tshirts">T-shirts</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  T-shirts
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/men-combo">Shirt + Pant</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Shirt + Pant
+                </Link>
               </MenuItem>
             </Menu>
 
@@ -512,7 +555,7 @@ const Header = () => {
               onClick={handleMenPopoverOpen}
               onMouseOver={handleMenPopoverOpen}
             >
-              <a href="/watchlist">
+              <a href="">
                 <span>MEN</span>
               </a>
             </Typography>
@@ -526,25 +569,39 @@ const Header = () => {
               style={{ top: "5%" }}
             >
               <MenuItem>
-                <Link to="/women-shirts">Shirts & T-shirts</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Shirts & T-shirts
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/women-pants">Pants</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Pants
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/women-dresses">Punjabi Dresses</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Punjabi Dresses
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/women-sarees">Sarees</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Sarees
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/women-scarfs">Duppata's & Scarfs</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Duppata's & Scarfs
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/women-lehangas">Lehanga's</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Lehanga's
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/women-night-wear">Night Wear</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Night Wear
+                </Link>
               </MenuItem>
             </Menu>
 
@@ -554,7 +611,7 @@ const Header = () => {
               onClick={handleWomenPopoverOpen}
               onMouseOver={handleWomenPopoverOpen}
             >
-              <a href="/watchlist">
+              <a href="">
                 <span>WOMEN</span>
               </a>
             </Typography>
@@ -568,10 +625,14 @@ const Header = () => {
               style={{ top: "5%" }}
             >
               <MenuItem>
-                <Link to="/boy-section">Boy</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Boy
+                </Link>
               </MenuItem>
               <MenuItem>
-                <Link to="/girl-section">Girl</Link>
+                <Link to="" onClick={handleToastOpen}>
+                  Girl
+                </Link>
               </MenuItem>
             </Menu>
 
@@ -581,7 +642,7 @@ const Header = () => {
               onClick={handleKidsPopoverOpen}
               onMouseOver={handleKidsPopoverOpen}
             >
-              <a href="/watchlist">
+              <a href="">
                 <span>KIDS</span>
               </a>
             </Typography>
@@ -625,12 +686,25 @@ const Header = () => {
               <SignOut>
                 <UserImg src={userPhoto} alt={userName} />
                 <DropDown>
+                  <a href="/user/orders">Your Orders</a> <br />
                   <span onClick={handleAuth}>Sign out</span>
                 </DropDown>
               </SignOut>
             </React.Fragment>
           )}
         </>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={openToast}
+          onClose={handleClose}
+          // message="Please  Login"
+          key={vertical + horizontal}
+          // style={{ background: "#fff", color: "#000" }}
+        >
+          <Alert severity="info" onClose={handleClose}>
+            Coming Soon
+          </Alert>
+        </Snackbar>
       </Nav>
     </React.Fragment>
   );
@@ -640,7 +714,7 @@ const Nav = styled.nav`
   position: relative;
   height: 70px;
   width: 100%;
-  background-color: #343a40;
+  background-color: rgb(52, 58, 64);
   justify-content: space-between;
   align-items: center;
   padding: 0 36px;
@@ -762,7 +836,7 @@ const DropDown = styled.div`
   padding: 10px;
   font-size: 14px;
   letter-spacing: 3px;
-  width: 100px;
+  width: 150px;
   opacity: 0;
 `;
 
