@@ -95,14 +95,8 @@ const CheckoutPage = () => {
   };
 
   // console.log(userDetails.uid);
+  let orderId;
 
-  let orderId =
-    userDetails.email.substring(0, 3) +
-    new Date().getDate() +
-    new Date().getHours() +
-    new Date().getMinutes();
-
-  // console.log(orderId);
   const handlePlaceOrder = () => {
     if (!uId) {
       setState({ ...state, open: true });
@@ -120,6 +114,12 @@ const CheckoutPage = () => {
       } else if (values.phone.length < 10) {
         alert("Please Enter Valid Phone Number");
       } else {
+        orderId =
+          userDetails.email.substring(0, 3) +
+          new Date().getDate() +
+          new Date().getHours() +
+          new Date().getMinutes();
+
         setLoading(true);
         let order = [
           { orderId: orderId },
@@ -128,6 +128,7 @@ const CheckoutPage = () => {
           { total: yourBill + 20 },
         ];
         // console.log(order);
+        // console.log(orderId);
 
         const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
 
@@ -143,9 +144,6 @@ const CheckoutPage = () => {
             .set({
               order,
             })
-            /*  .add({
-              orderDetiails: order,
-            }) */
             .then(() => {
               // history.push("/veggies/shop");
               dispatch(
@@ -384,7 +382,7 @@ const CheckoutPage = () => {
                 </div>
                 {cartItems &&
                   cartItems.map((item) => (
-                    <div className="order-item">
+                    <div className="order-item" key={item}>
                       <div className="order-line-title">{item.name}</div>
                       <div className="order-line-total">
                         Rs. {item.newPrice}
@@ -429,7 +427,10 @@ const CheckoutPage = () => {
                           checked="checked"
                         />
                         <span className="form-check-icon"></span>
-                        <label className="form-check-label" for="check-payment">
+                        <label
+                          className="form-check-label"
+                          htmlFor="check-payment"
+                        >
                           Cash On Delivery (COD)
                         </label>
                       </div>

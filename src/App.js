@@ -14,16 +14,17 @@ import Shop from "./components/Veggies/Shop";
 import VeggieProduct from "./components/Veggies/ProductPage";
 import CheckoutPage from "./components/Cart/Checkout";
 import PageNotFound from "./components/404";
-import { getToken } from "./firebase";
+// import { getToken } from "./firebase";
 import { useState } from "react";
 import OrderConfirmation from "./components/OrderConfirmation";
 import OrderFailure from "./components/OrderFailure";
 import UserOrders from "./components/Veggies/UserOrders";
+import LandingPage from "./components/FoodDelivery/LandingPage";
 // import './App.css'
 
 function App() {
-  const [isTokenFound, setTokenFound] = useState(false);
-  getToken(setTokenFound);
+  /* const [isTokenFound, setTokenFound] = useState(false);
+  getToken(setTokenFound); */
 
   return (
     <div className="App">
@@ -69,6 +70,9 @@ function App() {
           <Route path="/user/orders">
             <UserOrders />
           </Route>
+          <Route path="/food-delivery">
+            <LandingPage />
+          </Route>
           <Route path="*">
             <PageNotFound />
           </Route>
@@ -76,11 +80,11 @@ function App() {
         <Footer />
         <a
           href="https://api.whatsapp.com/send?phone=919505961834&text=Hello!"
-          class="whatsapp_float"
+          className="whatsapp_float"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <i class="fab fa-whatsapp"></i>
+          <i className="fab fa-whatsapp"></i>
         </a>
       </Router>
     </div>

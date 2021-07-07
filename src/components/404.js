@@ -55,22 +55,22 @@ const Error = () => {
           </div>
         </div>
       </section>
-      <section class="section">
-        <div class="container">
-          <div class="row"></div>
-          <div class="text-center">
+      <section className="section">
+        <div className="container">
+          <div className="row"></div>
+          <div className="text-center">
             <div>
               <img
-                class="mw-100 mb-5"
+                className="mw-100 mb-5"
                 src="assets/images/parts/under-construction.png"
                 alt=""
               />
             </div>
-            <h2 class="text-title mb-2">
+            <h2 className="text-title mb-2">
               The page you're looking for is not Found!
             </h2>
 
-            <a class="btn btn-theme" href="/veggies/shop">
+            <a className="btn btn-theme" href="/veggies/shop">
               View Shop
             </a>
           </div>

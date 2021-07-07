@@ -26,19 +26,19 @@ const ImgSlider = () => {
       <Wrap>
         <a href="#" className={styles.myBtnClass}>
           <img src="/images/men_wear.png" alt="" />
-          <h4 className={styles.btnOver}>Coming Soon</h4>
+          <h4 className={styles.btnOver}>Men's wear Coming Soon</h4>
         </a>
       </Wrap>
       <Wrap>
         <a href="#" className={styles.myBtnClass}>
           <img src="/images/women_wear.png" alt="" />
-          <h4 className={styles.btnOver}>Coming Soon</h4>
+          <h4 className={styles.btnOver}>Women wear Coming Soon</h4>
         </a>
       </Wrap>
       <Wrap>
         <a href="#" className={styles.myBtnClass}>
           <img src="/images/kids.png" alt="" />
-          <h4 className={styles.btnOver}>Coming Soon</h4>
+          <h4 className={styles.btnOver}>Kid's wear Coming Soon</h4>
         </a>
       </Wrap>
     </Carousel>

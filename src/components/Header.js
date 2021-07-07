@@ -128,7 +128,7 @@ const Header = () => {
           createUserDocument(res.user);
           window.location.reload();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {});
     } else {
       auth
         .signOut()
@@ -288,10 +288,19 @@ const Header = () => {
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
+        <div style={{ display: "flex" }}>
+          <Logo href="/">
+            <img
+              src="/images/logo-1.png"
+              alt="shopandship"
+              style={{ width: "100%", marginTop: "16%" }}
+            />
+          </Logo>
+          <div className={classes.drawerHeader} style={{ marginTop: "7%" }}>
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
         </div>
 
         <List>
@@ -502,7 +511,13 @@ const Header = () => {
         </IconButton>
         <>
           <NavMenu>
-            <Logo></Logo>
+            <Logo href="/">
+              <img
+                src="/images/logo.png"
+                alt="shopandship"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Logo>
             {/* <a href="/home" style={{ fontSize: "16px" }}>
               <img src="/images/home-icon.svg" alt="Home" /> 
               <span>HOME</span>
@@ -724,7 +739,7 @@ const Nav = styled.nav`
 `;
 
 const Logo = styled.a`
-  width: 80px;
+  width: 200px;
   margin-top: 4px;
   max-height: 70px;
   padding: 0;

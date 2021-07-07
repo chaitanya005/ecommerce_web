@@ -52,7 +52,7 @@ export const createUserDocument = async (user) => {
   }
 };
 
-export const getToken = (setTokenFound) => {
+/* export const getToken = (setTokenFound) => {
   return messaging
     .getToken({
       vapidKey:
@@ -76,7 +76,7 @@ export const getToken = (setTokenFound) => {
       console.log("An error occurred while retrieving token. ", err);
       // catch error while creating client token
     });
-};
+}; */
 
 export { auth, provider, storage };
 

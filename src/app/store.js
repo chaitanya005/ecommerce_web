@@ -9,6 +9,7 @@ import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import orderReducer from "../features/order";
+import { withReduxStateSync } from "redux-state-sync";
 
 const reducers = combineReducers({
   user: userReducer,
@@ -19,20 +20,20 @@ const reducers = combineReducers({
   order: orderReducer,
 });
 
-const persistConfig = {
+/* const persistConfig = {
   key: "root",
   storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const store = configureStore({
+export const reduxStore = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== "production",
   middleware: [thunk],
-});
+});  */
 
-export default store;
+export default withReduxStateSync(reducers);
 
 /* export default configureStore({
     reducer: {
