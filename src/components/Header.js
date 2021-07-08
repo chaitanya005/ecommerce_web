@@ -690,9 +690,9 @@ const Header = () => {
             </Menu>
           </NavMenu>
           <CartIcon>
-            <a href="/cart">
+            <Link to="/cart">
               <ShoppingCartIcon />
-            </a>
+            </Link>
           </CartIcon>
           {!userName ? (
             <Login onClick={handleAuth}>Login</Login>

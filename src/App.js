@@ -20,6 +20,8 @@ import OrderConfirmation from "./components/OrderConfirmation";
 import OrderFailure from "./components/OrderFailure";
 import UserOrders from "./components/Veggies/UserOrders";
 import LandingPage from "./components/FoodDelivery/LandingPage";
+import Restaurants from "./components/FoodDelivery/Restaurants";
+
 // import './App.css'
 
 function App() {
@@ -72,6 +74,9 @@ function App() {
           </Route>
           <Route path="/food-delivery">
             <LandingPage />
+          </Route>
+          <Route path="/food/restaurants">
+            <Restaurants />
           </Route>
           <Route path="*">
             <PageNotFound />

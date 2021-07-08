@@ -4,39 +4,30 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import reducers from "./app/store";
-// import { reduxStore } from "./app/store";
-// import { PersistGate } from "redux-persist/integration/react";
-// import { persistStore } from "redux-persist";
-import { createStore, compose, applyMiddleware } from "redux";
-import {
-  createStateSyncMiddleware,
-  initStateWithPrevTab,
-} from "redux-state-sync";
+// import reducers from "./app/store";
+// import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { store } from "./app/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+import crossBrowserListener from "./utils/reduxpersist-listener";
+import storage from "redux-persist/lib/storage";
+import hardSet from "redux-persist/lib/stateReconciler/hardSet";
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const config = {
-  // channel: "my_channel",
-  // blacklist: ["TOGGLE_TODO"],
-  // broadcastChannelOption: { type: "localstorage" },
-  // blacklist: ["persist/PERSIST", "persist/REHYDRATE"],
+const persistConfig = {
+  key: "root",
+  storage,
+  stateReconciler: hardSet,
 };
-const middlewares = [createStateSyncMiddleware(config)];
 
-const store = createStore(
-  reducers,
-  {},
-  composeEnhancer(applyMiddleware(...middlewares))
-);
-initStateWithPrevTab(store);
+const persistor = persistStore(store, {});
+window.addEventListener("storage", crossBrowserListener(store, persistConfig));
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
-      {/*   <PersistGate loading={null} persistor={persistor}>
-      </PersistGate> */}
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

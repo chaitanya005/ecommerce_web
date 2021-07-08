@@ -9,7 +9,7 @@ import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import orderReducer from "../features/order";
-import { withReduxStateSync } from "redux-state-sync";
+import hardSet from "redux-persist/lib/stateReconciler/hardSet";
 
 const reducers = combineReducers({
   user: userReducer,
@@ -20,20 +20,22 @@ const reducers = combineReducers({
   order: orderReducer,
 });
 
-/* const persistConfig = {
+const persistConfig = {
   key: "root",
   storage,
+  stateReconciler: hardSet,
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-export const reduxStore = configureStore({
+export const store = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== "production",
   middleware: [thunk],
-});  */
+});
 
-export default withReduxStateSync(reducers);
+// export default reducers;
+export default store;
 
 /* export default configureStore({
     reducer: {

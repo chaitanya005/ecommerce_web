@@ -23,7 +23,7 @@ const ImgSlider = () => {
           <h4 className={styles.btnOver}>Click here</h4>
         </a>
       </Wrap>
-      <Wrap>
+      {/* <Wrap>
         <a href="#" className={styles.myBtnClass}>
           <img src="/images/men_wear.png" alt="" />
           <h4 className={styles.btnOver}>Men's wear Coming Soon</h4>
@@ -40,7 +40,7 @@ const ImgSlider = () => {
           <img src="/images/kids.png" alt="" />
           <h4 className={styles.btnOver}>Kid's wear Coming Soon</h4>
         </a>
-      </Wrap>
+      </Wrap> */}
     </Carousel>
   );
 };
@@ -50,7 +50,7 @@ const Carousel = styled(Slider)`
 
   & > button {
     opacity: 0;
-    height: 100%;
+    height: 50%;
     width: 5vw;
     z-index: 1;
 
@@ -98,7 +98,7 @@ const Wrap = styled.div`
 
     img {
       width: 100%;
-      height: 100%;
+      // height: 0% !important;
     }
 
     &:hover {

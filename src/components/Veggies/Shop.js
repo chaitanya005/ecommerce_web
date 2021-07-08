@@ -122,20 +122,6 @@ const Shop = () => {
                 data-at="10%;bottom 35%"
                 style={{ width: "400px" }}
               />
-              {/* <img
-              className="d-none d-lg-block z-index-3"
-              src="assets/images/content/x/kiwi-blur.png"
-              alt=""
-              data-size="137px"
-              data-at="right 5%;35%"
-            />
-            <img
-              className="d-none d-lg-block z-index-3"
-              src="assets/images/content/x/shpinat-2.png"
-              alt=""
-              data-size="50px"
-              data-at="65%;0%;-25deg"
-            /> */}
             </div>
             <div className="z-index-4 position-relative text-center">
               <h1 className="section-title">Fresh Veggies</h1>
