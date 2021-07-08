@@ -6043,7 +6043,7 @@ button.bg-dark:hover {
   border-right: 1px solid #dee2e6 !important;
 }
 .border-bottom {
-  border-bottom: 1px solid #dee2e6 !important;
+  /* border-bottom: 1px solid #dee2e6; */
 }
 .border-left {
   border-left: 1px solid #dee2e6 !important;
