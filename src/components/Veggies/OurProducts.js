@@ -42,6 +42,8 @@ const OurProducts = () => {
     );
   };
 
+  // console.log(storedVeggie.storeVeggies.slice(0, 6));
+
   return (
     <section className="bg-light-green white-curve-before curve-before-0 white-curve-after curve-after-40 section-solid">
       <div className="overflow-back bg-vegetables-pattern opacity-10"></div>
@@ -71,48 +73,52 @@ const OurProducts = () => {
       <div className="container">
         <div className="grid row">
           {storedVeggie &&
-            storedVeggie.storeVeggies.map((veggie) => (
-              <div className="col-sm-6 col-lg-4">
-                <article className="entity-block entity-hover-shadow text-center entity-preview-show-up">
-                  <div className="entity-preview">
-                    <div className="embed-responsive embed-responsive-4by3">
-                      <img
-                        className="embed-responsive-item"
-                        src={veggie.img}
-                        alt=""
-                      />
-                    </div>
-                    <div className="with-back entity-preview-content">
-                      <div className="mx-auto mt-auto mb-4 text-center">
-                        {/* <a
+            storedVeggie.storeVeggies.slice(0, 6).map((veggie) => (
+              <div className="col-sm-6 col-lg-4" key={veggie}>
+                <a href="/veggies/shop">
+                  <article className="entity-block entity-hover-shadow text-center entity-preview-show-up">
+                    <div className="entity-preview">
+                      <div className="embed-responsive embed-responsive-4by3">
+                        <img
+                          className="embed-responsive-item"
+                          src={veggie.img}
+                          alt=""
+                        />
+                      </div>
+                      <div className="with-back entity-preview-content">
+                        <div className="mx-auto mt-auto mb-4 text-center">
+                          {/* <a
                       className="btn-wide mr-2 btn btn-theme"
                       href="shop-sidebar-right.html"
                     >
                       buy now
                     </a> */}
-                        {/* <div
+                          {/* <div
                           className="btn-icon btn btn-theme"
                           onClick={() => handleAddToCart(veggie)}
                         >
                           <i className="fas fa-shopping-bag"></i>
                         </div> */}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="pb-4 entity-content">
-                    <h4 className="entity-title">
-                      <div className="content-link">{veggie.name}</div>
-                    </h4>
-                    <div className="entity-price">
-                      <span className="currency">Rs.</span>
-                      {veggie.price}
-                      <span className="price-unit"> / kg</span>
-                      <span className="entity-price-old">
-                        Rs. {veggie.actual_price}
-                      </span>
+                    <div className="pb-4 entity-content">
+                      <h4 className="entity-title">
+                        <div className="content-link">
+                          {veggie.name} {veggie.tel_name}
+                        </div>
+                      </h4>
+                      <div className="entity-price">
+                        <span className="currency">Rs.</span>
+                        {veggie.price}
+                        <span className="price-unit"> / kg</span>
+                        <span className="entity-price-old">
+                          Rs. {veggie.actual_price}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </article>
+                  </article>
+                </a>
               </div>
             ))}
           {/* <div className="col-sm-6 col-lg-4">

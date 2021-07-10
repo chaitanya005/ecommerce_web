@@ -203,11 +203,11 @@ const Cart = () => {
               <div className="cart-item-remove"></div>
             </div>
             {cartStore.length === 0 ? (
-              <>
+              <React.Fragment>
                 <br />
                 <h4 style={{ textAlign: "center" }}>No items in cart</h4>
                 <br />
-              </>
+              </React.Fragment>
             ) : (
               <React.Fragment>
                 {cartStore.map((cartItem) => (
@@ -462,6 +462,8 @@ const CartItems = ({ cartItem }) => {
     );
   }, [count]);
 
+  const [removeCount, setRemoveCount] = useState(false);
+
   const handleRemoveItem = (removeeItem) => {
     // console.log(removeeItem);
 
@@ -470,7 +472,15 @@ const CartItems = ({ cartItem }) => {
         removeeItem,
       })
     );
+    setRemoveCount(true);
   };
+
+  useEffect(() => {
+    if (removeCount === true) {
+      window.location.reload();
+      setRemoveCount(false);
+    }
+  }, [removeCount]);
 
   // let updatedPrice = cartItem.newPrice;
 

@@ -8,30 +8,22 @@ const Offers = () => {
           <div class="row">
             <div class="col-md-3 col-6">
               <div class="products-box">
-                <a href="listing.html">
-                  <img alt="" src="img/pro1.jpg" class="img-fluid rounded" />
-                </a>
+                <img alt="" src="img/pro1.jpg" class="img-fluid rounded" />
               </div>
             </div>
             <div class="col-md-3 col-6">
               <div class="products-box">
-                <a href="listing.html">
-                  <img alt="" src="img/pro2.jpg" class="img-fluid rounded" />
-                </a>
+                <img alt="" src="img/pro2.jpg" class="img-fluid rounded" />
               </div>
             </div>
             <div class="col-md-3 col-6">
               <div class="products-box">
-                <a href="listing.html">
-                  <img alt="" src="img/pro3.jpg" class="img-fluid rounded" />
-                </a>
+                <img alt="" src="img/pro3.jpg" class="img-fluid rounded" />
               </div>
             </div>
             <div class="col-md-3 col-6">
               <div class="products-box">
-                <a href="listing.html">
-                  <img alt="" src="img/pro4.jpg" class="img-fluid rounded" />
-                </a>
+                <img alt="" src="img/pro4.jpg" class="img-fluid rounded" />
               </div>
             </div>
           </div>

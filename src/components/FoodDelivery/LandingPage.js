@@ -8,7 +8,7 @@ const LandingPage = () => {
     <React.Fragment>
       <FoodHome />
       <Offers />
-      {/* <PopularBrands /> */}
+      <PopularBrands />
     </React.Fragment>
   );
 };

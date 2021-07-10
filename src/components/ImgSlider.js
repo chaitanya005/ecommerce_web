@@ -7,7 +7,7 @@ import styles from "./style.module.css";
 
 const ImgSlider = () => {
   let settings = {
-    dots: true,
+    // dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -19,17 +19,19 @@ const ImgSlider = () => {
     <Carousel {...settings}>
       <Wrap>
         <a href="/veggies/shop" className={styles.myBtnClass}>
-          <img src="/images/vegiee.png" alt="" />
-          <h4 className={styles.btnOver}>Click here</h4>
-        </a>
-      </Wrap>
-      {/* <Wrap>
-        <a href="#" className={styles.myBtnClass}>
-          <img src="/images/men_wear.png" alt="" />
-          <h4 className={styles.btnOver}>Men's wear Coming Soon</h4>
+          <img src="/images/vegie_5.jpg" alt="" />
+          <h4 className={styles.btnOver}>Veggies </h4>
         </a>
       </Wrap>
       <Wrap>
+        <a href="#" className={styles.myBtnClass}>
+          <img src="/images/food.jpg" alt="" />
+          <div className={styles.btnOver}>
+            <h4>Food Delivery</h4>
+          </div>
+        </a>
+      </Wrap>
+      {/*  <Wrap>
         <a href="#" className={styles.myBtnClass}>
           <img src="/images/women_wear.png" alt="" />
           <h4 className={styles.btnOver}>Women wear Coming Soon</h4>

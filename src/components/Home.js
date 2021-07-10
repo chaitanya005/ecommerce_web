@@ -9,6 +9,8 @@ import { useEffect } from "react";
 // import { useDispatch, useSelector } from 'react-redux'
 import db from "../firebase";
 import Men_shirts from "./Men/Men_shirts";
+import VeggieSection from "./VeggieSection";
+import FoodDeliverySection from "./FoodDeliverySection";
 /* import { setMovies } from '../features/movie/movieSlice'
 import { getUserName } from '../features/user/userSlice' */
 
@@ -55,11 +57,12 @@ const Home = () => {
     <Container>
       <ImgSlider />
       {/* <Viewers />  */}
-
+      <VeggieSection />
+      <FoodDeliverySection />
       <br />
-      <Arrived />
+      {/* <Arrived />
       <Deals />
-      <Trending />
+      <Trending /> */}
     </Container>
   );
 };

@@ -9,29 +9,31 @@ import {
 } from "../features/user/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import createUserDocument from "../firebase";
 import { removeCart } from "../features/cart/cart";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Divider } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import Snackbar from "@material-ui/core/Snackbar";
+import {
+  Divider,
+  Snackbar,
+  AccordionSummary,
+  AccordionDetails,
+  Accordion,
+  ListItemText,
+  ListItem,
+  List,
+  Drawer,
+  makeStyles,
+  IconButton,
+  Typography,
+  MenuItem,
+  Menu,
+} from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 
 function Alert(props) {
@@ -88,6 +90,7 @@ const Header = () => {
   const [womenanchorEl, setWomenAnchorEl] = React.useState(null);
   const [kidsanchorEl, setKidsAnchorEl] = React.useState(null);
   const [veggieanchorEl, setVeggieAnchorEl] = React.useState(null);
+  const [foodanchorEl, setFoodAnchorEl] = React.useState(null);
 
   /* useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
@@ -192,92 +195,16 @@ const Header = () => {
     setVeggieAnchorEl(null);
   };
 
+  const handleFoodPopoverOpen = (event) => {
+    setFoodAnchorEl(event.currentTarget);
+  };
+
+  const handleFoodPopoverClose = () => {
+    setFoodAnchorEl(null);
+  };
+
   return (
     <React.Fragment>
-      {/* <header className="header-colorfull header-horizontal header-over header-view-side">
-        <div className="container">
-          <nav className="navbar">
-            <a className="navbar-brand" href="homepage-1.html">
-              <span className="logo-element-line">
-                <span className="logo-icon">
-                  <span
-                    className="svg-content svg-fill-theme"
-                    data-svg="assets/images/svg/logo-part.svg"
-                  ></span>
-                </span>
-                <span className="logo-text">Logo</span>
-              </span>
-              <button className="navbar-toggler" type="button">
-                <i className="fas fa-bars nav-show"></i>
-                <i className="fas fa-times nav-hide"></i>
-              </button>
-              <div className="navbar-collapse">
-                <div className="container">
-                  <div>
-                    <ul className="navbar-nav">
-                      <li className="nav-item nav-item-arrow-down nav-hover-show-sub">
-                        <a
-                          className="nav-link"
-                          href="/"
-                          data-role="nav-toggler"
-                        >
-                          Home
-                        </a>
-                      </li>
-
-                      <li className="nav-item">
-                        <a className="nav-link" href="/shop">
-                          Shop
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="contact-us.html">
-                          Contact
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="navbar-extra">
-                    <ul className="actions-nav">
-                      <li className="nav-item">
-                        <a className="nav-link" href="#/">
-                          <i className="fas fa-search"></i>
-                          <span className="navbar-mobile">
-                            &nbsp;&nbsp;Search
-                          </span>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="/#">
-                          <i className="fas fa-user"></i>&nbsp;&nbsp;Sing In
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a
-                          className="nav-link"
-                          href="shop-cart.html"
-                          data-show-block="cart"
-                        >
-                          <i className="fas fa-shopping-bag"></i>
-                          <span className="navbar-mobile">
-                            &nbsp;&nbsp;Cart
-                          </span>
-                          <span className="cart-quantity">
-                            <span className="badge badge-pill badge-cart">
-                              3
-                            </span>
-                          </span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </nav>
-        </div>
-  </header>*/}
-
       {/* ------------------------------------- Mobile Bar ------------------------------------ */}
       <Drawer
         className={classes.drawer}
@@ -534,7 +461,7 @@ const Header = () => {
               </a>
             </Typography>
 
-            <Menu
+            {/* <Menu
               id="men"
               anchorEl={menanchorEl}
               open={Boolean(menanchorEl)}
@@ -562,9 +489,9 @@ const Header = () => {
                   Shirt + Pant
                 </Link>
               </MenuItem>
-            </Menu>
+            </Menu> */}
 
-            <Typography
+            {/* <Typography
               aria-owns={menanchorEl ? "men" : undefined}
               aria-haspopup="true"
               onClick={handleMenPopoverOpen}
@@ -573,9 +500,9 @@ const Header = () => {
               <a href="">
                 <span>MEN</span>
               </a>
-            </Typography>
+            </Typography> */}
 
-            <Menu
+            {/* <Menu
               id="women"
               anchorEl={womenanchorEl}
               open={Boolean(womenanchorEl)}
@@ -618,9 +545,9 @@ const Header = () => {
                   Night Wear
                 </Link>
               </MenuItem>
-            </Menu>
+            </Menu> */}
 
-            <Typography
+            {/* <Typography
               aria-owns={womenanchorEl ? "women" : undefined}
               aria-haspopup="true"
               onClick={handleWomenPopoverOpen}
@@ -630,8 +557,8 @@ const Header = () => {
                 <span>WOMEN</span>
               </a>
             </Typography>
-
-            <Menu
+ */}
+            {/* <Menu
               id="kids"
               anchorEl={kidsanchorEl}
               open={Boolean(kidsanchorEl)}
@@ -650,8 +577,8 @@ const Header = () => {
                 </Link>
               </MenuItem>
             </Menu>
-
-            <Typography
+ */}
+            {/* <Typography
               aria-owns={kidsanchorEl ? "kids" : undefined}
               aria-haspopup="true"
               onClick={handleKidsPopoverOpen}
@@ -660,10 +587,10 @@ const Header = () => {
               <a href="">
                 <span>KIDS</span>
               </a>
-            </Typography>
+            </Typography> */}
 
             <Typography
-              aria-owns={veggieanchorEl ? "kids" : undefined}
+              aria-owns={veggieanchorEl ? "veggies" : undefined}
               aria-haspopup="true"
               onClick={handleVeggiePopoverOpen}
               onMouseOver={handleVeggiePopoverOpen}
@@ -686,6 +613,33 @@ const Header = () => {
               </MenuItem>
               <MenuItem>
                 <Link to="/veggies/shop">Veggies Shop</Link>
+              </MenuItem>
+            </Menu>
+
+            <Typography
+              aria-owns={foodanchorEl ? "food" : undefined}
+              aria-haspopup="true"
+              onClick={handleFoodPopoverOpen}
+              onMouseOver={handleFoodPopoverOpen}
+            >
+              <a href="/watchlist">
+                <span>FOOD DELIVERY</span>
+              </a>
+            </Typography>
+
+            <Menu
+              id="food"
+              anchorEl={foodanchorEl}
+              open={Boolean(foodanchorEl)}
+              onClose={handleFoodPopoverClose}
+              MenuListProps={{ onMouseLeave: handleFoodPopoverClose }}
+              style={{ top: "5%" }}
+            >
+              <MenuItem>
+                <Link to="/food-delivery">Food</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to="/food/restaurants">Restaurants</Link>
               </MenuItem>
             </Menu>
           </NavMenu>

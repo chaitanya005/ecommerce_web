@@ -21,6 +21,7 @@ import OrderFailure from "./components/OrderFailure";
 import UserOrders from "./components/Veggies/UserOrders";
 import LandingPage from "./components/FoodDelivery/LandingPage";
 import Restaurants from "./components/FoodDelivery/Restaurants";
+import HomePageTwo from "./components/FoodDelivery/HomePage";
 
 // import './App.css'
 
@@ -77,6 +78,9 @@ function App() {
           </Route>
           <Route path="/food/restaurants">
             <Restaurants />
+          </Route>
+          <Route path="/hello">
+            <HomePageTwo />
           </Route>
           <Route path="*">
             <PageNotFound />
