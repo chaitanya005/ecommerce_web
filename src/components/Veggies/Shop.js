@@ -129,7 +129,11 @@ const Shop = () => {
         (veggie) =>
           veggie.name &&
           veggie.tel_key &&
-          (veggie.name.toLowerCase().includes(e.target.value) ||
+          (veggie.name.toUpperCase().includes(e.target.value) ||
+            veggie.name.toLowerCase().includes(e.target.value) ||
+            veggie.name.includes(e.target.value) ||
+            veggie.tel_key.includes(e.target.value) ||
+            veggie.tel_key.toUpperCase().includes(e.target.value) ||
             veggie.tel_key.toLowerCase().includes(e.target.value))
       );
       setSearchedItems(items);
@@ -308,7 +312,7 @@ const Shop = () => {
               <React.Fragment>
                 {searchedItems.length === 0 ? (
                   <div style={{ marginLeft: "auto", marginRight: "auto" }}>
-                    <h3>No Searched Results</h3>
+                    <h3>No Search Results</h3>
                   </div>
                 ) : (
                   ""
