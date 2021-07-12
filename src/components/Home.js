@@ -75,7 +75,8 @@ const Container = styled.main`
   padding: 0 calc(3.5vw + 5px);
 
   &:after {
-    background: #fff;
+    display: block;
+    background: #fff !important;
     content: "";
     position: absolute;
     inset: 0px;

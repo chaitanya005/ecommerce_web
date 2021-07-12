@@ -52,7 +52,7 @@ const HomePageTwo = () => {
     var amount = "1.00";
     var phone_number = "+919898989898";
     var email = "kittu@gmail.com";
-    var orderId = "ORDERID_156498456";
+    var orderId = "ORDERID_13546684";
     let params = {
       orderId: orderId,
       email: email,
@@ -60,7 +60,7 @@ const HomePageTwo = () => {
       phone_number: phone_number,
     };
 
-    var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+    var url = "http://localhost:7000/payment";
     var request = {
       url: url,
       params: params,

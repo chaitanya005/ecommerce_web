@@ -408,6 +408,12 @@ const Header = () => {
               <ListItemText primary="Cart" />
             </a>
           </ListItem>
+
+          <ListItem>
+            <a href="/user/orders">
+              <ListItemText primary="Your Orders" />
+            </a>
+          </ListItem>
           <Divider />
         </List>
         <Snackbar

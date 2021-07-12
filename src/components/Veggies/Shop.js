@@ -6,18 +6,39 @@ import { addToCart, storeCart } from "../../features/cart/cart";
 import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
 import MuiAlert from "@material-ui/lab/Alert";
+import InputBase from "@material-ui/core/Input";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: "45%",
+    marginLeft: "30%",
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+}));
+
 const Shop = () => {
   const dispatch = useDispatch();
+  const classes = useStyles();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const storedVeggie = useSelector(storedVeggies);
   const storedCartItems = useSelector(storeCart);
 
   const [isCartItem, setIsCartItem] = useState(false);
+
+  const [searchedItems, setSearchedItems] = useState([]);
 
   let allVeggies = [];
 
@@ -60,6 +81,9 @@ const Shop = () => {
         if (item.veggieId === veggie.veggieId) {
           setIsCartItem(true);
           setState({ ...state, open: true });
+          setTimeout(() => {
+            setState({ ...state, open: false });
+          }, 1000);
           inCart = true;
           break;
         }
@@ -74,6 +98,10 @@ const Shop = () => {
         setIsCartItem(false);
 
         setState({ ...state, open: true });
+
+        setTimeout(() => {
+          setState({ ...state, open: false });
+        }, 1000);
       }
     } else {
       dispatch(
@@ -83,19 +111,29 @@ const Shop = () => {
       );
 
       setState({ ...state, open: true });
+
+      setTimeout(() => {
+        setState({ ...state, open: false });
+      }, 1000);
     }
-
-    /*  */
-
-    /* setState({ ...state, open: true });
-
-    setTimeout(() => {
-      handleClose();
-    }, 1000); */
   };
 
   const handleVisible = () => {
     setVisible((prev) => prev + 3);
+  };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    if (e.target.value !== "") {
+      let items = storedVeggie.storeVeggies.filter(
+        (veggie) =>
+          veggie.name &&
+          veggie.tel_key &&
+          (veggie.name.toLowerCase().includes(e.target.value) ||
+            veggie.tel_key.toLowerCase().includes(e.target.value))
+      );
+      setSearchedItems(items);
+    }
   };
 
   return (
@@ -133,20 +171,151 @@ const Shop = () => {
                   <span className="mx-2">\</span>
                   <span>Shop</span>
                 </div>
+                <br />
+                <Paper component="form" className={classes.root}>
+                  <InputBase
+                    className={classes.input}
+                    placeholder="Search"
+                    inputProps={{ "aria-label": "search google maps" }}
+                    onChange={(e) => handleSearch(e)}
+                  />
+                </Paper>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section className="section">
+      <section className="section" style={{ marginTop: "4rem" }}>
         <div className="container">
           <div className="grid row">
-            {visible ? (
+            {!searchTerm ? (
               <React.Fragment>
-                {storedVeggie &&
-                  storedVeggie.storeVeggies
-                    .slice(0, visible)
-                    .map((veggie, i) => (
+                {visible ? (
+                  <React.Fragment>
+                    {storedVeggie &&
+                      storedVeggie.storeVeggies
+                        .slice(0, visible)
+                        .map((veggie, i) => (
+                          <React.Fragment key={veggie.veggieId}>
+                            {veggie.in_stock && (
+                              <div className="col-12 col-md-6 col-xl-4 d-flex">
+                                <article className="entity-block entity-hover-shadow">
+                                  <div
+                                    className="entity-preview-show-up entity-preview"
+                                    onClick={() => handleAddToCart(veggie)}
+                                    // href={`/veggies/shop/product?id=${veggie.veggieId}`}
+                                  >
+                                    <span className="embed-responsive embed-responsive-4by3">
+                                      <img
+                                        className="embed-responsive-item"
+                                        src={veggie.img}
+                                        alt=""
+                                      />
+                                    </span>
+                                    <span className="with-back entity-preview-content">
+                                      <span className="overflow-back bg-body-back opacity-70"></span>
+                                      <span className="m-auto h1 text-theme text-center">
+                                        <i className="fas fa-shopping-cart"></i>
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div
+                                    className="fill-color-line"
+                                    data-role="fill-line"
+                                  >
+                                    <div
+                                      className="opacity-30 fill-line-segment bg-theme"
+                                      data-role="fill-line-segment"
+                                      data-min-width="10"
+                                      data-preffered-width="50"
+                                      data-max-width="80"
+                                    ></div>
+                                    <div
+                                      className="opacity-60 fill-line-segment bg-theme"
+                                      data-role="fill-line-segment"
+                                      data-min-width="10"
+                                      data-preffered-width="50"
+                                      data-max-width="80"
+                                    ></div>
+                                    <div
+                                      className="fill-line-segment bg-theme"
+                                      data-role="fill-line-segment"
+                                      data-min-width="10"
+                                      data-preffered-width="50"
+                                      data-max-width="80"
+                                    ></div>
+                                  </div>
+                                  <div className="entity-content">
+                                    <h4 className="entity-title">
+                                      <a className="content-link" href="#">
+                                        {veggie.name} / {veggie.tel_name}
+                                      </a>
+                                    </h4>
+                                    <p className="entity-text">{veggie.desc}</p>
+                                    <div className="entity-bottom-line">
+                                      <div className="entity-price">
+                                        <span className="currency">
+                                          Rs. {veggie.price}
+                                        </span>
+
+                                        <span className="price-unit">
+                                          {" "}
+                                          / kg
+                                        </span>
+                                        <span className="entity-price-old">
+                                          Rs. {veggie.actual_price}
+                                        </span>
+                                      </div>
+                                      <div className="entity-action-btns">
+                                        <div
+                                          className="btn-sm btn btn-theme"
+                                          onClick={() =>
+                                            handleAddToCart(veggie)
+                                          }
+                                        >
+                                          Add to cart
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </article>
+                              </div>
+                            )}
+                            {i ===
+                              storedVeggie.storeVeggies.slice(0, visible)
+                                .length -
+                                1 &&
+                            visible < storedVeggie.storeVeggies.length ? (
+                              <div className="section-footer">
+                                <div
+                                  className="btn-theme-white-bordered btn"
+                                  onClick={handleVisible}
+                                >
+                                  View More
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </React.Fragment>
+                        ))}
+                  </React.Fragment>
+                ) : (
+                  ""
+                )}
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                {searchedItems.length === 0 ? (
+                  <div style={{ marginLeft: "auto", marginRight: "auto" }}>
+                    <h3>No Searched Results</h3>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {visible ? (
+                  <React.Fragment>
+                    {searchedItems.map((veggie, i) => (
                       <React.Fragment key={veggie.veggieId}>
                         {veggie.in_stock && (
                           <div className="col-12 col-md-6 col-xl-4 d-flex">
@@ -243,138 +412,12 @@ const Shop = () => {
                         )}
                       </React.Fragment>
                     ))}
+                  </React.Fragment>
+                ) : (
+                  ""
+                )}
               </React.Fragment>
-            ) : (
-              ""
             )}
-            {/* <div className="col-12 col-md-6 col-xl-4 d-flex">
-              <article className="entity-block entity-hover-shadow">
-                <a className="entity-preview-show-up entity-preview" href="/">
-                  <span className="embed-responsive embed-responsive-4by3">
-                    <img
-                      className="embed-responsive-item"
-                      src="/assets/images/content/720x540/cucumber.jpg"
-                      alt=""
-                    />
-                  </span>
-                  <span className="with-back entity-preview-content">
-                    <span className="overflow-back bg-body-back opacity-70"></span>
-                    <span className="m-auto h1 text-theme text-center">
-                      <i className="fas fa-shopping-cart"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="fill-color-line" data-role="fill-line">
-                  <div
-                    className="opacity-30 fill-line-segment bg-theme"
-                    data-role="fill-line-segment"
-                    data-min-width="10"
-                    data-preffered-width="50"
-                    data-max-width="80"
-                  ></div>
-                  <div
-                    className="opacity-60 fill-line-segment bg-theme"
-                    data-role="fill-line-segment"
-                    data-min-width="10"
-                    data-preffered-width="50"
-                    data-max-width="80"
-                  ></div>
-                  <div
-                    className="fill-line-segment bg-theme"
-                    data-role="fill-line-segment"
-                    data-min-width="10"
-                    data-preffered-width="50"
-                    data-max-width="80"
-                  ></div>
-                </div>
-                <div className="entity-content">
-                  <h4 className="entity-title">
-                    <a className="content-link" href="/">
-                      Cucumber
-                    </a>
-                  </h4>
-                  <p className="entity-text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit sed
-                    do eiusmod te incididunt
-                  </p>
-                  <div className="entity-bottom-line">
-                    <div className="entity-price">
-                      <span className="currency">$</span>1.80
-                      <span className="price-unit">/ kg</span>
-                    </div>
-                    <div className="entity-action-btns">
-                      <a className="btn-sm btn btn-theme" href="#/">
-                        add to cart
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div className="col-12 col-md-6 col-xl-4 d-flex">
-              <article className="entity-block entity-hover-shadow">
-                <a className="entity-preview-show-up entity-preview" href="/">
-                  <span className="embed-responsive embed-responsive-4by3">
-                    <img
-                      className="embed-responsive-item"
-                      src="/assets/images/content/720x540/tomato.jpg"
-                      alt=""
-                    />
-                  </span>
-                  <span className="with-back entity-preview-content">
-                    <span className="overflow-back bg-body-back opacity-70"></span>
-                    <span className="m-auto h1 text-theme text-center">
-                      <i className="fas fa-shopping-cart"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="fill-color-line" data-role="fill-line">
-                  <div
-                    className="opacity-30 fill-line-segment bg-theme"
-                    data-role="fill-line-segment"
-                    data-min-width="10"
-                    data-preffered-width="50"
-                    data-max-width="80"
-                  ></div>
-                  <div
-                    className="opacity-60 fill-line-segment bg-theme"
-                    data-role="fill-line-segment"
-                    data-min-width="10"
-                    data-preffered-width="50"
-                    data-max-width="80"
-                  ></div>
-                  <div
-                    className="fill-line-segment bg-theme"
-                    data-role="fill-line-segment"
-                    data-min-width="10"
-                    data-preffered-width="50"
-                    data-max-width="80"
-                  ></div>
-                </div>
-                <div className="entity-content">
-                  <h4 className="entity-title">
-                    <a className="content-link" href="/">
-                      Tomato
-                    </a>
-                  </h4>
-                  <p className="entity-text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit sed
-                    do eiusmod te incididunt
-                  </p>
-                  <div className="entity-bottom-line">
-                    <div className="entity-price">
-                      <span className="currency">$</span>3.29
-                      <span className="price-unit">/ kg</span>
-                    </div>
-                    <div className="entity-action-btns">
-                      <a className="btn-sm btn btn-theme" href="#/">
-                        add to cart
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div> */}
           </div>
         </div>
       </section>
