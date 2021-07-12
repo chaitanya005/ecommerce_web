@@ -1,78 +1,103 @@
+import axios from "axios";
 import React from "react";
 import styles from "./HomePage.module.css";
 
 const HomePageTwo = () => {
+  function isDate(val) {
+    // Cross realm comptatible
+    return Object.prototype.toString.call(val) === "[object Date]";
+  }
+
+  function isObj(val) {
+    return typeof val === "object";
+  }
+
+  function stringifyValue(val) {
+    if (isObj(val) && !isDate(val)) {
+      return JSON.stringify(val);
+    } else {
+      return val;
+    }
+  }
+
+  function buildForm({ action, params }) {
+    const form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", action);
+
+    Object.keys(params).forEach((key) => {
+      const input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", key);
+      input.setAttribute("value", stringifyValue(params[key]));
+      form.appendChild(input);
+    });
+
+    return form;
+  }
+
+  function post(details) {
+    const form = buildForm(details);
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+  }
+
+  const handleClick = async () => {
+    /* axios
+      .get("http://localhost:8000/payments")
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err)); */
+
+    var amount = "1.00";
+    var phone_number = "+919898989898";
+    var email = "kittu@gmail.com";
+    var orderId = "ORDERID_156498456";
+    let params = {
+      orderId: orderId,
+      email: email,
+      amount: amount,
+      phone_number: phone_number,
+    };
+
+    var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+    var request = {
+      url: url,
+      params: params,
+      method: "get",
+    };
+
+    const response = await axios(request);
+    // console.log(response);
+    const processParams = await response.data;
+    console.log(processParams);
+
+    var details = {
+      // action: "https://securegw-stage.paytm.in/order/process",
+      action: "https://securegw.paytm.in/order/process",
+      params: processParams,
+    };
+
+    post(details);
+  };
+
+  const handleClicker = () => {
+    axios
+      .post("http://localhost:8000/payments")
+      .then((res) => {
+        console.log(res.data);
+        /* var details = {
+          action: "https://securegw-stage.paytm.in/order/process",
+          params: res.data.body,
+        };
+        post(details); */
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
-    <div id="4eed70b1-6e57-4926-9b27-f4528842001f" className="clearfix">
-      <div className={styles.container}>
-        <div className={styles.row}>
-          <div className={styles.title}>
-            <div
-              width="162"
-              height="50"
-              //   className="css-go3l63-ImageContainer efaomd30"
-              className={styles.cssGo3l63ImageContainer}
-            >
-              <div
-                width="162"
-                height="50"
-                className="css-1p9telr-LoadingElement efaomd32"
-              ></div>
-              <img
-                src="https://static.cure.fit/assets/images/eat-title.svg"
-                alt="title-img"
-                className="css-1ecv4qi-ImageElement efaomd31"
-                loading="lazy"
-                width="162"
-                height="50"
-              />
-            </div>
-          </div>
-
-          <div className={styles.subTitle}>
-            Healthy, Tasty, Everyday Food!
-            <a href="eat.html" className={styles.explore}>
-              <span>Explore</span>
-              <img
-                src="https://static.cure.fit/assets/images/back-arrow-pink.svg"
-                alt="Go back"
-                className={styles.arrow}
-              />
-            </a>
-          </div>
-
-          <div className={styles.verticalDesciption}>Indulge in healthy</div>
-          <div id="image-accordian">
-            <div className={styles.colx12}>
-              <div className={styles.animation}>
-                <ul className={styles.animationImg}>
-                  <li
-                    tabindex="0"
-                    className={styles.aniEffect}
-                    style={{ backgroundColor: "#181819" }}
-                  >
-                    <div className="css-0">
-                      <div className="lazyload-wrapper">
-                        <div
-                          className={styles.active}
-                          style={{ paddingTop: "initial" }}
-                        >
-                          <img
-                            className="css-ahex7a-accordianImageRight-bgImage image-block "
-                            alt=""
-                            src="https://cdn-images.cure.fit/www-curefit-com/image/upload/w_600,h_470,fl_progressive,f_auto,q_auto:eco/dpr_2/image/vm/257e0d59-ebf5-406d-a775-ba22ed951dc8.png"
-                            forceCheckDelay="1000"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div>
+      <button onClick={handleClick}>Click Me!</button>
     </div>
   );
 };

@@ -94,13 +94,13 @@ const FoodDeliverySection = () => {
             <PrimaryButton
               buttonRounded={true}
               as="a"
-              href={"/food-delivery"}
+              href={"#"}
               style={{
                 backgroundColor: "rgba(80,17,204)",
                 padding: "0.75rem 2rem",
               }}
             >
-              View more
+              Coming Soon!
             </PrimaryButton>
           </TextContent>
         </TextColumn>

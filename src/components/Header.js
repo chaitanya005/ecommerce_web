@@ -616,7 +616,7 @@ const Header = () => {
               </MenuItem>
             </Menu>
 
-            <Typography
+            {/* <Typography
               aria-owns={foodanchorEl ? "food" : undefined}
               aria-haspopup="true"
               onClick={handleFoodPopoverOpen}
@@ -641,7 +641,7 @@ const Header = () => {
               <MenuItem>
                 <Link to="/food/restaurants">Restaurants</Link>
               </MenuItem>
-            </Menu>
+            </Menu> */}
           </NavMenu>
           <CartIcon>
             <Link to="/cart">
