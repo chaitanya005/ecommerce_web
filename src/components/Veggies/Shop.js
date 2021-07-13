@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: "2px 4px",
     display: "flex",
-    alignItems: "center",
-    width: "45%",
-    marginLeft: "30%",
+    // alignItems: "center",
+    // width: "45%",
+    margin: "0 13.5%",
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -176,20 +176,22 @@ const Shop = () => {
                   <span>Shop</span>
                 </div>
                 <br />
-                <Paper component="form" className={classes.root}>
-                  <InputBase
-                    className={classes.input}
-                    placeholder="Search"
-                    inputProps={{ "aria-label": "search google maps" }}
-                    onChange={(e) => handleSearch(e)}
-                  />
-                </Paper>
               </div>
             </div>
           </div>
         </div>
       </section>
       <section className="section" style={{ marginTop: "4rem" }}>
+        <Paper component="form" className={classes.root}>
+          <InputBase
+            className={classes.input}
+            placeholder="Search Veggies"
+            inputProps={{ "aria-label": "search google maps" }}
+            onChange={(e) => handleSearch(e)}
+          />
+        </Paper>
+        <br />
+
         <div className="container">
           <div className="grid row">
             {!searchTerm ? (
@@ -312,6 +314,7 @@ const Shop = () => {
               <React.Fragment>
                 {searchedItems.length === 0 ? (
                   <div style={{ marginLeft: "auto", marginRight: "auto" }}>
+                    <br />
                     <h3>No Search Results</h3>
                   </div>
                 ) : (
