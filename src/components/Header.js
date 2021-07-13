@@ -216,13 +216,13 @@ const Header = () => {
         }}
       >
         <div style={{ display: "flex" }}>
-          <Logo href="/">
+          {/* <Logo href="/">
             <img
               src="/images/logo-1.png"
               alt="shopandship"
               style={{ width: "100%", marginTop: "16%" }}
             />
-          </Logo>
+          </Logo> */}
           <div className={classes.drawerHeader} style={{ marginTop: "7%" }}>
             <IconButton onClick={handleDrawerClose}>
               <ChevronLeftIcon />
@@ -245,7 +245,7 @@ const Header = () => {
             ></Typography>
           </ListItem>
 
-          <Accordion>
+          {/* <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
@@ -286,9 +286,9 @@ const Header = () => {
                 </Link>
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
 
-          <Accordion>
+          {/* <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel2a-content"
@@ -345,9 +345,9 @@ const Header = () => {
                 </Link>
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
 
-          <Accordion>
+          {/*  <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel3a-content"
@@ -372,7 +372,7 @@ const Header = () => {
                 </Link>
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
 
           <Accordion>
             <AccordionSummary
@@ -380,11 +380,7 @@ const Header = () => {
               aria-controls="panel3a-content"
               id="panel3a-header"
             >
-              <Typography className={classes.heading}>
-                <Link to="/veggies" style={{ color: "#000" }}>
-                  Vegetables
-                </Link>
-              </Typography>
+              <Typography className={classes.heading}>Vegetables</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
@@ -444,13 +440,13 @@ const Header = () => {
         </IconButton>
         <>
           <NavMenu>
-            <Logo href="/">
+            {/* <Logo href="/">
               <img
                 src="/images/logo.png"
                 alt="shopandship"
                 style={{ width: "100%", height: "100%" }}
               />
-            </Logo>
+            </Logo> */}
             {/* <a href="/home" style={{ fontSize: "16px" }}>
               <img src="/images/home-icon.svg" alt="Home" /> 
               <span>HOME</span>
@@ -650,9 +646,9 @@ const Header = () => {
             </Menu> */}
           </NavMenu>
           <CartIcon>
-            <Link to="/cart">
+            <a href="/cart">
               <ShoppingCartIcon />
-            </Link>
+            </a>
           </CartIcon>
           {!userName ? (
             <Login onClick={handleAuth}>Login</Login>

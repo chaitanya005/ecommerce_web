@@ -40,27 +40,27 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/men-shirts">
+          {/* <Route path="/men-shirts">
             <MenShirts />
           </Route>
           <Route path="/product-detail">
             <ProductPage />
-          </Route>
+          </Route> */}
           <Route path="/cart">
             <Cart />
           </Route>
-          <Route path="/notion">
+          {/* <Route path="/notion">
             <Notion />
-          </Route>
+          </Route> */}
           <Route exact path="/veggies">
             <VeggiesLandingPage />
           </Route>
           <Route exact path="/veggies/shop">
             <Shop />
           </Route>
-          <Route exact path="/veggies/shop/product">
+          {/* <Route exact path="/veggies/shop/product">
             <VeggieProduct />
-          </Route>
+          </Route> */}
           <Route path="/checkout">
             <CheckoutPage />
           </Route>
@@ -73,7 +73,7 @@ function App() {
           <Route path="/user/orders">
             <UserOrders />
           </Route>
-          <Route path="/food-delivery">
+          {/* <Route path="/food-delivery">
             <LandingPage />
           </Route>
           <Route path="/food/restaurants">
@@ -81,7 +81,7 @@ function App() {
           </Route>
           <Route path="/hello">
             <HomePageTwo />
-          </Route>
+          </Route> */}
           <Route path="*">
             <PageNotFound />
           </Route>

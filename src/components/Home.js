@@ -58,7 +58,7 @@ const Home = () => {
       <ImgSlider />
       {/* <Viewers />  */}
       <VeggieSection />
-      <FoodDeliverySection />
+      {/* <FoodDeliverySection /> */}
       <br />
       {/* <Arrived />
       <Deals />

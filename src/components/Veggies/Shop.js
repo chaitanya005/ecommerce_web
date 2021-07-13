@@ -257,7 +257,9 @@ const Shop = () => {
                                         {veggie.name} / {veggie.tel_name}
                                       </a>
                                     </h4>
-                                    <p className="entity-text">{veggie.desc}</p>
+                                    <p className="entity-text">
+                                      {/* veggie.desc */}
+                                    </p>
                                     <div className="entity-bottom-line">
                                       <div className="entity-price">
                                         <span className="currency">
@@ -378,7 +380,9 @@ const Shop = () => {
                                     {veggie.name} / {veggie.tel_name}
                                   </a>
                                 </h4>
-                                <p className="entity-text">{veggie.desc}</p>
+                                <p className="entity-text">
+                                  {/* veggie.desc */}
+                                </p>
                                 <div className="entity-bottom-line">
                                   <div className="entity-price">
                                     <span className="currency">

@@ -8,7 +8,7 @@ const VeggiesLandingPage = () => {
     <React.Fragment>
       <HomePage />
       <OurProducts />
-      <Testimonials />
+      {/* <Testimonials /> */}
     </React.Fragment>
   );
 };

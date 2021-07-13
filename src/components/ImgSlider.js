@@ -23,14 +23,14 @@ const ImgSlider = () => {
           <h4 className={styles.btnOver}>Veggies </h4>
         </a>
       </Wrap>
-      <Wrap>
+      {/* <Wrap>
         <a href="#" className={styles.myBtnClass}>
           <img src="/images/food.jpg" alt="" />
           <div className={styles.btnOver}>
             <h4>Food Delivery</h4>
           </div>
         </a>
-      </Wrap>
+      </Wrap> */}
       {/*  <Wrap>
         <a href="#" className={styles.myBtnClass}>
           <img src="/images/women_wear.png" alt="" />

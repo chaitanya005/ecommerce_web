@@ -326,7 +326,7 @@ const Cart = () => {
                     </div>
                   </form>
                 </div>
-                <div className="cart-form">
+                {/* <div className="cart-form">
                   <h5 className="form-title">Check Availability</h5>
                   <form autocomplete="off">
                     <div className="row grid">
@@ -351,7 +351,7 @@ const Cart = () => {
                       </div>
                     </div>
                   </form>
-                </div>
+                </div> */}
               </div>
               <div className="col-auto mx-auto mx-lg-0">
                 <div className="cart-block">

@@ -17,17 +17,14 @@ const Footer = () => {
                         data-svg="assets/images/svg/logo-part.svg"
                       ></span>
                     </span>
-                    <span className="logo-text">Shop and Ship</span>
+                    <span className="logo-text">Spont Store</span>
                   </span>
                 </a>
-                <p className="footer-text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-                  faucibus egestas elit.
-                </p>
-                <div className="footer-socials">
-                  {/* <a className="footer-socials-link" href="/#">
+                <p className="footer-text">Take healthy Food and be healthy</p>
+                {/* <div className="footer-socials">
+                  <a className="footer-socials-link" href="/#">
                     <i className="fab fa-twitter"></i>
-                  </a> */}
+                  </a> 
                   <a className="footer-socials-link" href="#/">
                     <i className="fab fa-facebook-square"></i>
                   </a>
@@ -43,7 +40,7 @@ const Footer = () => {
                   >
                     <i className="fab fa-instagram"></i>
                   </a>
-                </div>
+                </div> */}
               </div>
               <div className="col-md-12 col-lg-6 order-md-last">
                 <div className="grid row">
@@ -107,7 +104,7 @@ const Footer = () => {
                   <a href="mailto:shopandship.sas@gmail.com">
                     <i className="fa fa-mail-bulk"></i>
                     {"  "}
-                    shopandship.sas@gmail.com
+                    updates@spontstore.com
                   </a>
                 </p>
               </div>
