@@ -199,7 +199,7 @@ const Cart = () => {
         <div className="content-offs-stick my-5 container">
           <div className="section-solid">
             <div className="z-index-4 position-relative">
-              <h1 className="section-title">Shop Cart</h1>
+              <h1 className="section-title">Cart</h1>
               <div className="mt-3">
                 <div className="page-breadcrumbs">
                   <a className="content-link" href="/veggies">

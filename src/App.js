@@ -22,6 +22,7 @@ import UserOrders from "./components/Veggies/UserOrders";
 import LandingPage from "./components/FoodDelivery/LandingPage";
 import Restaurants from "./components/FoodDelivery/Restaurants";
 import HomePageTwo from "./components/FoodDelivery/HomePage";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 // import './App.css'
 
@@ -87,6 +88,9 @@ function App() {
           </Route>
         </Switch>
         <Footer />
+        <a href="/cart" className="cart_float">
+          <ShoppingCartIcon />
+        </a>
         <a
           href="https://api.whatsapp.com/send?phone=918790462050&text=Hello!"
           className="whatsapp_float"

@@ -402,6 +402,7 @@ const Header = () => {
             </AccordionDetails>
             <Divider />
           </Accordion>
+
           <ListItem>
             <a href="/cart">
               <ListItemText primary="Cart" />
