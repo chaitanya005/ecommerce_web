@@ -270,10 +270,18 @@ const Shop = () => {
                                           Rs. {veggie.price}
                                         </span>
 
-                                        <span className="price-unit">
-                                          {" "}
-                                          / kg
-                                        </span>
+                                        {veggie.name !== "Bottle Gourd" &&
+                                        veggie.name !== "Drum Sticks" ? (
+                                          <span className="price-unit">
+                                            {" "}
+                                            / kg
+                                          </span>
+                                        ) : (
+                                          <span className="price-unit">
+                                            {" "}
+                                            / piece
+                                          </span>
+                                        )}
                                         <span className="entity-price-old">
                                           Rs. {veggie.actual_price}
                                         </span>
@@ -393,7 +401,15 @@ const Shop = () => {
                                       Rs. {veggie.price}
                                     </span>
 
-                                    <span className="price-unit"> / kg</span>
+                                    {veggie.name !== "Bottle Gourd" &&
+                                    veggie.name !== "Drum Sticks" ? (
+                                      <span className="price-unit"> / kg</span>
+                                    ) : (
+                                      <span className="price-unit">
+                                        {" "}
+                                        / piece
+                                      </span>
+                                    )}
                                     <span className="entity-price-old">
                                       Rs. {veggie.actual_price}
                                     </span>

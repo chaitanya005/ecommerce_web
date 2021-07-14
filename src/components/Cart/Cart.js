@@ -16,6 +16,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { saveVeggies, storedVeggies } from "../../features/veggies";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -95,10 +96,30 @@ const useStyles = makeStyles((theme) => ({
 let cartStore;
 
 const Cart = () => {
+  const dispatch = useDispatch();
   cartStore = useSelector(storeCart);
 
   const uId = useSelector(getUserUid);
   const history = useHistory();
+
+  let allVeggies = [];
+
+  useEffect(() => {
+    db.collection("veggies").onSnapshot((snapshot) => {
+      snapshot.docs.map((doc) => {
+        let docu = doc.data();
+        let id = doc.id;
+
+        allVeggies = [...allVeggies, { veggieId: id, ...docu }];
+      });
+      // console.log(allVeggies);
+      dispatch(
+        saveVeggies({
+          allVeggies,
+        })
+      );
+    });
+  }, []);
 
   let yourBill = 0;
   let marketPrice = 0;
@@ -418,10 +439,25 @@ const CartItems = ({ cartItem }) => {
   // const classes = useStyles();
 
   // console.log(cartStore.length);
+  const storedVeggie = useSelector(storedVeggies);
 
   const [count, setCounter] = useState(1);
   const [updatePrice, setUpdatePrice] = useState(cartItem.price);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // console.log(storedVeggie.storeVeggies);
+    for (let veggie of storedVeggie.storeVeggies) {
+      if (cartItem.name === veggie.name) {
+        if (cartItem.price !== veggie.price) {
+          console.log(veggie);
+          // console.log(veggie.price, cartItem.price);
+          setUpdatePrice(veggie);
+          handleRemoveItem(cartItem);
+        }
+      }
+    }
+  }, []);
 
   const handleIncrement = () => {
     if (count < 5) {
@@ -433,6 +469,12 @@ const CartItems = ({ cartItem }) => {
       setCounter(count + 0.5);
       setUpdatePrice(cartItem.price);
     }
+
+    if (count === 0.25) {
+      setCounter(count + 0.25);
+      let p = Math.ceil(cartItem.price / 2);
+      setUpdatePrice(p);
+    }
   };
 
   const handleDecrement = () => {
@@ -441,17 +483,35 @@ const CartItems = ({ cartItem }) => {
       setUpdatePrice((prev) => prev - cartItem.price);
     }
 
-    if (count === 1) {
-      setCounter(count - 0.5);
-      let p = Math.ceil(cartItem.price / 2);
-      setUpdatePrice(p);
+    if (cartItem.name !== "Bottle Gourd" && cartItem.name !== "Drum Sticks") {
+      // console.log(cartItem.name);
+      if (count === 1) {
+        setCounter(count - 0.5);
+        let p = Math.ceil(cartItem.price / 2);
+        setUpdatePrice(p);
+      }
+    }
 
-      // console.log(cartItem);
+    if (
+      cartItem.name === "Green Chilli" ||
+      cartItem.name === "Bitter gourd" ||
+      cartItem.name === "Capsicum" ||
+      cartItem.name === "Beans" ||
+      cartItem.name === "Bajji Mirchi" ||
+      cartItem.name === "Goru Chikkulu" ||
+      cartItem.name === "Broad Beans" ||
+      cartItem.name === "Carrot"
+    ) {
+      if (count === 0.5) {
+        setCounter(count - 0.25);
+        let p = Math.ceil(cartItem.price / 4);
+        setUpdatePrice(p);
+      }
     }
   };
 
   useEffect(() => {
-    if (cartItem.qty >= 0.5) {
+    if (cartItem.qty >= 0.25) {
       setCounter(cartItem.qty);
       setUpdatePrice(cartItem.newPrice);
     }
@@ -459,7 +519,6 @@ const CartItems = ({ cartItem }) => {
 
   useEffect(() => {
     let updatedItem = { ...cartItem, newPrice: updatePrice, qty: count };
-    // console.log(updatedItem);
 
     dispatch(
       updateCart({
@@ -515,10 +574,15 @@ const CartItems = ({ cartItem }) => {
         </div>
         <div className="cart-item-title">
           <a className="content-link" href="shop-product-sidebar-right.html">
-            {cartItem.name}
+            {cartItem.name} / {cartItem.tel_name}
           </a>
         </div>
-        <div className="cart-item-price">Rs. {cartItem.price} /kg</div>
+        {cartItem.name !== "Bottle Gourd" && cartItem.name !== "Drum Sticks" ? (
+          <div className="cart-item-price">Rs. {cartItem.price} /kg</div>
+        ) : (
+          <div className="cart-item-price">Rs. {cartItem.price} /piece</div>
+        )}
+
         <div className="cart-item-quantity">
           <div className="input-view-flat input-gray-shadow input-spin input-group">
             <input
