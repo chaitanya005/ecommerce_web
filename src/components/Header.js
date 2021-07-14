@@ -130,7 +130,6 @@ const Header = () => {
           // console.log(res);
           saveUser(res.user);
           await createUserDocument(res.user);
-          window.location.reload();
         })
         .catch((err) => {});
     } else {
