@@ -11,10 +11,14 @@ const order = createSlice({
     storeOrders: (state, action) => {
       state.yourOrders = action.payload.documents;
     },
+
+    removeOrders: (state, action) => {
+      state.yourOrders = [];
+    },
   },
 });
 
-export const { storeOrders } = order.actions;
+export const { storeOrders, removeOrders } = order.actions;
 
 export const getOrders = (state) => state.order;
 

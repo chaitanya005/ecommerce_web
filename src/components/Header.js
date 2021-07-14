@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
-import createUserDocument from "../firebase";
+import { createUserDocument } from "../firebase";
 import { removeCart } from "../features/cart/cart";
 import clsx from "clsx";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -35,6 +35,7 @@ import {
   Menu,
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
+import { removeOrders } from "../features/order";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -125,10 +126,10 @@ const Header = () => {
     if (!userName) {
       auth
         .signInWithPopup(provider)
-        .then((res) => {
+        .then(async (res) => {
           // console.log(res);
           saveUser(res.user);
-          createUserDocument(res.user);
+          await createUserDocument(res.user);
           window.location.reload();
         })
         .catch((err) => {});
@@ -137,8 +138,10 @@ const Header = () => {
         .signOut()
         .then(() => {
           dispatch(setSignOut());
+          dispatch(removeOrders());
           // dispatch(removeCart());
           // history.push("/");
+          window.location.reload();
         })
         .catch((err) => console.log(err));
     }
@@ -216,13 +219,13 @@ const Header = () => {
         }}
       >
         <div style={{ display: "flex" }}>
-          {/* <Logo href="/">
+          <Logo href="/">
             <img
-              src="/images/logo-1.png"
+              src="/images/ss_logo_black.png"
               alt="shopandship"
-              style={{ width: "100%", marginTop: "16%" }}
+              style={{ width: "150px", marginTop: "11%", marginLeft: "-15%" }}
             />
-          </Logo> */}
+          </Logo>
           <div className={classes.drawerHeader} style={{ marginTop: "7%" }}>
             <IconButton onClick={handleDrawerClose}>
               <ChevronLeftIcon />
@@ -392,9 +395,9 @@ const Header = () => {
             <Divider />
             <AccordionDetails>
               <Typography>
-                <Link to="/veggies/shop" style={{ color: "#000" }}>
+                <a href="/veggies/shop" style={{ color: "#000" }}>
                   Veggies Shop
-                </Link>
+                </a>
               </Typography>
             </AccordionDetails>
             <Divider />
@@ -440,13 +443,13 @@ const Header = () => {
         </IconButton>
         <>
           <NavMenu>
-            {/* <Logo href="/">
+            <Logo href="/">
               <img
-                src="/images/logo.png"
+                src="/images/ss_logo.png"
                 alt="shopandship"
                 style={{ width: "100%", height: "100%" }}
               />
-            </Logo> */}
+            </Logo>
             {/* <a href="/home" style={{ fontSize: "16px" }}>
               <img src="/images/home-icon.svg" alt="Home" /> 
               <span>HOME</span>
@@ -651,7 +654,7 @@ const Header = () => {
             </a>
           </CartIcon>
           {!userName ? (
-            <div>{/* <Login></Login> */}</div>
+            <Login onClick={handleAuth}>Login</Login>
           ) : (
             <React.Fragment>
               <SignOut>

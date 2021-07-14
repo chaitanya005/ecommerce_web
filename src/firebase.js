@@ -5,7 +5,8 @@ import "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDW82-SZ8kubthvZ2JSg0MdlDvISK4NFho",
-  authDomain: "ecommerce-913ce.firebaseapp.com",
+  // authDomain: "ecommerce-913ce.firebaseapp.com",
+  authDomain: "app.spontstore.com",
   projectId: "ecommerce-913ce",
   storageBucket: "ecommerce-913ce.appspot.com",
   messagingSenderId: "778740172841",
@@ -46,6 +47,7 @@ export const createUserDocument = async (user) => {
         uid,
         createdAt: new Date(),
       });
+      console.log("User Successfully Saved!");
     } catch (error) {
       console.log("Error while creating user", error);
     }

@@ -9,6 +9,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import InputBase from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import { Helmet } from "react-helmet";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -142,6 +143,9 @@ const Shop = () => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>Spont Store | Veggies Shop</title>
+      </Helmet>
       <section
         className="
         after-head

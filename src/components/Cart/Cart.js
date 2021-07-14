@@ -15,6 +15,7 @@ import {
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -125,11 +126,12 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    if (!uId) {
+    /* if (!uId) {
       setState({ ...state, open: true });
     } else {
       history.push("/checkout");
-    }
+    } */
+    setState({ ...state, open: true });
   };
 
   return (
@@ -154,6 +156,9 @@ const Cart = () => {
         </Paper>
       </div>
     </Container> */}
+      <Helmet>
+        <title>Spont Store | Cart </title>{" "}
+      </Helmet>
       <section
         className="
         after-head
@@ -396,7 +401,7 @@ const Cart = () => {
           key={vertical + horizontal}
         >
           <Alert severity="error" onClose={handleClose}>
-            Sorry! Due to climatic reasons Currently we are not accepting
+            Sorry! Due to climate reasons, Currently we are not accepting
             orders.
           </Alert>
         </Snackbar>

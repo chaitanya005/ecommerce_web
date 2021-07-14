@@ -98,7 +98,8 @@ const CheckoutPage = () => {
   let orderId;
 
   const handlePlaceOrder = () => {
-    if (!uId) {
+    setState({ ...state, open: true });
+    /* if (!uId) {
       setState({ ...state, open: true });
     } else {
       if (
@@ -158,7 +159,7 @@ const CheckoutPage = () => {
           console.log("Error in placing order", error);
         }
       }
-    }
+    } */
   };
 
   const handleNotion = () => {
@@ -469,7 +470,7 @@ const CheckoutPage = () => {
         key={vertical + horizontal}
       >
         <Alert severity="error" onClose={handleClose}>
-          Please Login!
+          Sorry! Due to climate reasons, Currently we are not accepting orders.
         </Alert>
       </Snackbar>
     </React.Fragment>
