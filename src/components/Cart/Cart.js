@@ -392,11 +392,12 @@ const Cart = () => {
           anchorOrigin={{ vertical, horizontal }}
           open={open}
           onClose={handleClose}
-          message="Please  Login"
+          message=""
           key={vertical + horizontal}
         >
           <Alert severity="error" onClose={handleClose}>
-            Please Login!
+            Sorry! Due to climatic reasons Currently we are not accepting
+            orders.
           </Alert>
         </Snackbar>
       </section>

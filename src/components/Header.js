@@ -651,7 +651,7 @@ const Header = () => {
             </a>
           </CartIcon>
           {!userName ? (
-            <Login onClick={handleAuth}>Login</Login>
+            <div>{/* <Login></Login> */}</div>
           ) : (
             <React.Fragment>
               <SignOut>
