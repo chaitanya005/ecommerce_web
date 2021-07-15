@@ -147,12 +147,12 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    /* if (!uId) {
+    if (!uId) {
       setState({ ...state, open: true });
     } else {
       history.push("/checkout");
-    } */
-    setState({ ...state, open: true });
+    }
+    // setState({ ...state, open: true });
   };
 
   return (
@@ -422,8 +422,7 @@ const Cart = () => {
           key={vertical + horizontal}
         >
           <Alert severity="error" onClose={handleClose}>
-            Sorry! Due to climate reasons, Currently we are not accepting
-            orders.
+            Please Login!
           </Alert>
         </Snackbar>
       </section>
