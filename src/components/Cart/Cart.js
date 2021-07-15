@@ -140,19 +140,45 @@ const Cart = () => {
     horizontal: "center",
   });
 
+  const storedVeggie = useSelector(storedVeggies);
+
+  const [showLoginBtn, setShowLoginBtn] = useState(false);
+
   const { vertical, horizontal, open } = state;
 
   const handleClose = () => {
     setState({ ...state, open: false });
   };
 
+  let flag = 0;
   const handleCheckout = () => {
-    if (!uId) {
+    setState({ ...state, open: true });
+    /* if (!uId) {
       setState({ ...state, open: true });
+      window.scrollTo(0, 0);
     } else {
-      history.push("/checkout");
-    }
-    // setState({ ...state, open: true });
+      // window.location.reload();
+
+      if (flag === 0) {
+        for (let veggie of storedVeggie.storeVeggies) {
+          for (let cartItems of cartStore) {
+            if (cartItems.name === veggie.name) {
+              if (
+                cartItems.price !== veggie.price ||
+                cartItems.in_stock !== veggie.in_stock
+              ) {
+                window.location.reload();
+                flag = 1;
+              }
+            }
+          }
+        }
+        if (flag === 0) {
+          history.push("/checkout");
+          window.scrollTo(0, 0);
+        }
+      }
+    } */
   };
 
   return (
@@ -406,6 +432,7 @@ const Cart = () => {
                       </span>
                     </li>
                   </ul>
+
                   <div className="w-100 btn btn-theme" onClick={handleCheckout}>
                     proceed to checkout
                   </div>
@@ -421,8 +448,11 @@ const Cart = () => {
           message=""
           key={vertical + horizontal}
         >
-          <Alert severity="error" onClose={handleClose}>
+          {/* <Alert severity="error" onClose={handleClose}>
             Please Login!
+          </Alert> */}
+          <Alert severity="error" onClose={handleClose}>
+            Sorry! Today, We are not accepting orders anymore
           </Alert>
         </Snackbar>
       </section>

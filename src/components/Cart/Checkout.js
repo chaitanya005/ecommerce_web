@@ -98,10 +98,11 @@ const CheckoutPage = () => {
   let orderId;
 
   const handlePlaceOrder = () => {
-    // setState({ ...state, open: true });
-    if (!uId) {
+    setState({ ...state, open: true });
+    /* if (!uId) {
       setState({ ...state, open: true });
     } else {
+      console.log(cartItems);
       if (
         values.name === "" ||
         values.address === "" ||
@@ -114,6 +115,8 @@ const CheckoutPage = () => {
         alert("Please fill all the fields");
       } else if (values.phone.length < 10) {
         alert("Please Enter Valid Phone Number");
+      } else if (!values.email.includes("@")) {
+        alert("Please Enter Valid Email Id");
       } else {
         orderId =
           userDetails.email.substring(0, 3) +
@@ -159,7 +162,7 @@ const CheckoutPage = () => {
           console.log("Error in placing order", error);
         }
       }
-    }
+    } */
   };
 
   const handleNotion = () => {
@@ -469,8 +472,11 @@ const CheckoutPage = () => {
         message="Please  Login"
         key={vertical + horizontal}
       >
-        <Alert severity="error" onClose={handleClose}>
+        {/* <Alert severity="error" onClose={handleClose}>
           Please Login!
+        </Alert> */}
+        <Alert severity="error" onClose={handleClose}>
+          Sorry! Today, We are not accepting orders anymore
         </Alert>
       </Snackbar>
     </React.Fragment>
