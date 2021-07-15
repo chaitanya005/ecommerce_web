@@ -448,8 +448,11 @@ const CartItems = ({ cartItem }) => {
     // console.log(storedVeggie.storeVeggies);
     for (let veggie of storedVeggie.storeVeggies) {
       if (cartItem.name === veggie.name) {
-        if (cartItem.price !== veggie.price) {
-          console.log(veggie);
+        console.log(veggie);
+        if (
+          cartItem.price !== veggie.price ||
+          cartItem.in_stock !== veggie.in_stock
+        ) {
           // console.log(veggie.price, cartItem.price);
           setUpdatePrice(veggie);
           handleRemoveItem(cartItem);
