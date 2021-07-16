@@ -524,6 +524,7 @@ const CartItems = ({ cartItem }) => {
   };
 
   const handleDecrement = () => {
+    setHalfKilo(false);
     if (count > 1) {
       setCounter(count - 1);
       setUpdatePrice((prev) => prev - cartItem.price);
@@ -541,7 +542,9 @@ const CartItems = ({ cartItem }) => {
         setUpdatePrice(p);
       }
     } else {
+      console.log("slkdnfkldsf");
       setHalfKilo(true);
+      // setPavKilo(false);
       setState({ ...state, open: true });
     }
     // console.log(halfKilo);
@@ -562,10 +565,13 @@ const CartItems = ({ cartItem }) => {
         setUpdatePrice(p);
       }
     } else {
+      // setHalfKilo(false);
       setHalfKilo(true);
       setState({ ...state, open: true });
     }
   };
+
+  // console.log(pavKilo, halfKilo);
 
   useEffect(() => {
     if (cartItem.qty >= 0.25) {
