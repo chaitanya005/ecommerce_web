@@ -152,8 +152,8 @@ const Cart = () => {
 
   let flag = 0;
   const handleCheckout = () => {
-    setState({ ...state, open: true });
-    /* if (!uId) {
+    // setState({ ...state, open: true });
+    if (!uId) {
       setState({ ...state, open: true });
       window.scrollTo(0, 0);
     } else {
@@ -178,7 +178,7 @@ const Cart = () => {
           window.scrollTo(0, 0);
         }
       }
-    } */
+    }
   };
 
   return (
@@ -448,12 +448,12 @@ const Cart = () => {
           message=""
           key={vertical + horizontal}
         >
-          {/* <Alert severity="error" onClose={handleClose}>
-            Please Login!
-          </Alert> */}
           <Alert severity="error" onClose={handleClose}>
-            Sorry! Today, We are not accepting orders anymore
+            Please Login!
           </Alert>
+          {/* <Alert severity="error" onClose={handleClose}>
+            Sorry! Today, We are not accepting orders anymore
+          </Alert> */}
         </Snackbar>
       </section>
     </React.Fragment>
@@ -473,12 +473,26 @@ const CartItems = ({ cartItem }) => {
   const [count, setCounter] = useState(1);
   const [updatePrice, setUpdatePrice] = useState(cartItem.price);
   const dispatch = useDispatch();
+  const [halfKilo, setHalfKilo] = useState(false);
+  const [pavKilo, setPavKilo] = useState(false);
+
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
 
   useEffect(() => {
     // console.log(storedVeggie.storeVeggies);
     for (let veggie of storedVeggie.storeVeggies) {
       if (cartItem.name === veggie.name) {
-        console.log(veggie);
+        // console.log(veggie);
         if (
           cartItem.price !== veggie.price ||
           cartItem.in_stock !== veggie.in_stock
@@ -515,14 +529,22 @@ const CartItems = ({ cartItem }) => {
       setUpdatePrice((prev) => prev - cartItem.price);
     }
 
-    if (cartItem.name !== "Bottle Gourd" && cartItem.name !== "Drum Sticks") {
+    if (
+      cartItem.name !== "Bottle Gourd" &&
+      cartItem.name !== "Drum Sticks" &&
+      cartItem.name !== "Cabbage"
+    ) {
       // console.log(cartItem.name);
       if (count === 1) {
         setCounter(count - 0.5);
         let p = Math.ceil(cartItem.price / 2);
         setUpdatePrice(p);
       }
+    } else {
+      setHalfKilo(true);
+      setState({ ...state, open: true });
     }
+    // console.log(halfKilo);
 
     if (
       cartItem.name === "Green Chilli" ||
@@ -539,6 +561,9 @@ const CartItems = ({ cartItem }) => {
         let p = Math.ceil(cartItem.price / 4);
         setUpdatePrice(p);
       }
+    } else {
+      setHalfKilo(true);
+      setState({ ...state, open: true });
     }
   };
 
@@ -692,6 +717,25 @@ const CartItems = ({ cartItem }) => {
         </div>
       </div>
     </Paper> */}
+
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        message=""
+        key={vertical + horizontal}
+      >
+        {halfKilo ? (
+          <Alert severity="info" onClose={handleClose}>
+            250gms and 500gms are applied to only selected Items.
+          </Alert>
+        ) : (
+          ""
+        )}
+        {/* <Alert severity="error" onClose={handleClose}>
+            Sorry! Today, We are not accepting orders anymore
+          </Alert> */}
+      </Snackbar>
     </>
   );
 };

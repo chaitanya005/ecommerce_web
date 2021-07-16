@@ -67,6 +67,7 @@ const VeggieSection = () => {
     <Container>
       <TwoColumn>
         <ImageColumn>
+      <a href = "/veggies/shop">
           <Image
             style={{ maxWidth: "100%" }}
             css={Object.assign(tw`bg-cover`, imageCss)}
@@ -81,11 +82,12 @@ const VeggieSection = () => {
           {/* imageDecoratorBlob && (
               <DecoratorBlob css={imageDecoratorBlobCss} />
             ) */}
+        </a>
         </ImageColumn>
         <TextColumn textOnLeft={true}>
           <TextContent>
             <Subheading></Subheading>
-            <Heading style={{ color: "rgba(36,62,99)" }}>{heading}</Heading>
+            <a href= "/veggies/shop"><Heading style={{ color: "rgba(36,62,99)" }}>{heading}</Heading></a>
             <Description style={{ color: "rgba(124,139,161)" }}>
               {description}
             </Description>

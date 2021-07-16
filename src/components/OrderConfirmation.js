@@ -34,6 +34,15 @@ const OrderConfirmation = () => {
       </section>
 
       <div className="col">
+        <img
+          src="/images/ss_logo.png"
+          alt=""
+          style={{
+            width: "50%",
+            margin: "auto",
+            display: "block",
+          }}
+        />
         <h2
           className="mb-2 entity-title"
           style={{ textTransform: "capitalize", textAlign: "center" }}
