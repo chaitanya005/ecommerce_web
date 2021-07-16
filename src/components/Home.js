@@ -1,16 +1,18 @@
 import styled from "styled-components";
-import ImgSlider from "./ImgSlider";
+// import ImgSlider from "./ImgSlider";
 import Arrived from "./Arrived";
 import Deals from "./Deals";
 import Trending from "./Trending";
 // import Trending from './Trending'
 
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 // import { useDispatch, useSelector } from 'react-redux'
 import db from "../firebase";
 import Men_shirts from "./Men/Men_shirts";
 import VeggieSection from "./VeggieSection";
 import FoodDeliverySection from "./FoodDeliverySection";
+
+const ImgSlider = lazy(() => import("./ImgSlider"));
 /* import { setMovies } from '../features/movie/movieSlice'
 import { getUserName } from '../features/user/userSlice' */
 
@@ -21,48 +23,14 @@ const Home = () => {
   let original = [];
   let newDisneys = [];
 
-  /* useEffect(() => {
-        db.collection('movies').onSnapshot((snapshot) => {
-            snapshot.docs.map((doc) => {
-                switch(doc.data().type) {
-                    case 'recommend':
-                        // console.log(recommends)
-                        // recommends.push({id: doc.id, ...doc.data()})
-                        recommends = [...recommends, {id: doc.id, ...doc.data()}]
-                        break;
-                    case 'new':
-                        // newDisneys.push({id: doc.id, ...doc.data()})
-                        newDisneys = [...newDisneys, {id: doc.id, ...doc.data()}]
-                        break;
-                    case 'original':
-                        // original.push({id: doc.id, ...doc.data()})
-                        original = [...original, {id: doc.id, ...doc.data()}]
-                        break;
-                    default:
-                        
-                }
-            })
-            dispatch(setMovies({
-                recommend: recommends,
-                newDisney: newDisneys,
-                orignals: original
-            }))
-        }) 
-
-    
-
-    }, [userName]) */
-
   return (
     <Container>
-      <ImgSlider />
-      {/* <Viewers />  */}
-      <VeggieSection />
-      {/* <FoodDeliverySection /> */}
-      <br />
-      {/* <Arrived />
-      <Deals />
-      <Trending /> */}
+      <Suspense fallback={<div style={{ color: "#000" }}>Loading....</div>}>
+        <ImgSlider />
+        <VeggieSection />
+        {/* <FoodDeliverySection /> */}
+        <br />
+      </Suspense>
     </Container>
   );
 };

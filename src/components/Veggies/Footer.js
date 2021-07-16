@@ -9,7 +9,7 @@ const Footer = () => {
           <nav className="footer-navbar">
             <div className="grid row">
               <div className="col-md-6 col-lg-3">
-                <a className="navbar-brand" href="homepage-1.html">
+                <a className="navbar-brand" href="/">
                   <span className="logo-element-line">
                     <span className="logo-icon">
                       <span
@@ -101,7 +101,7 @@ const Footer = () => {
                 <p className="footer-text-info">
                   <i className="fab fa-whatsapp"></i> +91 8790462050 <br />
                   <i className="fa fa-phone-alt"></i> +91 9030462050 <br />
-                  <a href="mailto:shopandship.sas@gmail.com">
+                  <a href="mailto:updates@spontstore.com">
                     <i className="fa fa-mail-bulk"></i>
                     {"  "}
                     updates@spontstore.com

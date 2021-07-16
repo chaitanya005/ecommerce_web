@@ -220,7 +220,7 @@ const Header = () => {
         <div style={{ display: "flex" }}>
           <Logo href="/">
             <img
-              src="/images/ss_logo_black.png"
+              src="/images/svg/logo.svg"
               alt="shopandship"
               style={{ width: "150px", marginTop: "11%", marginLeft: "-15%" }}
             />

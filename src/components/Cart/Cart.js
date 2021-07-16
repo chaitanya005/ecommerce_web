@@ -152,8 +152,8 @@ const Cart = () => {
 
   let flag = 0;
   const handleCheckout = () => {
-    // setState({ ...state, open: true });
-    if (!uId) {
+    setState({ ...state, open: true });
+    /* if (!uId) {
       setState({ ...state, open: true });
       window.scrollTo(0, 0);
     } else {
@@ -178,7 +178,7 @@ const Cart = () => {
           window.scrollTo(0, 0);
         }
       }
-    }
+    } */
   };
 
   return (
@@ -448,12 +448,12 @@ const Cart = () => {
           message=""
           key={vertical + horizontal}
         >
-          <Alert severity="error" onClose={handleClose}>
-            Please Login!
-          </Alert>
           {/* <Alert severity="error" onClose={handleClose}>
-            Sorry! Today, We are not accepting orders anymore
+            Please Login!
           </Alert> */}
+          <Alert severity="error" onClose={handleClose}>
+            Sorry! Today, We are not accepting orders anymore
+          </Alert>
         </Snackbar>
       </section>
     </React.Fragment>
@@ -731,13 +731,13 @@ const CartItems = ({ cartItem }) => {
         message=""
         key={vertical + horizontal}
       >
-        {halfKilo ? (
+        {/* halfKilo ? (
           <Alert severity="info" onClose={handleClose}>
             250gms and 500gms are applied to only selected Items.
           </Alert>
         ) : (
           ""
-        )}
+        ) */}
         {/* <Alert severity="error" onClose={handleClose}>
             Sorry! Today, We are not accepting orders anymore
           </Alert> */}
