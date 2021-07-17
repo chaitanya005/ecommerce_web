@@ -16,13 +16,14 @@ const ImgSlider = () => {
   };
 
   return (
-    <Carousel {...settings}>
+    <React.Fragment>
       <Wrap>
         <a href="/veggies/shop" className={styles.myBtnClass}>
           <img src="/images/vegie_5.jpg" alt="" />
           <h4 className={styles.btnOver}>Veggies </h4>
         </a>
       </Wrap>
+      {/* <Carousel {...settings}></Carousel> */}
       {/* <Wrap>
         <a href="#" className={styles.myBtnClass}>
           <img src="/images/food.jpg" alt="" />
@@ -43,7 +44,7 @@ const ImgSlider = () => {
           <h4 className={styles.btnOver}>Kid's wear Coming Soon</h4>
         </a>
       </Wrap> */}
-    </Carousel>
+    </React.Fragment>
   );
 };
 
