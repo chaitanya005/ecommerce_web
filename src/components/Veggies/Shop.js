@@ -272,9 +272,7 @@ const Shop = () => {
                                     {veggie.name} / {veggie.tel_name}
                                   </a>
                                 </h4>
-                                <p className="entity-text">
-                                  {/* veggie.desc */}
-                                </p>
+                                <p className="entity-text">{veggie.desc}</p>
                                 <div className="entity-bottom-line">
                                   <div className="entity-price">
                                     <span className="currency">
@@ -285,10 +283,7 @@ const Shop = () => {
                                     veggie.name !== "Drum Sticks" ? (
                                       <span className="price-unit"> / kg</span>
                                     ) : (
-                                      <span className="price-unit">
-                                        {" "}
-                                        / piece
-                                      </span>
+                                      <span className="price-unit"> / kg</span>
                                     )}
                                     <span className="entity-price-old">
                                       Rs. {veggie.actual_price}
@@ -395,9 +390,7 @@ const Shop = () => {
                                     {veggie.name} / {veggie.tel_name}
                                   </a>
                                 </h4>
-                                <p className="entity-text">
-                                  {/* veggie.desc */}
-                                </p>
+                                <p className="entity-text">{veggie.desc}</p>
                                 <div className="entity-bottom-line">
                                   <div className="entity-price">
                                     <span className="currency">
@@ -408,10 +401,7 @@ const Shop = () => {
                                     veggie.name !== "Drum Sticks" ? (
                                       <span className="price-unit"> / kg</span>
                                     ) : (
-                                      <span className="price-unit">
-                                        {" "}
-                                        / piece
-                                      </span>
+                                      <span className="price-unit"> / kg</span>
                                     )}
                                     <span className="entity-price-old">
                                       Rs. {veggie.actual_price}

@@ -152,8 +152,8 @@ const Cart = () => {
 
   let flag = 0;
   const handleCheckout = () => {
-    setState({ ...state, open: true });
-    /* if (!uId) {
+    // setState({ ...state, open: true });
+    if (!uId) {
       setState({ ...state, open: true });
       window.scrollTo(0, 0);
     } else {
@@ -178,7 +178,7 @@ const Cart = () => {
           window.scrollTo(0, 0);
         }
       }
-    }  */
+    }
   };
 
   return (
@@ -448,12 +448,12 @@ const Cart = () => {
           message=""
           key={vertical + horizontal}
         >
-          {/*  <Alert severity="error" onClose={handleClose}>
-            Please Login!
-          </Alert>  */}
           <Alert severity="error" onClose={handleClose}>
-            Sorry! Today, We are not accepting orders anymore
+            Please Login!
           </Alert>
+          {/*  <Alert severity="error" onClose={handleClose}>
+            Sorry! Today, We are not accepting orders anymore
+          </Alert> */}
         </Snackbar>
       </section>
     </React.Fragment>
@@ -643,7 +643,9 @@ const CartItems = ({ cartItem }) => {
         {cartItem.name !== "Bottle Gourd" && cartItem.name !== "Drum Sticks" ? (
           <div className="cart-item-price">Rs. {cartItem.price} /kg</div>
         ) : (
-          <div className="cart-item-price">Rs. {cartItem.price} /piece</div>
+          <div className="cart-item-price">
+            Rs. {cartItem.price} / {cartItem.piece} piece
+          </div>
         )}
 
         <div className="cart-item-quantity">
