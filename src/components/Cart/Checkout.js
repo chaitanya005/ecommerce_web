@@ -12,6 +12,9 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getUserUid, getUserName } from "../../features/user/userSlice";
 import { useDispatch } from "react-redux";
+import emailjs from "emailjs-com";
+import { init } from "emailjs-com";
+init("user_sJSKzvb1LdoFGWAuBrrb0");
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -98,8 +101,8 @@ const CheckoutPage = () => {
   let orderId;
 
   const handlePlaceOrder = () => {
-    setState({ ...state, open: true });
-    /* if (!uId) {
+    // setState({ ...state, open: true });
+    if (!uId) {
       setState({ ...state, open: true });
     } else {
       console.log(cartItems);
@@ -161,12 +164,10 @@ const CheckoutPage = () => {
           console.log("Error in placing order", error);
         }
       }
-    } */
+    }
   };
 
   const handleNotion = () => {
-    // console.log(cartItems, values);
-
     let items = "",
       i = 1;
 
@@ -175,7 +176,6 @@ const CheckoutPage = () => {
       i++;
     }
 
-    // console.log(items);
     let total = yourBill + 20;
 
     axios
@@ -189,8 +189,7 @@ const CheckoutPage = () => {
       .then((res) => {
         console.log(res);
         dispatch(removeCart());
-        setLoading(false);
-        history.push("/order/confirm");
+        handleSendEmail();
       })
       .catch((err) => {
         console.log(err);
@@ -198,7 +197,24 @@ const CheckoutPage = () => {
         history.push("/order/failure");
       });
   };
-  // console.log(values);
+
+  const handleSendEmail = () => {
+    var d = new Date(Date.now());
+    emailjs
+      .send("service_g90sg6l", "template_tp1lc76", {
+        from_name: values.name,
+        to_name: "Spont Store",
+        number: values.phone,
+        date: `${d.getDate()}/${d.getMonth()} ${d.getHours()}:${d.getMinutes()}`,
+        total_qty: cartItems.length,
+        total_price: yourBill + 20,
+      })
+      .then((res) => {
+        console.log("success", res);
+        setLoading(false);
+        history.push("/order/confirm");
+      });
+  };
 
   return (
     <React.Fragment>

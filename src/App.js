@@ -23,6 +23,11 @@ import LandingPage from "./components/FoodDelivery/LandingPage";
 import Restaurants from "./components/FoodDelivery/Restaurants";
 import HomePageTwo from "./components/FoodDelivery/HomePage";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import AboutUs from "./components/AboutUs";
+import ReturnRefund from "./components/Return_Refund";
+import Privacy from "./components/Privacy";
+import Cancellation from "./components/Cancellation";
+import TC from "./components/T_C";
 
 // import './App.css'
 
@@ -83,6 +88,21 @@ function App() {
           <Route path="/hello">
             <HomePageTwo />
           </Route> */}
+          <Route path="/about-us">
+            <AboutUs />
+          </Route>
+          <Route path="/returnandrefund">
+            <ReturnRefund />
+          </Route>
+          <Route path="/privacy">
+            <Privacy />
+          </Route>
+          <Route path="/cancellation">
+            <Cancellation />
+          </Route>
+          <Route path="/termsandconditions">
+            <TC />
+          </Route>
           <Route path="*">
             <PageNotFound />
           </Route>

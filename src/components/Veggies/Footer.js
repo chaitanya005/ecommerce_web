@@ -44,31 +44,56 @@ const Footer = () => {
               </div>
               <div className="col-md-12 col-lg-6 order-md-last">
                 <div className="grid row">
-                  {/* <div className="col-md-6">
-                    <h5 className="footer-title">Pages</h5>
+                  <div className="col-md-6">
+                    <h5 className="footer-title"></h5>
                     <ul className="nav">
                       <li className="nav-item">
-                        <a className="nav-link" href="about-us.html">
-                          About
+                        <a
+                          className="nav-link"
+                          href="/about-us"
+                          style={{ color: "#fff" }}
+                        >
+                          About Us
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="shop-sidebar-right.html">
-                          Shop
+                        <a
+                          className="nav-link"
+                          href="/privacy"
+                          style={{ color: "#fff" }}
+                        >
+                          Privacy
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="blog-sidebar-right.html">
-                          Blog
+                        <a
+                          className="nav-link"
+                          href="/cancellation"
+                          style={{ color: "#fff" }}
+                        >
+                          Cancellation
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="contact-us.html">
-                          Contact
+                        <a
+                          className="nav-link"
+                          href="/returnandrefund"
+                          style={{ color: "#fff" }}
+                        >
+                          Return and Refund
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
+                          href="/termsandconditions"
+                          style={{ color: "#fff" }}
+                        >
+                          T&C
                         </a>
                       </li>
                     </ul>
-                  </div> */}
+                  </div>
                   {/* <div className="col-md-6">
                     <h5 className="footer-title">Policies</h5>
                     <ul className="nav">
