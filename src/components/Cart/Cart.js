@@ -17,6 +17,9 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { saveVeggies, storedVeggies } from "../../features/veggies";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import CloseIcon from "@material-ui/icons/Close";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -152,8 +155,8 @@ const Cart = () => {
 
   let flag = 0;
   const handleCheckout = () => {
-    // setState({ ...state, open: true });
-    if (!uId) {
+    setState({ ...state, open: true });
+    /* if (!uId) {
       setState({ ...state, open: true });
       window.scrollTo(0, 0);
     } else {
@@ -178,7 +181,7 @@ const Cart = () => {
           window.scrollTo(0, 0);
         }
       }
-    }
+    } */
   };
 
   return (
@@ -448,12 +451,12 @@ const Cart = () => {
           message=""
           key={vertical + horizontal}
         >
-          <Alert severity="error" onClose={handleClose}>
+          {/* <Alert severity="error" onClose={handleClose}>
             Please Login!
-          </Alert>
-          {/*  <Alert severity="error" onClose={handleClose}>
+          </Alert> */}
+          <Alert severity="error" onClose={handleClose}>
             Sorry! Today, We are not accepting orders anymore
-          </Alert>  */}
+          </Alert>
         </Snackbar>
       </section>
     </React.Fragment>
@@ -650,19 +653,20 @@ const CartItems = ({ cartItem }) => {
 
         <div className="cart-item-quantity">
           <div className="input-view-flat input-gray-shadow input-spin input-group">
-            <input
+            {/* <input
               className="form-control"
               min="1"
               name="text"
               type="text"
               value={count}
-            />
+            /> */}
+            <div className="form-control">{count}</div>
             <span className="input-actions">
               <span className="input-decrement" onClick={handleDecrement}>
-                <i className="fas fa-minus"></i>
+                <RemoveIcon />
               </span>
               <span className="input-increment" onClick={handleIncrement}>
-                <i className="fas fa-plus"></i>
+                <AddIcon />
               </span>
             </span>
           </div>
@@ -676,7 +680,8 @@ const CartItems = ({ cartItem }) => {
           onClick={() => handleRemoveItem(cartItem)}
         >
           <span className="cart-item-remove-text">remove from cart</span>
-          <i className="fas fa-times"></i>
+          {/* <i className="fas fa-times"></i> */}
+          <CloseIcon />
         </div>
       </div>
 
@@ -740,9 +745,6 @@ const CartItems = ({ cartItem }) => {
         ) : (
           ""
         ) */}
-        {/* <Alert severity="error" onClose={handleClose}>
-            Sorry! Today, We are not accepting orders anymore
-          </Alert> */}
       </Snackbar>
     </>
   );

@@ -10,6 +10,7 @@ import InputBase from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { Helmet } from "react-helmet";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -230,7 +231,10 @@ const Shop = () => {
                                 <span className="with-back entity-preview-content">
                                   <span className="overflow-back bg-body-back opacity-70"></span>
                                   <span className="m-auto h1 text-theme text-center">
-                                    <i className="fas fa-shopping-cart"></i>
+                                    {/* <i className="fas fa-shopping-cart"></i> */}
+                                    <ShoppingCartIcon
+                                      style={{ fontSize: "80px" }}
+                                    />
                                   </span>
                                 </span>
                               </div>
