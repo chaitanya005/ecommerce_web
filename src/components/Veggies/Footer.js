@@ -68,19 +68,10 @@ const Footer = () => {
                       <li className="nav-item">
                         <a
                           className="nav-link"
-                          href="/cancellation"
-                          style={{ color: "#fff" }}
-                        >
-                          Cancellation
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a
-                          className="nav-link"
                           href="/returnandrefund"
                           style={{ color: "#fff" }}
                         >
-                          Return and Refund
+                          Return, Refund and Cancellation
                         </a>
                       </li>
                       <li className="nav-item">

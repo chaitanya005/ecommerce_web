@@ -83,10 +83,10 @@ function App() {
             <LandingPage />
           </Route>
           */}
-          <Route path="/restaurants">
+          <Route path="/resto">
             <Restaurants />
           </Route>
-         {/*  <Route path="/hello">
+          {/*  <Route path="/hello">
             <HomePageTwo />
           </Route>  */}
           <Route path="/about-us">

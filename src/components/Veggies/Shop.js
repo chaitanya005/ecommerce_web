@@ -142,12 +142,8 @@ const Shop = () => {
         (veggie) =>
           veggie.name &&
           veggie.tel_key &&
-          (veggie.name.toUpperCase().includes(e.target.value) ||
-            veggie.name.toLowerCase().includes(e.target.value) ||
-            veggie.name.includes(e.target.value) ||
-            veggie.tel_key.includes(e.target.value) ||
-            veggie.tel_key.toUpperCase().includes(e.target.value) ||
-            veggie.tel_key.toLowerCase().includes(e.target.value))
+          (veggie.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            veggie.tel_key.toLowerCase().includes(e.target.value.toLowerCase()))
       );
       setSearchedItems(items);
     }
