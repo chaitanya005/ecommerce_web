@@ -274,14 +274,14 @@ const Restaurants = () => {
                     <div className="list-card-body">
                       <h6 className="mb-1">
                         <a href="detail.html" className={styles.title}>
-                          World Famous
+                          Dwaat
                         </a>
                       </h6>
                       <p
                         className="text-gray mb-3"
                         style={{ color: "#747d88" }}
                       >
-                        North Indian • American • Pure veg
+                        North Indian • South Indian
                       </p>
                       <p className="text-gray mb-3 time">
                         <span
@@ -301,7 +301,7 @@ const Restaurants = () => {
                           className="float-right "
                           style={{ color: "#fff" }}
                         >
-                          $250 FOR TWO
+                          Rs. 250 FOR TWO
                         </span>
                       </p>
                     </div>
@@ -312,17 +312,17 @@ const Restaurants = () => {
                   </div>
                 </div>
               </div>
+
               <div className="col-md-4 col-sm-6 mb-4 pb-2">
                 <div
                   className="
                     list-card
                     bg-white
-                    h-100
                     rounded
                     overflow-hidden
                     position-relative
                     shadow-sm
-                "
+                    "
                 >
                   <div className="list-card-image">
                     <div
@@ -338,7 +338,7 @@ const Restaurants = () => {
                         {/*                   <i className="icofont-heart"></i> */}
                       </a>
                     </div>
-                    {/* <div
+                    {/*  <div
                       className="member-plan position-absolute"
                       style={{ left: "8px", top: "8px" }}
                     >
@@ -359,14 +359,14 @@ const Restaurants = () => {
                     <div className="list-card-body">
                       <h6 className="mb-1">
                         <a href="detail.html" className={styles.title}>
-                          World Famous
+                          Orange
                         </a>
                       </h6>
                       <p
                         className="text-gray mb-3"
                         style={{ color: "#747d88" }}
                       >
-                        North Indian • American • Pure veg
+                        North Indian • South Indian • Veg
                       </p>
                       <p className="text-gray mb-3 time">
                         <span
@@ -378,15 +378,15 @@ const Restaurants = () => {
                             pb-1
                             pt-1
                             pr-2
-                            "
+                        "
                         >
                           <i className="icofont-wall-clock"></i> 20–25 min
                         </span>
                         <span
                           className="float-right "
-                          style={{ color: "#fff" }}
+                          style={{ color: "#fff " }}
                         >
-                          $250 FOR TWO
+                          Rs. 250 FOR TWO
                         </span>
                       </p>
                     </div>
@@ -445,14 +445,14 @@ const Restaurants = () => {
                     <div className="list-card-body">
                       <h6 className="mb-1">
                         <a href="detail.html" className={styles.title}>
-                          World Famous
+                          Ice berg
                         </a>
                       </h6>
                       <p
                         className="text-gray mb-3"
                         style={{ color: "#747d88" }}
                       >
-                        North Indian • American • Pure veg
+                        North Indian • South Indian • Veg
                       </p>
                       <p className="text-gray mb-3 time">
                         <span
@@ -472,7 +472,7 @@ const Restaurants = () => {
                           className="float-right "
                           style={{ color: "#fff " }}
                         >
-                          $250 FOR TWO
+                          Rs. 250 FOR TWO
                         </span>
                       </p>
                     </div>

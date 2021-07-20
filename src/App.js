@@ -82,12 +82,13 @@ function App() {
           {/* <Route path="/food-delivery">
             <LandingPage />
           </Route>
-          <Route path="/food/restaurants">
+          */}
+          <Route path="/restaurants">
             <Restaurants />
           </Route>
-          <Route path="/hello">
+         {/*  <Route path="/hello">
             <HomePageTwo />
-          </Route> */}
+          </Route>  */}
           <Route path="/about-us">
             <AboutUs />
           </Route>
