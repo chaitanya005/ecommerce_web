@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   storeVeggies: [],
+  inStock: [],
 };
 
 const veggies = createSlice({
@@ -11,10 +12,14 @@ const veggies = createSlice({
     saveVeggies: (state, action) => {
       state.storeVeggies = action.payload.allVeggies;
     },
+
+    inStock: (state, action) => {
+      state.inStock = action.payload.inStockVeggies;
+    },
   },
 });
 
-export const { saveVeggies } = veggies.actions;
+export const { saveVeggies, inStock } = veggies.actions;
 
 export const storedVeggies = (state) => state.veggie;
 

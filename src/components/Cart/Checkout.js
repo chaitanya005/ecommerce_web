@@ -102,7 +102,7 @@ const CheckoutPage = () => {
 
   const handlePlaceOrder = () => {
     setState({ ...state, open: true });
-    /* if (!uId) {
+    if (!uId) {
       setState({ ...state, open: true });
     } else {
       console.log(cartItems);
@@ -164,7 +164,7 @@ const CheckoutPage = () => {
           console.log("Error in placing order", error);
         }
       }
-    } */
+    }
   };
 
   const handleNotion = () => {

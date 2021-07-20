@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveVeggies, storedVeggies } from "../../features/veggies";
+import { saveVeggies, storedVeggies, inStock } from "../../features/veggies";
 import db from "../../firebase";
 import { addToCart, storeCart } from "../../features/cart/cart";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -40,7 +40,7 @@ const Shop = () => {
   const [isCartItem, setIsCartItem] = useState(false);
 
   const [searchedItems, setSearchedItems] = useState([]);
-
+  const [inStockVeggies, setInStockVeggies] = useState([]);
   let allVeggies = [];
 
   useEffect(() => {
@@ -118,8 +118,6 @@ const Shop = () => {
       }, 1000);
     }
   };
-
-  const [inStockVeggies, setInStockVeggies] = useState([]);
 
   useEffect(() => {
     for (let veggie of storedVeggie.storeVeggies) {
