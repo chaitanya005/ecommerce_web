@@ -101,7 +101,7 @@ const CheckoutPage = () => {
   let orderId;
 
   const handlePlaceOrder = () => {
-    setState({ ...state, open: true });
+    // setState({ ...state, open: true });
     if (!uId) {
       setState({ ...state, open: true });
     } else {
@@ -237,7 +237,7 @@ const CheckoutPage = () => {
         <div className="content-offs-stick my-5 container">
           <div className="section-solid">
             <div className="z-index-4 position-relative">
-              <h1 className="section-title">Shop Checkout</h1>
+              <h1 className="section-title">Billing</h1>
               <div className="mt-3">
                 <div className="page-breadcrumbs">
                   <a className="content-link" href="/veggies">
