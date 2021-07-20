@@ -28,6 +28,7 @@ import ReturnRefund from "./components/Return_Refund";
 import Privacy from "./components/Privacy";
 import Cancellation from "./components/Cancellation";
 import TC from "./components/T_C";
+import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 
 // import './App.css'
 
@@ -86,9 +87,9 @@ function App() {
           <Route path="/resto">
             <Restaurants />
           </Route>
-          {/*  <Route path="/hello">
+          <Route path="/hello">
             <HomePageTwo />
-          </Route>  */}
+          </Route>
           <Route path="/about-us">
             <AboutUs />
           </Route>
@@ -112,13 +113,14 @@ function App() {
         <a href="/cart" className="cart_float">
           <ShoppingCartIcon />
         </a>
+
         <a
           href="https://api.whatsapp.com/send?phone=918790462050&text=Hello!"
           className="whatsapp_float"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <i className="fab fa-whatsapp"></i>
+          <WhatsAppIcon />
         </a>
       </Router>
     </div>

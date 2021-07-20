@@ -44,15 +44,10 @@ const HomePageTwo = () => {
   }
 
   const handleClick = async () => {
-    /* axios
-      .get("http://localhost:8000/payments")
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err)); */
-
     var amount = "1.00";
     var phone_number = "+919898989898";
     var email = "kittu@gmail.com";
-    var orderId = "ORDERID_13546684";
+    var orderId = "ORDERID_765184";
     let params = {
       orderId: orderId,
       email: email,

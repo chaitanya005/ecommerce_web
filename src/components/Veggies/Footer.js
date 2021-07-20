@@ -1,4 +1,7 @@
 import React from "react";
+import WhatsAppIcon from "@material-ui/icons/WhatsApp";
+import PhoneIcon from "@material-ui/icons/Phone";
+import MailIcon from "@material-ui/icons/Mail";
 
 const Footer = () => {
   return (
@@ -115,10 +118,10 @@ const Footer = () => {
               <div className="col-md-6 col-lg-3 order-lg-last">
                 <h5 className="footer-title">Contact Us</h5>
                 <p className="footer-text-info">
-                  <i className="fab fa-whatsapp"></i> +91 8790462050 <br />
-                  <i className="fa fa-phone-alt"></i> +91 9030462050 <br />
+                  <WhatsAppIcon fontSize="small" /> +91 8790462050 <br />
+                  <PhoneIcon fontSize="small" /> +91 9030462050 <br />
                   <a href="mailto:updates@spontstore.com">
-                    <i className="fa fa-mail-bulk"></i>
+                    <MailIcon fontSize="small" />
                     {"  "}
                     updates@spontstore.com
                   </a>
