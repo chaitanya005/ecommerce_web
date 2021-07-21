@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./components/Login";
-// import Header from "./components/Header";
+import Header from "./components/Header";
 import Home from "./components/Home";
 import MenShirts from "./components/Men/Men_shirts";
 import ProductPage from "./components/Men/Product_page";
@@ -9,7 +9,7 @@ import Cart from "./components/Cart/Cart";
 import Notion from "./notion";
 import HomePage from "./components/Veggies/Homepage";
 import VeggiesLandingPage from "./components/Veggies/VeggiesLandingPage";
-// import Footer from "./components/Veggies/Footer";
+import Footer from "./components/Veggies/Footer";
 import Shop from "./components/Veggies/Shop";
 import VeggieProduct from "./components/Veggies/ProductPage";
 import CheckoutPage from "./components/Cart/Checkout";
@@ -34,8 +34,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 // import './App.css'
 
-const Header = lazy(() => import("./components/Header"));
-const Footer = lazy(() => import("./components/Veggies/Footer"));
+// const Header = lazy(() => import("./components/Header"));
+// const Footer = lazy(() => import("./components/Veggies/Footer"));
 
 function App() {
   /* const [isTokenFound, setTokenFound] = useState(false);
@@ -43,111 +43,95 @@ function App() {
 
   return (
     <div className="App">
-      <Suspense
-        fallback={
-          <div
-            style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              width: "50%",
-              display: "block",
-            }}
-          >
-            <CircularProgress />
-            <p>Please Wait...</p>
-          </div>
-        }
-      >
-        <Router>
-          <Header />
-          <Switch>
-            {/* <Route exact path="/">
+      <Router>
+        <Header />
+        <Switch>
+          {/* <Route exact path="/">
             <Login />
           </Route> */}
-            <Route exact path="/">
-              <Home />
-            </Route>
-            {/* <Route path="/men-shirts">
+          <Route exact path="/">
+            <Home />
+          </Route>
+          {/* <Route path="/men-shirts">
             <MenShirts />
           </Route>
           <Route path="/product-detail">
             <ProductPage />
           </Route> */}
-            <Route path="/cart">
-              <Cart />
-            </Route>
-            {/* <Route path="/notion">
+          <Route path="/cart">
+            <Cart />
+          </Route>
+          {/* <Route path="/notion">
             <Notion />
           </Route> */}
-            <Route exact path="/veggies">
-              <VeggiesLandingPage />
-            </Route>
-            <Route exact path="/veggies/shop">
-              <Shop />
-            </Route>
-            {/* <Route exact path="/veggies/shop/product">
+          <Route exact path="/veggies">
+            <VeggiesLandingPage />
+          </Route>
+          <Route exact path="/veggies/shop">
+            <Shop />
+          </Route>
+          {/* <Route exact path="/veggies/shop/product">
             <VeggieProduct />
           </Route> */}
-            <Route path="/checkout">
-              <CheckoutPage />
-            </Route>
-            <Route path="/order/confirm">
-              <OrderConfirmation />
-            </Route>
-            <Route path="/order/failure">
-              <OrderFailure />
-            </Route>
-            <Route path="/user/orders">
-              <UserOrders />
-            </Route>
-            {/* <Route path="/food-delivery">
+          <Route path="/checkout">
+            <CheckoutPage />
+          </Route>
+          <Route path="/order/confirm">
+            <OrderConfirmation />
+          </Route>
+          <Route path="/order/failure">
+            <OrderFailure />
+          </Route>
+          <Route path="/user/orders">
+            <UserOrders />
+          </Route>
+          {/* <Route path="/food-delivery">
             <LandingPage />
           </Route>
           */}
-            <Route path="/resto">
-              <Restaurants />
-            </Route>
-            <Route path="/hello">
-              <HomePageTwo />
-            </Route>
-            <Route path="/about-us">
-              <AboutUs />
-            </Route>
-            <Route path="/returnandrefund">
-              <ReturnRefund />
-            </Route>
-            <Route path="/privacy">
-              <Privacy />
-            </Route>
-            <Route path="/cancellation">
-              <Cancellation />
-            </Route>
-            <Route path="/termsandconditions">
-              <TC />
-            </Route>
-            <Route path="*">
-              <PageNotFound />
-            </Route>
-          </Switch>
-          <Footer />
-          {/* <Suspense
+          <Route path="/resto">
+            <Restaurants />
+          </Route>
+          <Route path="/hello">
+            <HomePageTwo />
+          </Route>
+          <Route path="/about-us">
+            <AboutUs />
+          </Route>
+          <Route path="/returnandrefund">
+            <ReturnRefund />
+          </Route>
+          <Route path="/privacy">
+            <Privacy />
+          </Route>
+          <Route path="/cancellation">
+            <Cancellation />
+          </Route>
+          <Route path="/termsandconditions">
+            <TC />
+          </Route>
+          <Route path="*">
+            <PageNotFound />
+          </Route>
+        </Switch>
+        <Footer />
+        {/* <Suspense
           fallback={<div style={{ color: "#000" }}>Loading Footer....</div>}
         >
         </Suspense> */}
-          <a href="/cart" className="cart_float">
-            <ShoppingCartIcon />
-          </a>
+        <a href="/cart" className="cart_float">
+          <ShoppingCartIcon />
+        </a>
 
-          <a
-            href="https://api.whatsapp.com/send?phone=918790462050&text=Hello!"
-            className="whatsapp_float"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <WhatsAppIcon />
-          </a>
-        </Router>
-      </Suspense>
+        <a
+          href="https://api.whatsapp.com/send?phone=918790462050&text=Hello!"
+          className="whatsapp_float"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <WhatsAppIcon />
+        </a>
+      </Router>
     </div>
   );
 }
