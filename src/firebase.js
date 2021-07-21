@@ -1,7 +1,7 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 import firebase from "firebase";
 import "firebase/firestore";
-import "firebase/messaging";
+// import "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDW82-SZ8kubthvZ2JSg0MdlDvISK4NFho",
@@ -22,7 +22,7 @@ const storage = firebase.storage();
 
 export const firestore = firebase.firestore();
 
-const messaging = firebase.messaging();
+//const messaging = firebase.messaging();
 
 export const createUserDocument = async (user) => {
   if (!user) return;

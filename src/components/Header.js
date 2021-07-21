@@ -376,7 +376,13 @@ const Header = () => {
             </AccordionDetails>
           </Accordion> */}
 
-          <Accordion>
+          <ListItem>
+            <a href="/veggies/shop">
+              <ListItemText primary="Veggies Shop" />
+            </a>
+          </ListItem>
+
+          {/* <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel3a-content"
@@ -400,7 +406,7 @@ const Header = () => {
               </Typography>
             </AccordionDetails>
             <Divider />
-          </Accordion>
+          </Accordion> */}
 
           <ListItem>
             <a href="/cart">
@@ -463,6 +469,17 @@ const Header = () => {
             >
               <a href="/">
                 <span>HOME</span>
+              </a>
+            </Typography>
+
+            <Typography
+              // aria-owns={menanchorEl ? "men" : undefined}
+              aria-haspopup="true"
+              // onClick={handleMenPopoverOpen}
+              // onMouseOver={handleMenPopoverOpen}
+            >
+              <a href="/veggies/shop">
+                <span>VEGGIES SHOP</span>
               </a>
             </Typography>
 
@@ -594,7 +611,7 @@ const Header = () => {
               </a>
             </Typography> */}
 
-            <Typography
+            {/* <Typography
               aria-owns={veggieanchorEl ? "veggies" : undefined}
               aria-haspopup="true"
               onClick={handleVeggiePopoverOpen}
@@ -619,7 +636,7 @@ const Header = () => {
               <MenuItem>
                 <Link to="/veggies/shop">Veggies Shop</Link>
               </MenuItem>
-            </Menu>
+            </Menu> */}
 
             {/* <Typography
               aria-owns={foodanchorEl ? "food" : undefined}

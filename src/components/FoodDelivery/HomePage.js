@@ -47,7 +47,7 @@ const HomePageTwo = () => {
     var amount = "1.00";
     var phone_number = "+919898989898";
     var email = "kittu@gmail.com";
-    var orderId = "ORDERID_765184";
+    var orderId = "ORDERID_9878946432";
     let params = {
       orderId: orderId,
       email: email,
