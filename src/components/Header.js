@@ -220,8 +220,8 @@ const Header = () => {
         <div style={{ display: "flex" }}>
           <Logo href="/">
             <img
-              src="/images/svg/logo.svg"
-              alt="shopandship"
+              src="/images/ss_logo.webp"
+              alt="spontstore"
               style={{ width: "150px", marginTop: "11%", marginLeft: "-15%" }}
             />
           </Logo>
@@ -451,8 +451,8 @@ const Header = () => {
           <NavMenu>
             <Logo href="/">
               <img
-                src="/images/ss_logo.png"
-                alt="shopandship"
+                src="/images/ss_logo.webp"
+                alt="spontstore"
                 style={{ width: "100%", height: "100%" }}
               />
             </Logo>

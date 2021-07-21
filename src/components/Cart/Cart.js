@@ -809,7 +809,7 @@ a:hover {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   font-weight: 700;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .list-titled .list-item-value {
@@ -845,7 +845,7 @@ a:hover {
 }
 
 .bg-vegetables-pattern-white {
-  background-image: url("/assets/images/parts/vegetables-pattern-white.png");
+  background-image: url("/images/vegetables-pattern-white.webp");
   background-position: 0 0;
   background-repeat: repeat;
 }
@@ -977,7 +977,7 @@ a:hover {
 
 .section-title {
   color: #fff;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .section-block {
@@ -1050,7 +1050,7 @@ a:hover {
 }
 
 .cart-item-title, .cart-title {
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .cart-header {
@@ -1490,7 +1490,7 @@ a:hover {
 
 .footer-navbar .footer-title {
   font-weight: 600;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .footer-navbar .navbar-brand {

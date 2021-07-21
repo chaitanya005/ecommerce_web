@@ -774,7 +774,7 @@ a {
 }
 
 .bg-vegetables-pattern-white {
-  background-image: url("/assets/images/parts/vegetables-pattern-white.png");
+  background-image: url("/images/vegetables-pattern-white.webp");
   background-position: 0 0;
   background-repeat: repeat;
 }
@@ -905,7 +905,7 @@ a {
 
 .section-title {
   color: #fff;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .section-white-text {
@@ -983,7 +983,7 @@ a {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .order-line-total {
@@ -1237,7 +1237,7 @@ textarea.form-control {
 
 .footer-navbar .footer-title {
   font-weight: 600;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .footer-navbar .navbar-brand {

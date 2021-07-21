@@ -580,7 +580,7 @@ a {
 
 .section-title {
   color: #fff;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 
@@ -601,7 +601,7 @@ a {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
   filter: alpha(opacity=10);
   font-weight: 500;
-  font-family: "Rubik";
+  // font-family: "Rubik";
   white-space: nowrap;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -689,7 +689,7 @@ a {
 
 .footer-navbar .footer-title {
   font-weight: 600;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .footer-navbar .navbar-brand {
@@ -731,7 +731,7 @@ a {
 
 .entity-title, .entity-subtitle, .entity-value {
   margin-bottom: 1rem;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .entity-image, .entity-number {
@@ -809,7 +809,7 @@ a {
 
 .main-list .entity-list-title {
   margin-right: 0.5rem;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .main-list .entity-list-value {

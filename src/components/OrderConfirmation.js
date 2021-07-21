@@ -354,7 +354,7 @@ a {
 }
 
 .bg-vegetables-pattern-white {
-  background-image: url("/assets/images/parts/vegetables-pattern-white.png");
+  background-image: url("/images/vegetables-pattern-white.webp");
   background-position: 0 0;
   background-repeat: repeat;
 }
@@ -458,7 +458,7 @@ a {
 
 .section-title {
   color: #fff;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .section-back-text {
@@ -478,7 +478,7 @@ a {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
   filter: alpha(opacity=10);
   font-weight: 500;
-  font-family: "Rubik";
+  // font-family: "Rubik";
   white-space: nowrap;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -561,7 +561,7 @@ a {
 
 .footer-navbar .footer-title {
   font-weight: 600;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .footer-navbar .navbar-brand {
@@ -602,7 +602,7 @@ a {
 
 .entity-title, .entity-subtitle, .entity-value {
   margin-bottom: 1rem;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 
@@ -641,7 +641,7 @@ a {
 
       <div className="col">
         <img
-          src="/images/ss_logo.png"
+          src="/images/ss_logo.webp"
           alt=""
           style={{
             width: "50%",

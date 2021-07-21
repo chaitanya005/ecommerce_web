@@ -581,7 +581,7 @@ button, select {
 }
 
 .bg-vegetables-pattern-white {
-  background-image: url("/assets/images/parts/vegetables-pattern-white.png");
+  background-image: url("/images/vegetables-pattern-white.webp");
   background-position: 0 0;
   background-repeat: repeat;
 }
@@ -741,7 +741,7 @@ button, select {
 
 .section-title {
   color: #fff;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 
@@ -763,7 +763,7 @@ button, select {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
   filter: alpha(opacity=10);
   font-weight: 500;
-  font-family: "Rubik";
+  // font-family: "Rubik";
   white-space: nowrap;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -926,7 +926,7 @@ button, select {
 
 .footer-navbar .footer-title {
   font-weight: 600;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .footer-navbar .navbar-brand {
@@ -967,7 +967,7 @@ button, select {
 
 .entity-title, .entity-subtitle, .entity-value {
   margin-bottom: 1rem;
-  font-family: "Rubik";
+  // font-family: "Rubik";
 }
 
 .entity-subtext, .entity-text {
@@ -1225,7 +1225,7 @@ transform: scale(1.05); */
               <div className="section-back-text">Shop</div>
               <img
                 className="d-none-1 d-lg-block z-index-3"
-                src="/images/svg/bread_crumb_img.svg"
+                src="/images/mandarin.webp"
                 alt=""
                 data-size="280px"
                 data-at="10%;bottom 35%"

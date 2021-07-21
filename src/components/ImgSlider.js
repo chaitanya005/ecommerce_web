@@ -19,7 +19,7 @@ const ImgSlider = () => {
     <React.Fragment>
       <Wrap>
         <a href="/veggies/shop" className={styles.myBtnClass}>
-          <img src="/images/svg/vegie_slide.svg" alt="" />
+          <img src="/images/vegie_5.webp" alt="" />
           <h4 className={styles.btnOver}>Veggies </h4>
         </a>
       </Wrap>

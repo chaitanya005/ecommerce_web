@@ -402,7 +402,7 @@ const Home = () => {
             }
       
             .bg-vegetables-pattern-white {
-              background-image: url("/assets/images/parts/vegetables-pattern-white.png");
+              background-image: url("/images/vegetables-pattern-white.webp");
               background-position: 0 0;
               background-repeat: repeat;
             }
@@ -541,7 +541,7 @@ const Home = () => {
       
             .footer-navbar .footer-title {
               font-weight: 600;
-              font-family: "Rubik";
+              // font-family: "Rubik";
             }
       
             .footer-navbar .navbar-brand {

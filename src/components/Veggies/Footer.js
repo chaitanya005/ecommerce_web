@@ -17,7 +17,7 @@ const Footer = () => {
                     <span className="logo-icon">
                       <span
                         className="svg-content svg-fill-theme"
-                        data-svg="assets/images/svg/logo-part.svg"
+                        data-svg="/images/vegetables-pattern-white.webp"
                       ></span>
                     </span>
                     <span className="logo-text">Spont Store</span>
