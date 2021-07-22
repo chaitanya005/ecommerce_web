@@ -519,7 +519,7 @@ button, select {
         <style>
           {`
         body {
-          font-family: "Poppins";
+          font-family: "sans-serif";
           color: #747d88;
           background-color: #1d1c22;
           font-size: 1rem;
@@ -933,7 +933,7 @@ a:hover {
   height: 2.875rem;
   line-height: 1.875rem;
   padding: 0.5rem 1.5rem;
-  font-family: "Poppins";
+  // font-family: "Poppins";
   font-weight: 600;
   border-radius: 1.4375rem;
   text-shadow: none;

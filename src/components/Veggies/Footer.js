@@ -125,7 +125,8 @@ const Footer = () => {
                     {"  "}
                     updates@spontstore.com
                   </a>
-                  <p>1/A Rajupalem Street, Swarna Road, Chirala-523155</p>
+                  <p>1/A Rajupalem Street, Swarna Road</p>
+                  <p> Chirala-523155</p>
                 </p>
               </div>
             </div>

@@ -29,6 +29,8 @@ const Home = () => {
   return (
     <React.Fragment>
       <Helmet>
+        <link rel="preload" as="image" href="./images/svg/vegie_slide.svg" />
+        <link rel="preload" as="image" href="./images/svg/home_vegie.svg" />
         <style>
           {`:root {
             --blue: #007bff;

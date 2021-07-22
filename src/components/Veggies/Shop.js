@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { Helmet } from "react-helmet";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Loading from "../Loading";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -34,6 +35,7 @@ const Shop = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const storedVeggie = useSelector(storedVeggies);
   const storedCartItems = useSelector(storeCart);
@@ -45,6 +47,7 @@ const Shop = () => {
   let allVeggies = [];
 
   useEffect(() => {
+    setIsLoading(true);
     db.collection("veggies").onSnapshot((snapshot) => {
       snapshot.docs.map((doc) => {
         let docu = doc.data();
@@ -52,7 +55,9 @@ const Shop = () => {
 
         allVeggies = [...allVeggies, { veggieId: id, ...docu }];
       });
-      // console.log(allVeggies);
+      if (storedVeggie.storeVeggies.length > 0) {
+        setIsLoading(false);
+      }
       dispatch(
         saveVeggies({
           allVeggies,
@@ -836,7 +841,7 @@ button, select {
   height: 2.875rem;
   line-height: 1.875rem;
   padding: 0.5rem 1.5rem;
-  font-family: "Poppins";
+  // font-family: "Poppins";
   font-weight: 600;
   border-radius: 1.4375rem;
   text-shadow: none;
@@ -1258,7 +1263,7 @@ transform: scale(1.05); */
           />
         </Paper>
         <br />
-
+        {isLoading ? <Loading /> : ""}
         <div className="container">
           <div className="grid row">
             {!searchTerm ? (

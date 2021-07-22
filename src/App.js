@@ -31,6 +31,7 @@ import TC from "./components/T_C";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import React, { Suspense, lazy } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Loading from "./components/Loading";
 
 // import './App.css'
 
@@ -108,6 +109,9 @@ function App() {
           </Route>
           <Route path="/termsandconditions">
             <TC />
+          </Route>
+          <Route path="/loading">
+            <Loading />
           </Route>
           <Route path="*">
             <PageNotFound />
