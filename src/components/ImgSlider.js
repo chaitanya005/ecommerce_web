@@ -26,7 +26,7 @@ const ImgSlider = () => {
         </Wrap>
         <Wrap>
           <a href="#" className={styles.myBtnClass}>
-            <img src="/images/webp/food-slide.webp" alt="" />
+            <img src="/images/svg/food_slide.svg" alt="" />
             <div className={styles.btnOver}>
               <h4>Coming Soon!</h4>
             </div>
@@ -34,7 +34,7 @@ const ImgSlider = () => {
         </Wrap>
         <Wrap>
           <a href="#" className={styles.myBtnClass}>
-            <img src="/images/webp/fruits-slide.webp" alt="" />
+            <img src="/images/svg/fruit_slide.svg" alt="" />
             <h4 className={styles.btnOver}>Coming Soon!</h4>
           </a>
         </Wrap>

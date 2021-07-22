@@ -220,7 +220,7 @@ const Header = () => {
         <div style={{ display: "flex" }}>
           <Logo href="/">
             <img
-              src="/images/ss_logo_black.png"
+              src="/images/svg/black_logo.svg"
               alt="spontstore"
               style={{ width: "150px", marginTop: "11%", marginLeft: "-15%" }}
             />
@@ -451,7 +451,7 @@ const Header = () => {
           <NavMenu>
             <Logo href="/">
               <img
-                src="/images/ss_logo.webp"
+                src="/images/svg/logo.svg"
                 alt="spontstore"
                 style={{ width: "100%", height: "100%" }}
               />
