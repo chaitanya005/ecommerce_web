@@ -88,6 +88,7 @@ const PopularBrands = () => {
                             pt-1
                             pr-2
                         "
+                          style={{ backgroundColor: "#f8f9fa" }}
                         >
                           <i className="icofont-wall-clock"></i> 20–25 min
                         </span>
@@ -276,6 +277,177 @@ const PopularBrands = () => {
                         65% off | Use Coupon OSAHAN50
                       </small>
                     </div> */}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4 col-sm-6 mb-4 pb-2">
+                <div
+                  className="
+                  list-card
+                  bg-white
+                  rounded
+                  overflow-hidden
+                  position-relative
+                  shadow-sm
+              "
+                >
+                  <div className="list-card-image">
+                    <div
+                      className="star position-absolute"
+                      style={{ right: "8px", bottom: "8px" }}
+                    >
+                      <span className="badge badge-success">
+                        <i className="icofont-star"></i> 3.1 (300+)
+                      </span>
+                    </div>
+                    <div className="favourite-heart text-danger position-absolute">
+                      <a href="detail.html">
+                        {/*                   <i className="icofont-heart"></i> */}
+                      </a>
+                    </div>
+                    {/* <div
+                    className="member-plan position-absolute"
+                    style={{ left: "8px", top: "8px" }}
+                  >
+                    <span className={styles.badgeDark}>Promoted</span>
+                  </div> */}
+                    <a href="detail.html">
+                      <img
+                        src="/img/list/1.png"
+                        className="img-fluid item-img"
+                        alt=""
+                      />
+                    </a>
+                  </div>
+                  <div
+                    className="p-3 position-relative"
+                    style={{ background: "#292830" }}
+                  >
+                    <div className="list-card-body">
+                      <h6 className="mb-1">
+                        <a href="detail.html" className={styles.title}>
+                          World Famous
+                        </a>
+                      </h6>
+                      <p
+                        className="text-gray mb-3"
+                        style={{ color: "#747d88" }}
+                      >
+                        North Indian • American • Pure veg
+                      </p>
+                      <p className="text-gray mb-3 time">
+                        <span
+                          className="
+                          bg-light
+                          text-dark
+                          rounded-sm
+                          pl-2
+                          pb-1
+                          pt-1
+                          pr-2
+                      "
+                        >
+                          <i className="icofont-wall-clock"></i> 20–25 min
+                        </span>
+                        <span
+                          className="float-right "
+                          style={{ color: "#fff" }}
+                        >
+                          $250 FOR TWO
+                        </span>
+                      </p>
+                    </div>
+                    <div className="list-card-badge">
+                      <span className="badge badge-success"></span>
+                      <small style={{ color: "#fff" }}></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4 col-sm-6 mb-4 pb-2">
+                <div
+                  className="
+                  list-card
+                  bg-white
+                  h-100
+                  rounded
+                  overflow-hidden
+                  position-relative
+                  shadow-sm
+              "
+                >
+                  <div className="list-card-image">
+                    <div
+                      className="star position-absolute"
+                      style={{ right: "8px", bottom: "8px" }}
+                    >
+                      <span className="badge badge-success">
+                        <i className="icofont-star"></i> 3.1 (300+)
+                      </span>
+                    </div>
+                    <div className="favourite-heart text-danger position-absolute">
+                      <a href="detail.html">
+                        {/*                   <i className="icofont-heart"></i> */}
+                      </a>
+                    </div>
+                    {/* <div
+                    className="member-plan position-absolute"
+                    style={{ left: "8px", top: "8px" }}
+                  >
+                    <span className={styles.badgeDark}>Promoted</span>
+                  </div> */}
+                    <a href="detail.html">
+                      <img
+                        src="/img/list/1.png"
+                        className="img-fluid item-img"
+                        alt=""
+                      />
+                    </a>
+                  </div>
+                  <div
+                    className="p-3 position-relative"
+                    style={{ background: "#292830" }}
+                  >
+                    <div className="list-card-body">
+                      <h6 className="mb-1">
+                        <a href="detail.html" className={styles.title}>
+                          World Famous
+                        </a>
+                      </h6>
+                      <p
+                        className="text-gray mb-3"
+                        style={{ color: "#747d88" }}
+                      >
+                        North Indian • American • Pure veg
+                      </p>
+                      <p className="text-gray mb-3 time">
+                        <span
+                          className="
+                          bg-light
+                          text-dark
+                          rounded-sm
+                          pl-2
+                          pb-1
+                          pt-1
+                          pr-2
+                          "
+                        >
+                          <i className="icofont-wall-clock"></i> 20–25 min
+                        </span>
+                        <span
+                          className="float-right "
+                          style={{ color: "#fff" }}
+                        >
+                          $250 FOR TWO
+                        </span>
+                      </p>
+                    </div>
+                    {/* <div className="list-card-badge">
+                    <span className="badge badge-success">OFFER</span>
+                    <small style={{ color: "#fff" }}>
+                      65% off | Use Coupon OSAHAN50
+                    </small>
+                  </div> */}
                   </div>
                 </div>
               </div>

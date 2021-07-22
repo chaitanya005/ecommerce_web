@@ -12,6 +12,7 @@ import Men_shirts from "./Men/Men_shirts";
 // import VeggieSection from "./VeggieSection";
 import FoodDeliverySection from "./FoodDeliverySection";
 import { Helmet } from "react-helmet";
+import FruitsSection from "./FruitsSection";
 
 const ImgSlider = lazy(() => import("./ImgSlider"));
 const VeggieSection = lazy(() => import("./VeggieSection"));
@@ -426,7 +427,7 @@ const Home = () => {
               left: 0;
               width: 100%;
               height: 55px;
-              background-image: url("/assets/images/parts/black-curve.png");
+              // background-image: url("/assets/images/parts/black-curve.png");
               background-repeat: repeat-x;
             }
       
@@ -586,7 +587,8 @@ const Home = () => {
         <Suspense fallback={<div style={{ color: "#000" }}>Loading....</div>}>
           <ImgSlider />
           <VeggieSection />
-          {/* <FoodDeliverySection /> */}
+          <FoodDeliverySection />
+          <FruitsSection />
           <br />
         </Suspense>
       </Container>

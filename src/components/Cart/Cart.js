@@ -186,26 +186,6 @@ const Cart = () => {
 
   return (
     <React.Fragment>
-      {/* <Container>
-      <div>
-        <Paper className={classes.cartPaper}>
-          <H3>My Cart ({cartStore.length}) </H3>
-          <Divider />
-
-          {cartStore &&
-            cartStore.map((item) => <CartItems key={item.id} item={item} />)}
-        </Paper>
-      </div>
-      <Divider variant="vertical" />
-      <div style={{ marginLeft: "50px" }}>
-        <Paper className={classes.paper}>
-          <H4>Price Details ({cartStore.length} Items)</H4>
-          <div>
-            <div>Total MRP: {}</div>
-          </div>
-        </Paper>
-      </div>
-    </Container> */}
       <Helmet>
         <title>Spont Store | Cart </title>{" "}
         <style>

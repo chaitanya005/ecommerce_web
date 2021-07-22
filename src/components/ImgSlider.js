@@ -17,22 +17,29 @@ const ImgSlider = () => {
 
   return (
     <React.Fragment>
-      <Wrap>
-        <a href="/veggies/shop" className={styles.myBtnClass}>
-          <img src="/images/vegie_5.webp" alt="" />
-          <h4 className={styles.btnOver}>Veggies </h4>
-        </a>
-      </Wrap>
-      {/* <Carousel {...settings}></Carousel> */}
-      {/* <Wrap>
-        <a href="#" className={styles.myBtnClass}>
-          <img src="/images/food.jpg" alt="" />
-          <div className={styles.btnOver}>
-            <h4>Food Delivery</h4>
-          </div>
-        </a>
-      </Wrap> */}
-      {/*  <Wrap>
+      <Carousel {...settings}>
+        <Wrap>
+          <a href="/veggies/shop" className={styles.myBtnClass}>
+            <img src="/images/vegie_5.webp" alt="" />
+            <h4 className={styles.btnOver}>Click here for Veggies </h4>
+          </a>
+        </Wrap>
+        <Wrap>
+          <a href="#" className={styles.myBtnClass}>
+            <img src="/images/food.webp" alt="" />
+            <div className={styles.btnOver}>
+              <h4>Coming Soon!</h4>
+            </div>
+          </a>
+        </Wrap>
+        <Wrap>
+          <a href="#" className={styles.myBtnClass}>
+            <img src="/images/fruits_slide.webp" alt="" />
+            <h4 className={styles.btnOver}>Coming Soon!</h4>
+          </a>
+        </Wrap>
+      </Carousel>
+      {/*<Wrap>
         <a href="#" className={styles.myBtnClass}>
           <img src="/images/women_wear.png" alt="" />
           <h4 className={styles.btnOver}>Women wear Coming Soon</h4>

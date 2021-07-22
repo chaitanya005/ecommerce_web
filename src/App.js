@@ -85,10 +85,9 @@ function App() {
           <Route path="/user/orders">
             <UserOrders />
           </Route>
-          {/* <Route path="/food-delivery">
+          <Route path="/food-delivery">
             <LandingPage />
           </Route>
-          */}
           <Route path="/resto">
             <Restaurants />
           </Route>

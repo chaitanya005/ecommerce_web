@@ -220,7 +220,7 @@ const Header = () => {
         <div style={{ display: "flex" }}>
           <Logo href="/">
             <img
-              src="/images/ss_logo.webp"
+              src="/images/ss_logo_black.png"
               alt="spontstore"
               style={{ width: "150px", marginTop: "11%", marginLeft: "-15%" }}
             />
@@ -678,7 +678,9 @@ const Header = () => {
                 <UserImg src={userPhoto} alt={userName} />
                 <DropDown>
                   <a href="/user/orders">Your Orders</a> <br />
-                  <span onClick={handleAuth}>Sign out</span>
+                  <span onClick={handleAuth} style={{ color: "#fff" }}>
+                    Sign out
+                  </span>
                 </DropDown>
               </SignOut>
             </React.Fragment>

@@ -12,7 +12,6 @@ import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
 // import TeamIllustrationSrc from "images/team-illustration-2.svg";
 // import { ReactComponent as SvgDotPattern } from "images/dot-pattern.svg";
 
@@ -54,21 +53,20 @@ const HighlightedText = tw.span`bg-blue-500 text-gray-100 px-4 transform -skew-x
 
 const heading = (
   <React.Fragment>
-    Everyday Food!
-    <br />
+    Fresh Fruits <br />
     <br />
     <HighlightedText
       style={{ backgroundColor: "rgba(100,21,255)", paddingBottom: "0.5rem" }}
     >
       {" "}
-      Healthy & Tasty
+      Sweet & Delicious
     </HighlightedText>
   </React.Fragment>
 );
 
 const description = "";
 
-const FoodDeliverySection = () => {
+const FruitsSection = () => {
   const imageCss = tw`rounded-3xl`;
 
   const [state, setState] = React.useState({
@@ -85,6 +83,7 @@ const FoodDeliverySection = () => {
 
   const handleOpen = () => {
     setState({ ...state, open: true });
+
     setTimeout(() => {
       setState({ ...state, open: false });
     }, 1500);
@@ -97,8 +96,7 @@ const FoodDeliverySection = () => {
           <Image
             style={{ maxWidth: "100%" }}
             css={Object.assign(tw`bg-cover`, imageCss)}
-            src="/images/home-food.webp"
-            // src="/img/5.jpg"
+            src="/images/img_img.webp"
             imageBorder={false}
             imageShadow={false}
             imageContainerCss={tw`p-2!`}
@@ -111,7 +109,7 @@ const FoodDeliverySection = () => {
               <DecoratorBlob css={imageDecoratorBlobCss} />
             ) */}
         </ImageColumn>
-        <TextColumn textOnLeft={false} className="text">
+        <TextColumn textOnLeft={true}>
           <TextContent>
             <Subheading></Subheading>
             <Heading style={{ color: "rgba(36,62,99)" }} onClick={handleOpen}>
@@ -123,11 +121,10 @@ const FoodDeliverySection = () => {
             <PrimaryButton
               buttonRounded={true}
               as="a"
-              // href={"#"}
+              //   href="/veggies/shop"
               style={{
                 backgroundColor: "rgba(80,17,204)",
                 padding: "0.75rem 2rem",
-                cursor: "pointer",
               }}
               onClick={handleOpen}
             >
@@ -144,18 +141,11 @@ const FoodDeliverySection = () => {
         key={vertical + horizontal}
       >
         <Alert severity="error" onClose={handleClose}>
-          Please hold your urge! Food Delivery is Coming Sooooooon!
+          Please hold your urge! Fruits are Coming Soooooon!
         </Alert>
       </Snackbar>
-      <style>{`
-            @media (min-width: 768px) {
-                .text {
-                    margin-left: 4rem;
-                }
-            }
-      `}</style>
     </Container>
   );
 };
 
-export default FoodDeliverySection;
+export default FruitsSection;
