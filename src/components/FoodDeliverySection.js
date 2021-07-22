@@ -97,7 +97,7 @@ const FoodDeliverySection = () => {
           <Image
             style={{ maxWidth: "100%" }}
             css={Object.assign(tw`bg-cover`, imageCss)}
-            src="/images/home-food.webp"
+            src="/images/webp/home-food.webp"
             // src="/img/5.jpg"
             imageBorder={false}
             imageShadow={false}

@@ -71,7 +71,7 @@ const VeggieSection = () => {
             <Image
               style={{ maxWidth: "100%" }}
               css={Object.assign(tw`bg-cover`, imageCss)}
-              src="/images/home-vegie.webp"
+              src="/images/webp/home-vegie.webp"
               imageBorder={false}
               imageShadow={false}
               imageContainerCss={tw`p-2!`}

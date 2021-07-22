@@ -20,13 +20,13 @@ const ImgSlider = () => {
       <Carousel {...settings}>
         <Wrap>
           <a href="/veggies/shop" className={styles.myBtnClass}>
-            <img src="/images/vegie_5.webp" alt="" />
+            <img src="/images/svg/vegie_slide.svg" alt="" />
             <h4 className={styles.btnOver}>Click here for Veggies </h4>
           </a>
         </Wrap>
         <Wrap>
           <a href="#" className={styles.myBtnClass}>
-            <img src="/images/food.webp" alt="" />
+            <img src="/images/webp/food-slide.webp" alt="" />
             <div className={styles.btnOver}>
               <h4>Coming Soon!</h4>
             </div>
@@ -34,7 +34,7 @@ const ImgSlider = () => {
         </Wrap>
         <Wrap>
           <a href="#" className={styles.myBtnClass}>
-            <img src="/images/fruits_slide.webp" alt="" />
+            <img src="/images/webp/fruits-slide.webp" alt="" />
             <h4 className={styles.btnOver}>Coming Soon!</h4>
           </a>
         </Wrap>
