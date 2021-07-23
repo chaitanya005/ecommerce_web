@@ -102,8 +102,8 @@ const CheckoutPage = () => {
   let orderId;
 
   const handlePlaceOrder = () => {
-    setState({ ...state, open: true });
-    /* if (!uId) {
+    // setState({ ...state, open: true });
+    if (!uId) {
       setState({ ...state, open: true });
     } else {
       console.log(cartItems);
@@ -165,7 +165,7 @@ const CheckoutPage = () => {
           console.log("Error in placing order", error);
         }
       }
-    } */
+    }
   };
 
   const handleNotion = () => {
@@ -1548,12 +1548,12 @@ textarea.form-control {
         // message="Please  Login"
         key={vertical + horizontal}
       >
-        {/* <Alert severity="error" onClose={handleClose}>
-          Please Login!
-        </Alert> */}
         <Alert severity="error" onClose={handleClose}>
-          Sorry! Today, We are not accepting orders anymore
+          Please Login!
         </Alert>
+        {/* <Alert severity="error" onClose={handleClose}>
+          Sorry! Today, We are not accepting orders anymore
+        </Alert> */}
       </Snackbar>
     </React.Fragment>
   );
