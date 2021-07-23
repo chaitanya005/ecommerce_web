@@ -12,25 +12,18 @@ import Men_shirts from "./Men/Men_shirts";
 // import VeggieSection from "./VeggieSection";
 import FoodDeliverySection from "./FoodDeliverySection";
 import { Helmet } from "react-helmet";
-import FruitsSection from "./FruitsSection";
+// import FruitsSection from "./FruitsSection";
+// import ClothingSection from "./ClothingSection";
 
 const ImgSlider = lazy(() => import("./ImgSlider"));
 const VeggieSection = lazy(() => import("./VeggieSection"));
-/* import { setMovies } from '../features/movie/movieSlice'
-import { getUserName } from '../features/user/userSlice' */
+const FruitsSection = lazy(() => import("./FruitsSection"));
+const ClothingSection = lazy(() => import("./ClothingSection"));
 
 const Home = () => {
-  /*  const dispatch = useDispatch()
-    const userName = useSelector(getUserName) */
-  let recommends = [];
-  let original = [];
-  let newDisneys = [];
-
   return (
     <React.Fragment>
       <Helmet>
-        <link rel="preload" as="image" href="./images/svg/vegie_slide.svg" />
-        <link rel="preload" as="image" href="./images/svg/home_vegie.svg" />
         <style>
           {`:root {
             --blue: #007bff;
@@ -591,6 +584,7 @@ const Home = () => {
           <VeggieSection />
           <FoodDeliverySection />
           <FruitsSection />
+          <ClothingSection />
           <br />
         </Suspense>
       </Container>

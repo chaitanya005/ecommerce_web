@@ -17,7 +17,7 @@ function Alert(props) {
 // import { ReactComponent as SvgDotPattern } from "images/dot-pattern.svg";
 
 const Container = tw.div`relative`;
-const TwoColumn = tw.div`flex flex-col md:flex-row justify-between max-w-screen-xl mx-auto py-1 md:py-20 items-center`;
+const TwoColumn = tw.div`flex flex-col md:flex-row justify-between max-w-screen-xl mx-auto py-4 md:py-20 items-center`;
 const Column = tw.div`w-full max-w-md mx-auto md:max-w-none md:mx-0`;
 const ImageColumn = tw(Column)`md:w-6/12 flex-shrink-0 relative`;
 const TextColumn = styled(Column)((props) => [
@@ -54,21 +54,21 @@ const HighlightedText = tw.span`bg-blue-500 text-gray-100 px-4 transform -skew-x
 
 const heading = (
   <React.Fragment>
-    Everyday Food!
+    Our Fashion
     <br />
     <br />
     <HighlightedText
       style={{ backgroundColor: "rgba(100,21,255)", paddingBottom: "0.5rem" }}
     >
       {" "}
-      Healthy & Tasty
+      Trendy & Stylish
     </HighlightedText>
   </React.Fragment>
 );
 
-const description = "";
+const description = "What you wear is how you present yourself to the world";
 
-const FoodDeliverySection = () => {
+const ClothingSection = () => {
   const imageCss = tw`rounded-3xl`;
 
   const [state, setState] = React.useState({
@@ -97,7 +97,7 @@ const FoodDeliverySection = () => {
           <Image
             style={{ maxWidth: "100%" }}
             css={Object.assign(tw`bg-cover`, imageCss)}
-            src="/images/svg/home_food.svg"
+            src="/images/svg/home_cloth.svg"
             // src="/img/5.jpg"
             imageBorder={false}
             imageShadow={false}
@@ -144,7 +144,7 @@ const FoodDeliverySection = () => {
         key={vertical + horizontal}
       >
         <Alert severity="error" onClose={handleClose}>
-          Please hold your urge! Food Delivery is Coming Sooooooon!
+          Please hold your urge! Releasing Sooooooon!
         </Alert>
       </Snackbar>
       <style>{`
@@ -158,4 +158,4 @@ const FoodDeliverySection = () => {
   );
 };
 
-export default FoodDeliverySection;
+export default ClothingSection;
