@@ -261,10 +261,11 @@ const CheckoutPage = () => {
             })
           );
           // console.log(res);
-          // handleNotion();
+          handleNotion();
         });
     } catch (error) {
       console.log("Error in placing order", error);
+      history.push("/order/failure");
     }
   };
 

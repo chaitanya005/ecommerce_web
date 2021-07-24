@@ -33,6 +33,8 @@ const OrderConfirmation = () => {
     if (msg) {
       // console.log("skdjfksdlfj");
       handleFireStore();
+    } else {
+      setLoading(false);
     }
     // handleNotion();
   }, [msg]);
@@ -757,7 +759,11 @@ a {
               className="mb-2 entity-title"
               style={{ textTransform: "capitalize", textAlign: "center" }}
             >
-              Order Id: {id}
+              {msg ? (
+                <div>Order Id: {id}</div>
+              ) : (
+                <div>Order Id: {order_id}</div>
+              )}
             </h2>
           </div>
         </React.Fragment>
