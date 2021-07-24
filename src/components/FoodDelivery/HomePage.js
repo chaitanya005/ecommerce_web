@@ -44,10 +44,10 @@ const HomePageTwo = () => {
   }
 
   const handleClick = async () => {
-    var amount = "1.00";
+    var amount = "10000.00";
     var phone_number = "+919898989898";
     var email = "kittu@gmail.com";
-    var orderId = "ORDERID_9878946432";
+    var orderId = "ORDERID_78464548746";
     let params = {
       orderId: orderId,
       email: email,
@@ -55,7 +55,7 @@ const HomePageTwo = () => {
       phone_number: phone_number,
     };
 
-    var url = "http://localhost:7000/payment";
+    var url = "https://paytm-payment-gateway.herokuapp.com/payment";
     var request = {
       url: url,
       params: params,
@@ -78,7 +78,7 @@ const HomePageTwo = () => {
 
   const handleClicker = () => {
     axios
-      .post("http://localhost:8000/payments")
+      .post("https://paytm-payment-gateway.herokuapp.com/payments")
       .then((res) => {
         console.log(res.data);
         /* var details = {

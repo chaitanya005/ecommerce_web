@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { removeCart, setOrderId, storeCart } from "../../features/cart/cart";
+import {
+  removeCart,
+  setOrderId,
+  storeCart,
+  setBillingDetails,
+} from "../../features/cart/cart";
 import firestore from "../../firebase";
 import { useHistory } from "react-router-dom";
 import { getUserDetails } from "../../features/user/userSlice";
@@ -15,6 +20,9 @@ import { useDispatch } from "react-redux";
 import emailjs from "emailjs-com";
 import { init } from "emailjs-com";
 import { Helmet } from "react-helmet";
+// import RadioGroup from "@material-ui/core/RadioGroup";
+// import FormControlLabel from "@material-ui/core/FormControlLabel";
+// import Radio from "@material-ui/core/Radio";
 init("user_sJSKzvb1LdoFGWAuBrrb0");
 
 function Alert(props) {
@@ -42,8 +50,12 @@ const CheckoutPage = () => {
   const userName = useSelector(getUserName);
   const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch();
+  const [paymentType, setPaymentType] = useState({
+    type: "PO",
+  });
+  const [isPaymentSelected, setIsPaymentSelected] = useState(true);
 
-  // console.log(cartItems);
+  console.log(paymentType);
 
   let yourBill = 0;
   let marketPrice = 0;
@@ -69,13 +81,10 @@ const CheckoutPage = () => {
   const handleClose = () => {
     setState({ ...state, open: false });
   };
-  /* 
-  useEffect(() => {
-    effect
-    return () => {
-      cleanup
-    }
-  }, []) */
+
+  const handlePaymentType = (e) => {
+    setPaymentType({ type: e.target.value });
+  };
 
   const [values, setValues] = useState({
     name: "",
@@ -101,12 +110,52 @@ const CheckoutPage = () => {
   // console.log(userDetails.uid);
   let orderId;
 
-  const handlePlaceOrder = () => {
-    // setState({ ...state, open: true });
+  function isDate(val) {
+    // Cross realm comptatible
+    return Object.prototype.toString.call(val) === "[object Date]";
+  }
+
+  function isObj(val) {
+    return typeof val === "object";
+  }
+
+  function stringifyValue(val) {
+    if (isObj(val) && !isDate(val)) {
+      return JSON.stringify(val);
+    } else {
+      return val;
+    }
+  }
+
+  function buildForm({ action, params }) {
+    const form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", action);
+
+    Object.keys(params).forEach((key) => {
+      const input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", key);
+      input.setAttribute("value", stringifyValue(params[key]));
+      form.appendChild(input);
+    });
+
+    return form;
+  }
+
+  function post(details) {
+    const form = buildForm(details);
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+  }
+
+  const handlePlaceOrder = async () => {
+    // setState({ ...state, open: true })
     if (!uId) {
       setState({ ...state, open: true });
     } else {
-      console.log(cartItems);
+      // console.log(cartItems);
       if (
         values.name === "" ||
         values.address === "" ||
@@ -128,43 +177,94 @@ const CheckoutPage = () => {
           new Date().getHours() +
           new Date().getMinutes();
 
-        setLoading(true);
-        let order = [
-          { orderId: orderId },
-          { orderItems: [...cartItems] },
-          { ...values },
-          { total: yourBill + 20 },
-        ];
-        // console.log(order);
-        // console.log(orderId);
+        if (paymentType.type === undefined) {
+          // console.log(paymentType);
+          setIsPaymentSelected(false);
+          setState({ ...state, open: true });
+        } else {
+          if (paymentType.type === "PO") {
+            setLoading(true);
+            setIsPaymentSelected(true);
+            // let totalBill = yourBill + 20;
+            // var amount = totalBill;
 
-        const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
+            let totalValues = [{ ...values }, yourBill];
+            dispatch(
+              setBillingDetails({
+                values,
+              })
+            );
 
-        // const snapshot = cartRef.get();
+            var phone_number = values.phone;
+            var email = values.email;
+            orderId = "ORDERID_" + orderId;
+            let params = {
+              orderId: orderId,
+              email: email,
+              amount: yourBill + 20,
+              phone_number: phone_number,
+            };
 
-        // handleNotion();
-        try {
-          firestore
-            .collection("orders")
-            .doc(userDetails.uid)
-            .collection("order")
-            .doc(orderId)
-            .set({
-              order,
-            })
-            .then(() => {
-              // history.push("/veggies/shop");
-              dispatch(
-                setOrderId({
-                  orderId,
-                })
-              );
-              handleNotion();
-            });
-        } catch (error) {
-          console.log("Error in placing order", error);
+            // var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+            var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+            var request = {
+              url: url,
+              params: params,
+              method: "get",
+            };
+
+            const response = await axios(request);
+            // console.log(response);
+            const processParams = await response.data;
+            console.log(processParams);
+
+            var details = {
+              // action: "https://securegw-stage.paytm.in/order/process",
+              action: "https://securegw.paytm.in/order/process",
+              params: processParams,
+            };
+
+            post(details);
+          } else {
+            handleSaveOrder();
+          }
         }
+
+        // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
       }
+    }
+  };
+
+  const handleSaveOrder = async () => {
+    setLoading(true);
+    let order = [
+      { orderId: orderId },
+      { orderItems: [...cartItems] },
+      { ...values },
+      { total: yourBill + 20 },
+    ];
+
+    try {
+      firestore
+        .collection("orders")
+        .doc(userDetails.uid)
+        .collection("order")
+        .doc(orderId)
+        .set({
+          order,
+        })
+        .then(() => {
+          // history.push("/veggies/shop");
+          dispatch(
+            setOrderId({
+              orderId,
+            })
+          );
+          // console.log(res);
+          // handleNotion();
+        });
+    } catch (error) {
+      console.log("Error in placing order", error);
     }
   };
 
@@ -1190,8 +1290,8 @@ textarea.form-control {
 }
 
 .input-gray-shadow .form-check-icon {
-  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15), 0 0.5rem 1.5rem rgba(204, 204, 204, 0.5);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15), 0 0.5rem 1.5rem rgba(204, 204, 204, 0.5);
+  // -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15), 0 0.5rem 1.5rem rgba(204, 204, 204, 0.5);
+  // box-shadow: 0 0 4px rgba(0, 0, 0, 0.15), 0 0.5rem 1.5rem rgba(204, 204, 204, 0.5);
 }
 
 .after-head {
@@ -1316,241 +1416,281 @@ textarea.form-control {
         </div>
       </section>
       <section className="section">
-        <form className="container" action="#" method="POST">
-          <div className="cols-xl row">
-            <div className="col-lg-6">
-              <h2 className="text-title mb-5">Billing details</h2>
-              <div className="grid row">
-                <div className="col-md-6">
-                  <div className="input-view-flat input-gray-shadow form-group">
-                    <label className="required">Your Name</label>
-                    <div className="input-group">
-                      <input
-                        className="form-control"
-                        name="name"
-                        type="text"
-                        placeholder="Name"
-                        required="required"
-                        value={values.name}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="input-view-flat input-gray-shadow form-group">
-                    <label className="required">Your Email</label>
-                    <div className="input-group">
-                      <input
-                        className="form-control"
-                        name="email"
-                        type="email"
-                        placeholder="Email"
-                        required="required"
-                        values={values.email}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="input-view-flat input-gray-shadow form-group">
-                    <label className="required">Address</label>
-                    <div className="input-group">
-                      <input
-                        className="form-control"
-                        name="address"
-                        type="text"
-                        placeholder="Address"
-                        required="required"
-                        value={values.address}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="input-view-flat input-gray-shadow form-group">
-                    <label className="required">Town / City</label>
-                    <div className="input-group">
-                      <input
-                        className="form-control"
-                        name="town"
-                        type="text"
-                        placeholder="Town / City"
-                        required="required"
-                        value={values.town}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="input-view-flat input-gray-shadow form-group">
-                    <label className="required">District</label>
-                    <div className="input-group">
-                      <input
-                        className="form-control"
-                        name="district"
-                        type="text"
-                        placeholder="District"
-                        required="required"
-                        value={values.district}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6">
-                  <div className="input-view-flat input-gray-shadow form-group">
-                    <label className="required">Postcode / Zip</label>
-                    <div className="input-group">
-                      <input
-                        className="form-control"
-                        name="pincode"
-                        type="number"
-                        placeholder="Postcode / Zip"
-                        required="required"
-                        value={values.pincode}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6">
-                  <div className="input-view-flat input-gray-shadow form-group">
-                    <label className="required">Phone</label>
-                    <div className="input-group">
-                      <input
-                        className="form-control"
-                        name="phone"
-                        type="number"
-                        placeholder="Phone"
-                        required="required"
-                        value={values.phone}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 mt-5">
-                  <div className="input-view-flat input-gray-shadow form-group">
-                    <label className="h4 mb-3 text-title">
-                      Additional Information
-                    </label>
-                    <div className="input-group">
-                      <textarea
-                        className="form-control"
-                        name="additionInfo"
-                        placeholder="Additional Information"
-                        style={{ borderRadius: "25px" }}
-                        value={values.additionInfo}
-                        onChange={handleChange}
-                      ></textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <h2 className="text-title mb-5">Your order</h2>
-              <div className="order-items mb-5">
-                <div className="order-header">
-                  <div className="order-line-title">Name</div>
-                  <div className="order-line-total">Total</div>
-                  <div className="order-line">Qty</div>
-                </div>
-                {cartItems &&
-                  cartItems.map((item) => (
-                    <div className="order-item" key={item}>
-                      <div className="order-line-title">{item.name}</div>
-                      <div className="order-line-total">
-                        Rs. {item.newPrice}
-                      </div>
-                      <div className="order-line"> {item.qty}</div>
-                    </div>
-                  ))}
-                <div className="order-subtotal">
-                  <div className="order-line-title">Market Price</div>
-                  <div className="order-line-total">Rs. {marketPrice}</div>
-                </div>
-                <div className="order-subtotal">
-                  <div className="order-line-title">Your Bill</div>
-                  <div className="order-line-total">Rs. {yourBill}</div>
-                </div>
-                <div className="order-subtotal">
-                  <div className="order-line-title">Shipping</div>
-                  <div className="order-line-total">Rs. 20.00</div>
-                </div>
-                <div className="order-subtotal">
-                  <div className="order-line-title">You Save</div>
-                  <div className="order-line-total">Rs. {saveTotal}</div>
-                </div>
-                <div className="separator-line"></div>
-                <div className="order-total">
-                  <div className="order-line-title">Total</div>
-                  <div className="order-line-total">Rs. {yourBill + 20}</div>
-                </div>
-              </div>
-              <h3 className="text-title mb-4">Payment Details</h3>
-              <div className="grid row">
-                <div className="col-12">
-                  <div className="form-groups">
+        <div className="container">
+          <div>
+            <div className="cols-xl row">
+              <div className="col-lg-6">
+                <h2 className="text-title mb-5">Billing details</h2>
+                <div className="grid row">
+                  <div className="col-md-6">
                     <div className="input-view-flat input-gray-shadow form-group">
-                      <div className="form-check">
+                      <label className="required">Your Name</label>
+                      <div className="input-group">
                         <input
-                          className="form-check-input"
-                          type="radio"
-                          id="cash-on-payment"
-                          name="paymentType"
-                          value="Cash On Payment"
-                          checked="checked"
+                          className="form-control"
+                          name="name"
+                          type="text"
+                          placeholder="Name"
+                          required="required"
+                          value={values.name}
+                          onChange={handleChange}
                         />
-                        <span className="form-check-icon"></span>
-                        <label
-                          className="form-check-label"
-                          htmlFor="check-payment"
-                        >
-                          Cash On Delivery (COD)
-                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="input-view-flat input-gray-shadow form-group">
+                      <label className="required">Your Email</label>
+                      <div className="input-group">
+                        <input
+                          className="form-control"
+                          name="email"
+                          type="email"
+                          placeholder="Email"
+                          required="required"
+                          values={values.email}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="input-view-flat input-gray-shadow form-group">
+                      <label className="required">Address</label>
+                      <div className="input-group">
+                        <input
+                          className="form-control"
+                          name="address"
+                          type="text"
+                          placeholder="Address"
+                          required="required"
+                          value={values.address}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="input-view-flat input-gray-shadow form-group">
+                      <label className="required">Town / City</label>
+                      <div className="input-group">
+                        <input
+                          className="form-control"
+                          name="town"
+                          type="text"
+                          placeholder="Town / City"
+                          required="required"
+                          value={values.town}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="input-view-flat input-gray-shadow form-group">
+                      <label className="required">District</label>
+                      <div className="input-group">
+                        <input
+                          className="form-control"
+                          name="district"
+                          type="text"
+                          placeholder="District"
+                          required="required"
+                          value={values.district}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-6">
+                    <div className="input-view-flat input-gray-shadow form-group">
+                      <label className="required">Postcode / Zip</label>
+                      <div className="input-group">
+                        <input
+                          className="form-control"
+                          name="pincode"
+                          type="number"
+                          placeholder="Postcode / Zip"
+                          required="required"
+                          value={values.pincode}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-6">
+                    <div className="input-view-flat input-gray-shadow form-group">
+                      <label className="required">Phone</label>
+                      <div className="input-group">
+                        <input
+                          className="form-control"
+                          name="phone"
+                          type="number"
+                          placeholder="Phone"
+                          required="required"
+                          value={values.phone}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12 mt-5">
+                    <div className="input-view-flat input-gray-shadow form-group">
+                      <label className="h4 mb-3 text-title">
+                        Additional Information
+                      </label>
+                      <div className="input-group">
+                        <textarea
+                          className="form-control"
+                          name="additionInfo"
+                          placeholder="Additional Information"
+                          style={{ borderRadius: "25px" }}
+                          value={values.additionInfo}
+                          onChange={handleChange}
+                        ></textarea>
                       </div>
                     </div>
                   </div>
                 </div>
-                <br />
-                <br />
-                <br />
-                <div className={classes.wrapper}>
-                  <div className="col-12">
-                    <div
-                      className="btn-wider btn btn-theme"
-                      onClick={handlePlaceOrder}
-                    >
-                      place order
+              </div>
+              <div className="col-lg-6">
+                <h2 className="text-title mb-5">Your order</h2>
+                <div className="order-items mb-5">
+                  <div className="order-header">
+                    <div className="order-line-title">Name</div>
+                    <div className="order-line-total">Total</div>
+                    <div className="order-line">Qty</div>
+                  </div>
+                  {cartItems &&
+                    cartItems.map((item) => (
+                      <div className="order-item" key={item}>
+                        <div className="order-line-title">{item.name}</div>
+                        <div className="order-line-total">
+                          Rs. {item.newPrice}
+                        </div>
+                        <div className="order-line"> {item.qty}</div>
+                      </div>
+                    ))}
+                  <div className="order-subtotal">
+                    <div className="order-line-title">Market Price</div>
+                    <div className="order-line-total">Rs. {marketPrice}</div>
+                  </div>
+                  <div className="order-subtotal">
+                    <div className="order-line-title">Your Bill</div>
+                    <div className="order-line-total">Rs. {yourBill}</div>
+                  </div>
+                  <div className="order-subtotal">
+                    <div className="order-line-title">Shipping</div>
+                    <div className="order-line-total">Rs. 20.00</div>
+                  </div>
+                  <div className="order-subtotal">
+                    <div className="order-line-title">You Save</div>
+                    <div className="order-line-total">Rs. {saveTotal}</div>
+                  </div>
+                  <div className="separator-line"></div>
+                  <div className="order-total">
+                    <div className="order-line-title">Total</div>
+                    <div className="order-line-total">Rs. {yourBill + 20}</div>
+                  </div>
+                </div>
+                <h3 className="text-title mb-4">Payment Details</h3>
+                <form onClick={(e) => handlePaymentType(e)}>
+                  <div className="grid row">
+                    <div className="col-12">
+                      <div className="form-groups">
+                        <div className="input-view-flat input-gray-shadow form-group">
+                          <div className="form-check">
+                            <input
+                              className="form-check-icon"
+                              type="radio"
+                              id="pay-online"
+                              name="paymentType"
+                              value="PO"
+                              checked={paymentType.type === "PO"}
+                              // onChange={(e) => handlePaymentType(e)}
+                              // onChange={() => console.log("slkdjflksdfjklsfj")}
+                            />
+                            {/* <span className="form-check-icon"></span> */}
+                            <label
+                              className="form-check-label"
+                              for="cash-on-payment"
+                            >
+                              PAY ONLINE
+                            </label>
+                          </div>
+                        </div>
+                        <div className="input-view-flat input-gray-shadow form-group">
+                          <div className="form-check">
+                            <input
+                              // className="form-check-input"
+                              className="form-check-icon"
+                              type="radio"
+                              id="c-o-d"
+                              name="paymentType"
+                              value="COD"
+                              checked={paymentType.type === "COD"}
+                              // onChange={handlePaymentType}
+                              // onChange={console.log("slkdjflksdfjklsfj")}
+                            />
+                            {/* <span className="form-check-icon"></span> */}
+                            <label
+                              className="form-check-label"
+                              for="cash-on-payment"
+                            >
+                              CASH ON DELIVERY (COD)
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={classes.wrapper}>
+                      <div className="col-12">
+                        <div
+                          className="btn-wider btn btn-theme"
+                          onClick={handlePlaceOrder}
+                        >
+                          place order
+                        </div>
+                      </div>
+                      {loading && (
+                        <CircularProgress
+                          size={24}
+                          className={classes.buttonProgress}
+                        />
+                      )}
                     </div>
                   </div>
-                  {loading && (
-                    <CircularProgress
-                      size={24}
-                      className={classes.buttonProgress}
-                    />
-                  )}
-                </div>
+                </form>
               </div>
             </div>
           </div>
-        </form>
+        </div>
       </section>
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
         onClose={handleClose}
-        // message="Please  Login"
+        message=""
         key={vertical + horizontal}
       >
         <Alert severity="error" onClose={handleClose}>
           Please Login!
         </Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        message=""
+        key={vertical + horizontal}
+      >
+        {!isPaymentSelected ? (
+          <Alert severity="error" onClose={handleClose}>
+            Please Select Payment mode
+          </Alert>
+        ) : (
+          ""
+        )}
         {/* <Alert severity="error" onClose={handleClose}>
           Sorry! Today, We are not accepting orders anymore
         </Alert> */}

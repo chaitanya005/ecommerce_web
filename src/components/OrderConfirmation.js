@@ -1,11 +1,103 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { orderId } from "../features/cart/cart";
+import { useLocation, useParams } from "react-router-dom";
+import {
+  removeCart,
+  setOrderId,
+  storeCart,
+  billingInfo,
+} from "../features/cart/cart";
+// import firestore from "../firebase";
+// firestoree
+import { getUserDetails } from "../features/user/userSlice";
+import { firestore } from "../firebase";
+import axios from "axios";
+import Loading from "./Loading";
 
 const OrderConfirmation = () => {
+  const dispatch = useDispatch();
   const order_id = useSelector(orderId);
-  // console.log(order_id);
+  const values = useSelector(billingInfo);
+  const search = useLocation().search;
+  const id = new URLSearchParams(search).get("orderId");
+  const msg = new URLSearchParams(search).get("result_msg");
+  const amount = new URLSearchParams(search).get("txn_amount");
+  const cartItems = useSelector(storeCart);
+  const userDetails = useSelector(getUserDetails);
+  const [loading, setLoading] = useState(true);
+  // console.log(billing_Info, cartItems);
+
+  useEffect(() => {
+    if (msg) {
+      // console.log("skdjfksdlfj");
+      handleFireStore();
+    }
+    // handleNotion();
+  }, [msg]);
+
+  const handleFireStore = async () => {
+    let order = [
+      { orderId: id },
+      { orderItems: [...cartItems] },
+      { ...values },
+      { total: amount },
+    ];
+
+    const orderRef = firestore.doc(`orders/${userDetails.uid}/order/${id}`);
+
+    const snapshot = await orderRef.get();
+
+    console.log(snapshot.data());
+
+    if (!snapshot.exists) {
+      try {
+        firestore
+          .collection("orders")
+          .doc(userDetails.uid)
+          .collection("order")
+          .doc(id)
+          .set({
+            order,
+          })
+          .then(() => handleNotion());
+      } catch (error) {
+        console.log("Error in placing order", error);
+      }
+    }
+  };
+
+  const handleNotion = () => {
+    let items = "",
+      i = 0;
+
+    for (let item of cartItems) {
+      items += ` (${i} - ${item.name} - ${item.qty} Kg - ${item.price} Price - ${item.newPrice} Total) `;
+      i++;
+    }
+
+    let total = parseInt(amount);
+    let orderId = id;
+
+    // console.log(typeof total);
+    axios
+      .post("https://notion-demo.herokuapp.com/order", {
+        items,
+        values,
+        i,
+        orderId,
+        total,
+      })
+      .then((res) => {
+        // console.log(res);
+        dispatch(removeCart());
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <React.Fragment>
@@ -614,48 +706,62 @@ a {
           `}
         </style>
       </Helmet>
-      <section
-        className="
+      {loading ? (
+        <div>
+          <Loading />
+          <h6 style={{ textAlign: "center", color: "#fff" }}>
+            Please wait while loading...
+          </h6>
+          <h3 style={{ textAlign: "center", color: "#fff" }}>
+            Please do not refresh or close the window
+          </h3>
+        </div>
+      ) : (
+        <React.Fragment>
+          <section
+            className="
   after-head
   top-block-page
   with-back
   white-curve-after
   section-white-text
 "
-      >
-        <div
-          className="overflow-back bg-orange_1"
-          style={{ background: "#98c869" }}
-        ></div>
-        <div className="content-offs-stick my-5 container">
-          <div className="section-solid with-back">
-            <div className="full-block">
-              <div className="section-back-text">Success</div>
+          >
+            <div
+              className="overflow-back bg-orange_1"
+              style={{ background: "#98c869" }}
+            ></div>
+            <div className="content-offs-stick my-5 container">
+              <div className="section-solid with-back">
+                <div className="full-block">
+                  <div className="section-back-text">Success</div>
+                </div>
+                <div className="z-index-4 position-relative text-center">
+                  <h1 className="section-title">Thank You for Ordering!</h1>
+                </div>
+              </div>
             </div>
-            <div className="z-index-4 position-relative text-center">
-              <h1 className="section-title">Thank You for Ordering!</h1>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      <div className="col">
-        <img
-          src="/images/ss_logo.webp"
-          alt=""
-          style={{
-            width: "50%",
-            margin: "auto",
-            display: "block",
-          }}
-        />
-        <h2
-          className="mb-2 entity-title"
-          style={{ textTransform: "capitalize", textAlign: "center" }}
-        >
-          Order Id: {order_id}
-        </h2>
-      </div>
+          <div className="col">
+            <img
+              src="/images/ss_logo.webp"
+              alt=""
+              style={{
+                width: "50%",
+                margin: "auto",
+                display: "block",
+              }}
+            />
+            <h2
+              className="mb-2 entity-title"
+              style={{ textTransform: "capitalize", textAlign: "center" }}
+            >
+              Order Id: {id}
+            </h2>
+          </div>
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };

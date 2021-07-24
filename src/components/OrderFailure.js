@@ -8,7 +8,7 @@ const OrderFailure = () => {
   const search = useLocation().search;
   const id = new URLSearchParams(search).get("orderId");
   const msg = new URLSearchParams(search).get("result_msg");
-  console.log(id, msg);
+  // console.log(id, msg);
   return (
     <React.Fragment>
       <Helmet>

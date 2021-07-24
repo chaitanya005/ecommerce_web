@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   cartItem: [],
   orderId: "",
+  billingInfo: {},
 };
 
 const cart = createSlice({
@@ -44,16 +45,27 @@ const cart = createSlice({
       state.orderId = action.payload.orderId;
     },
 
+    setBillingDetails: (state, action) => {
+      state.billingInfo = action.payload.values;
+    },
+
     removeCart: (state, action) => {
       state.cartItem = [];
     },
   },
 });
 
-export const { addToCart, updateCart, removeItem, removeCart, setOrderId } =
-  cart.actions;
+export const {
+  addToCart,
+  updateCart,
+  removeItem,
+  removeCart,
+  setOrderId,
+  setBillingDetails,
+} = cart.actions;
 
 export const storeCart = (state) => state.cart.cartItem;
+export const billingInfo = (state) => state.cart.billingInfo;
 
 export const orderId = (state) => state.cart.orderId;
 

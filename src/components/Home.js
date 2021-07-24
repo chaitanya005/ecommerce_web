@@ -4,7 +4,7 @@ import Arrived from "./Arrived";
 import Deals from "./Deals";
 import Trending from "./Trending";
 // import Trending from './Trending'
-import React from "react";
+import React, { useState } from "react";
 import { useEffect, Suspense, lazy } from "react";
 // import { useDispatch, useSelector } from 'react-redux'
 import db from "../firebase";
@@ -12,6 +12,8 @@ import Men_shirts from "./Men/Men_shirts";
 // import VeggieSection from "./VeggieSection";
 import FoodDeliverySection from "./FoodDeliverySection";
 import { Helmet } from "react-helmet";
+import Loading from "./Loading";
+
 // import FruitsSection from "./FruitsSection";
 // import ClothingSection from "./ClothingSection";
 
@@ -21,6 +23,7 @@ const FruitsSection = lazy(() => import("./FruitsSection"));
 const ClothingSection = lazy(() => import("./ClothingSection"));
 
 const Home = () => {
+  const [state, setState] = useState(false);
   return (
     <React.Fragment>
       <Helmet>
@@ -579,7 +582,8 @@ const Home = () => {
         </style>
       </Helmet>
       <Container>
-        <Suspense fallback={<div style={{ color: "#000" }}>Loading....</div>}>
+        {/* state ? <Loading /> : "" */}
+        <Suspense fallback={<Loading />}>
           <ImgSlider />
           <VeggieSection />
           <FoodDeliverySection />
