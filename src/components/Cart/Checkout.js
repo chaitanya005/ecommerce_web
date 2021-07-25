@@ -151,8 +151,8 @@ const CheckoutPage = () => {
   }
 
   const handlePlaceOrder = async () => {
-    // setState({ ...state, open: true })
-    if (!uId) {
+    setState({ ...state, open: true });
+    /* if (!uId) {
       setState({ ...state, open: true });
     } else {
       // console.log(cartItems);
@@ -266,7 +266,7 @@ const CheckoutPage = () => {
     } catch (error) {
       console.log("Error in placing order", error);
       history.push("/order/failure");
-    }
+    } */
   };
 
   const handleNotion = () => {
@@ -1674,8 +1674,11 @@ textarea.form-control {
         message=""
         key={vertical + horizontal}
       >
-        <Alert severity="error" onClose={handleClose}>
+        {/* <Alert severity="error" onClose={handleClose}>
           Please Login!
+        </Alert> */}
+        <Alert severity="error" onClose={handleClose}>
+          Sorry! Today, We are not accepting orders anymore
         </Alert>
       </Snackbar>
       <Snackbar
@@ -1692,9 +1695,6 @@ textarea.form-control {
         ) : (
           ""
         )}
-        {/* <Alert severity="error" onClose={handleClose}>
-          Sorry! Today, We are not accepting orders anymore
-        </Alert> */}
       </Snackbar>
     </React.Fragment>
   );
