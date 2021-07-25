@@ -1238,7 +1238,9 @@ transform: scale(1.05); */
               />
             </div>
             <div className="z-index-4 position-relative text-center">
-              <h1 className="section-title">Fresh Veggies</h1>
+              <h1 className="section-title" style={{ fontWeight: "800" }}>
+                రైతు బజార్
+              </h1>
               <div className="mt-3">
                 <div className="page-breadcrumbs">
                   <a className="content-link" href="/">

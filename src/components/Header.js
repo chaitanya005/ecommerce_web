@@ -378,7 +378,7 @@ const Header = () => {
 
           <ListItem>
             <a href="/veggies/shop">
-              <ListItemText primary="Veggies Shop" />
+              <ListItemText primary="Raitu Bazaar" />
             </a>
           </ListItem>
 
@@ -479,7 +479,7 @@ const Header = () => {
               // onMouseOver={handleMenPopoverOpen}
             >
               <a href="/veggies/shop">
-                <span>VEGGIES SHOP</span>
+                <span>RAITU BAZAAR</span>
               </a>
             </Typography>
 

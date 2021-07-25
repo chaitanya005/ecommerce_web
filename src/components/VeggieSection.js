@@ -48,12 +48,12 @@ const HighlightedText = tw.span`bg-blue-500 text-gray-100 px-4 transform -skew-x
 
 const heading = (
   <React.Fragment>
-    Fresh{" "}
+    Raitu{" "}
     <HighlightedText
       style={{ backgroundColor: "rgba(100,21,255)", paddingBottom: "0.5rem" }}
     >
       {" "}
-      Veggies
+      Bazaar
     </HighlightedText>
   </React.Fragment>
 );
