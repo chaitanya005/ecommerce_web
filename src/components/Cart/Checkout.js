@@ -1677,23 +1677,14 @@ textarea.form-control {
         {/* <Alert severity="error" onClose={handleClose}>
           Please Login!
         </Alert> */}
-        <Alert severity="error" onClose={handleClose}>
-          Sorry! Today, We are not accepting orders anymore
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
-        open={open}
-        onClose={handleClose}
-        message=""
-        key={vertical + horizontal}
-      >
         {!isPaymentSelected ? (
           <Alert severity="error" onClose={handleClose}>
             Please Select Payment mode
           </Alert>
         ) : (
-          ""
+          <Alert severity="info" onClose={handleClose}>
+            Mega Sale is gonna start from 29/07/21
+          </Alert>
         )}
       </Snackbar>
     </React.Fragment>

@@ -143,6 +143,9 @@ const Cart = () => {
     horizontal: "center",
   });
 
+  const [coupon, setCoupon] = useState("");
+  const [clicked, setClicked] = useState(false);
+
   const storedVeggie = useSelector(storedVeggies);
 
   const [showLoginBtn, setShowLoginBtn] = useState(false);
@@ -182,6 +185,11 @@ const Cart = () => {
         }
       }
     } */
+  };
+
+  const handleCoupon = () => {
+    console.log(coupon);
+    setClicked(true);
   };
 
   return (
@@ -1718,16 +1726,19 @@ a:hover {
                             type="text"
                             placeholder="Enter Your Coupon Code Here!"
                             required="required"
+                            value={coupon}
+                            onChange={(e) => setCoupon(e.target.value)}
                           />
                         </div>
                       </div>
                       <div className="col-12 col-sm-5">
-                        <button
+                        <div
                           className="w-100 btn btn-theme-bordered"
-                          type="submit"
+                          // type="submit"
+                          onClick={handleCoupon}
                         >
                           apply coupon
-                        </button>
+                        </div>
                       </div>
                     </div>
                   </form>
@@ -1770,15 +1781,28 @@ a:hover {
                       <span className="list-item-title">Your Bill</span>
                       <span className="list-item-value">Rs.{yourBill}</span>
                     </li>
-                    <li>
-                      <span className="list-item-title">Shipping</span>
-                      <span className="list-item-value">Rs.20.00</span>
-                    </li>
+                    {!clicked ? (
+                      <li>
+                        <span className="list-item-title">Shipping</span>
+                        <span className="list-item-value">Rs.20.00</span>
+                      </li>
+                    ) : (
+                      ""
+                    )}
+
                     <li>
                       <span className="list-item-title">You Save</span>
                       <span className="list-item-value">Rs.{saveTotal}</span>
                     </li>
                     <li className="separator-line"></li>
+                    {clicked ? (
+                      <li>
+                        <span className="list-item-title">Shipping</span>
+                        <span className="list-item-value">Rs.20.00</span>
+                      </li>
+                    ) : (
+                      ""
+                    )}
                     <li className="cart-total">
                       <span className="list-item-title">Total</span>
                       <span className="list-item-value">
@@ -1805,8 +1829,8 @@ a:hover {
           {/* <Alert severity="error" onClose={handleClose}>
             Please Login!
           </Alert> */}
-          <Alert severity="error" onClose={handleClose}>
-            Sorry! Today, We are not accepting orders anymore
+          <Alert severity="info" onClose={handleClose}>
+            Mega Sale is gonna start from 29/07/21
           </Alert>
         </Snackbar>
       </section>
@@ -2079,21 +2103,21 @@ const CartItems = ({ cartItem }) => {
       </div>
     </Paper> */}
 
-      <Snackbar
+      {/* <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
         onClose={handleClose}
         message=""
         key={vertical + horizontal}
       >
-        {/* halfKilo ? (
+        {halfKilo ? (
           <Alert severity="info" onClose={handleClose}>
             250gms and 500gms are applied to only selected Items.
           </Alert>
         ) : (
           ""
-        ) */}
-      </Snackbar>
+        )}
+      </Snackbar> */}
     </>
   );
 };

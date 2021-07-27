@@ -581,7 +581,7 @@ const Home = () => {
             }`}
         </style>
       </Helmet>
-      <Container>
+      <Container style={{ backgroundColor: "#fff" }}>
         {/* state ? <Loading /> : "" */}
         <Suspense fallback={<Loading />}>
           <ImgSlider />

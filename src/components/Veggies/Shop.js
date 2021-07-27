@@ -12,6 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import { Helmet } from "react-helmet";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Loading from "../Loading";
+import styled from "styled-components";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -159,6 +160,7 @@ const Shop = () => {
     <React.Fragment>
       <Helmet>
         <title>Spont Store | Veggies Shop</title>
+        <meta name="description" content="Online Raithu bazaar in Chirala" />
         <style>
           {`
         :root {
@@ -294,6 +296,10 @@ button, select {
 
 .h5, h5 {
   font-size: 1.25rem;
+}
+
+.mw-100 {
+  max-width: 100% !important;
 }
 
 .container {
@@ -625,6 +631,28 @@ button, select {
 
 .white-curve-before, .white-curve-after {
   position: relative;
+}
+
+.cover-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+
+.dcover-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: top;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
 }
 
 .white-curve-before:before, .white-curve-after:after {
@@ -1223,14 +1251,20 @@ transform: scale(1.05); */
         section-white-text
       "
       >
-        <div className="overflow-back bg-orange"></div>
+        <div className="overflow-back">
+          {window.innerWidth <= "600" ? (
+            <BgImage className="overflow-back cover-image mw-100"></BgImage>
+          ) : (
+            <DImage className="overflow-back dcover-image mw-100"></DImage>
+          )}
+        </div>
         <div className="content-offs-stick my-5 container">
           <div className="section-solid with-back">
             <div className="full-block">
               <div className="section-back-text">Shop</div>
               <img
                 className="d-none-1 d-lg-block z-index-3"
-                src="/images/mandarin.webp"
+                src=""
                 alt=""
                 data-size="280px"
                 data-at="10%;bottom 35%"
@@ -1524,5 +1558,13 @@ transform: scale(1.05); */
     </React.Fragment>
   );
 };
+
+const BgImage = styled.div`
+  background-image: url("/images/istockphoto.jpg");
+`;
+
+const DImage = styled.div`
+  background-image: url("/images/farm_1.jpg");
+`;
 
 export default Shop;
