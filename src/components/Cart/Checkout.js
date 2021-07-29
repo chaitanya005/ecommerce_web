@@ -6,6 +6,8 @@ import {
   setOrderId,
   storeCart,
   setBillingDetails,
+  getTotalBill,
+  couponApplied,
 } from "../../features/cart/cart";
 import firestore from "../../firebase";
 import { useHistory } from "react-router-dom";
@@ -46,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
 const CheckoutPage = () => {
   const classes = useStyles();
   const cartItems = useSelector(storeCart);
+  const totalBill = useSelector(getTotalBill);
+  const coupon = useSelector(couponApplied);
+  // console.log(coupon);
   const userDetails = useSelector(getUserDetails);
   const userName = useSelector(getUserName);
   const [loading, setLoading] = React.useState(false);
@@ -237,12 +242,24 @@ const CheckoutPage = () => {
 
   const handleSaveOrder = async () => {
     setLoading(true);
-    let order = [
-      { orderId: orderId },
-      { orderItems: [...cartItems] },
-      { ...values },
-      { total: yourBill + 20 },
-    ];
+    let order = [];
+    if (coupon) {
+      order = [
+        { orderId: orderId },
+        { orderItems: [...cartItems] },
+        { ...values },
+        { total: totalBill },
+        { appliedCoupon: coupon },
+      ];
+    } else {
+      order = [
+        { orderId: orderId },
+        { orderItems: [...cartItems] },
+        { ...values },
+        { total: yourBill + 20 },
+        { appliedCoupon: "" },
+      ];
+    }
 
     try {
       firestore
@@ -281,12 +298,13 @@ const CheckoutPage = () => {
     let total = yourBill + 20;
 
     axios
-      .post("https://notion-demo.herokuapp.com/order", {
+      .post("https://notion-crm.herokuapp.com/order", {
         items,
         values,
         i,
         orderId,
         total,
+        coupon,
       })
       .then((res) => {
         console.log(res);
@@ -1589,10 +1607,26 @@ textarea.form-control {
                     <div className="order-line-total">Rs. {saveTotal}</div>
                   </div>
                   <div className="separator-line"></div>
+
                   <div className="order-total">
                     <div className="order-line-title">Total</div>
-                    <div className="order-line-total">Rs. {yourBill + 20}</div>
+                    <div className="order-line-total">Rs. {yourBill}</div>
                   </div>
+
+                  {coupon ? (
+                    <React.Fragment>
+                      <div className="order-subtotal">
+                        <div className="order-line-title">Discount</div>
+                        <div className="order-line-total">- 10%</div>
+                      </div>
+                      <div className="order-total">
+                        <div className="order-line-title">Total</div>
+                        <div className="order-line-total">Rs. {totalBill}</div>
+                      </div>
+                    </React.Fragment>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <h3 className="text-title mb-4">Payment Details</h3>
                 <form onClick={(e) => handlePaymentType(e)}>

@@ -9,8 +9,10 @@ import { getUserUid } from "../../features/user/userSlice";
 import {
   addToCart,
   removeItem,
+  setTotalBill,
   storeCart,
   updateCart,
+  setCouponName,
 } from "../../features/cart/cart";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -128,6 +130,8 @@ const Cart = () => {
   let marketPrice = 0;
   let saveTotal = 0;
 
+  let [billTotal, setBillTotal] = useState(0);
+
   for (let item of cartStore) {
     yourBill = yourBill + item.newPrice;
     marketPrice += item.actual_price * item.qty;
@@ -135,7 +139,12 @@ const Cart = () => {
 
   saveTotal += marketPrice - yourBill;
 
-  // console.log(cartStore);
+  useEffect(() => {
+    setBillTotal(yourBill + 20);
+    setClicked(false);
+  }, [yourBill]);
+
+  // console.log(billTotal);
 
   const [state, setState] = React.useState({
     open: false,
@@ -145,6 +154,7 @@ const Cart = () => {
 
   const [coupon, setCoupon] = useState("");
   const [clicked, setClicked] = useState(false);
+  const [inValidCoupon, setInValidCoupon] = useState(false);
 
   const storedVeggie = useSelector(storedVeggies);
 
@@ -165,6 +175,23 @@ const Cart = () => {
     } else {
       // window.location.reload();
 
+      let total;
+      if (clicked) {
+        total = billTotal;
+        dispatch(
+          setCouponName({
+            coupon,
+          })
+        );
+      } else {
+        total = yourBill + 20;
+        dispatch(
+          setCouponName({
+            coupon,
+          })
+        );
+      }
+
       if (flag === 0) {
         for (let veggie of storedVeggie.storeVeggies) {
           for (let cartItems of cartStore) {
@@ -180,6 +207,11 @@ const Cart = () => {
           }
         }
         if (flag === 0) {
+          dispatch(
+            setTotalBill({
+              total,
+            })
+          );
           history.push("/checkout");
           window.scrollTo(0, 0);
         }
@@ -188,8 +220,22 @@ const Cart = () => {
   };
 
   const handleCoupon = () => {
-    console.log(coupon);
-    setClicked(true);
+    // console.log(coupon);
+
+    if (coupon === "SSMGC10" || coupon === "SSRES10") {
+      setInValidCoupon(false);
+      let total = yourBill + 20;
+      let discount = 0;
+      discount = (10 / 100) * total;
+      // console.log(discount);
+      let discountBilll = total - Math.ceil(discount);
+      setBillTotal(discountBilll);
+
+      // setCoupon("");
+      setClicked(true);
+    } else {
+      setInValidCoupon(true);
+    }
   };
 
   return (
@@ -1741,6 +1787,11 @@ a:hover {
                         </div>
                       </div>
                     </div>
+                    {inValidCoupon ? (
+                      <p style={{ color: "#fff" }}>Please Enter VALID Coupon</p>
+                    ) : (
+                      ""
+                    )}
                   </form>
                 </div>
                 {/* <div className="cart-form">
@@ -1781,34 +1832,39 @@ a:hover {
                       <span className="list-item-title">Your Bill</span>
                       <span className="list-item-value">Rs.{yourBill}</span>
                     </li>
-                    {!clicked ? (
-                      <li>
-                        <span className="list-item-title">Shipping</span>
-                        <span className="list-item-value">Rs.20.00</span>
-                      </li>
-                    ) : (
-                      ""
-                    )}
+
+                    <li>
+                      <span className="list-item-title">Shipping</span>
+                      <span className="list-item-value">Rs.20.00</span>
+                    </li>
 
                     <li>
                       <span className="list-item-title">You Save</span>
                       <span className="list-item-value">Rs.{saveTotal}</span>
                     </li>
                     <li className="separator-line"></li>
-                    {clicked ? (
-                      <li>
-                        <span className="list-item-title">Shipping</span>
-                        <span className="list-item-value">Rs.20.00</span>
-                      </li>
-                    ) : (
-                      ""
-                    )}
                     <li className="cart-total">
                       <span className="list-item-title">Total</span>
                       <span className="list-item-value">
                         Rs.{yourBill + 20}
                       </span>
                     </li>
+                    {clicked ? (
+                      <React.Fragment>
+                        <li>
+                          <span className="list-item-title">Discount</span>
+                          <span className="list-item-value"> - 10%</span>
+                        </li>
+                        <li className="cart-total">
+                          <span className="list-item-title">Grand Total</span>
+                          <span className="list-item-value">
+                            Rs.{billTotal}
+                          </span>
+                        </li>
+                      </React.Fragment>
+                    ) : (
+                      ""
+                    )}
                   </ul>
 
                   <div className="w-100 btn btn-theme" onClick={handleCheckout}>

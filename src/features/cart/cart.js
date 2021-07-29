@@ -4,6 +4,8 @@ const initialState = {
   cartItem: [],
   orderId: "",
   billingInfo: {},
+  totalBill: "",
+  coupon: "",
 };
 
 const cart = createSlice({
@@ -49,6 +51,14 @@ const cart = createSlice({
       state.billingInfo = action.payload.values;
     },
 
+    setTotalBill: (state, action) => {
+      state.totalBill = action.payload.total;
+    },
+
+    setCouponName: (state, action) => {
+      state.coupon = action.payload.coupon;
+    },
+
     removeCart: (state, action) => {
       state.cartItem = [];
     },
@@ -62,11 +72,14 @@ export const {
   removeCart,
   setOrderId,
   setBillingDetails,
+  setTotalBill,
+  setCouponName,
 } = cart.actions;
 
 export const storeCart = (state) => state.cart.cartItem;
 export const billingInfo = (state) => state.cart.billingInfo;
-
+export const getTotalBill = (state) => state.cart.totalBill;
+export const couponApplied = (state) => state.cart.coupon;
 export const orderId = (state) => state.cart.orderId;
 
 export default cart.reducer;
