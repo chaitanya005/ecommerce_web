@@ -158,8 +158,8 @@ const Cart = () => {
 
   let flag = 0;
   const handleCheckout = () => {
-    setState({ ...state, open: true });
-    /* if (!uId) {
+    // setState({ ...state, open: true });
+    if (!uId) {
       setState({ ...state, open: true });
       window.scrollTo(0, 0);
     } else {
@@ -184,7 +184,7 @@ const Cart = () => {
           window.scrollTo(0, 0);
         }
       }
-    } */
+    }
   };
 
   const handleCoupon = () => {
@@ -1705,7 +1705,7 @@ a:hover {
                 </div>
                 <div className="col-md-4 col-lg-3">
                   <a href="/veggies/shop" className="btn btn-theme">
-                    continue shopping
+                    Continue Shopping
                   </a>
                 </div>
               </div>
@@ -1737,7 +1737,7 @@ a:hover {
                           // type="submit"
                           onClick={handleCoupon}
                         >
-                          apply coupon
+                          Apply coupon
                         </div>
                       </div>
                     </div>
@@ -1812,7 +1812,7 @@ a:hover {
                   </ul>
 
                   <div className="w-100 btn btn-theme" onClick={handleCheckout}>
-                    proceed to checkout
+                    Proceed to Checkout
                   </div>
                 </div>
               </div>

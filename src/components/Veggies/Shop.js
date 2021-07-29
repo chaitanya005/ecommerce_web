@@ -1023,10 +1023,10 @@ button, select {
 }
 
 .entity-price-old {
-  color: #cde2fb;
+  color: #fff;
   display: inline-block;
   vertical-align: super;
-  font-size: 16px;
+  font-size: 22px;
   text-decoration: line-through;
   margin-left: 0.75rem;
   opacity: 0.5;

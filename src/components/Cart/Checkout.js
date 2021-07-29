@@ -151,8 +151,8 @@ const CheckoutPage = () => {
   }
 
   const handlePlaceOrder = async () => {
-    setState({ ...state, open: true });
-    /* if (!uId) {
+    // setState({ ...state, open: true });
+    if (!uId) {
       setState({ ...state, open: true });
     } else {
       // console.log(cartItems);
@@ -266,7 +266,7 @@ const CheckoutPage = () => {
     } catch (error) {
       console.log("Error in placing order", error);
       history.push("/order/failure");
-    } */
+    }
   };
 
   const handleNotion = () => {
