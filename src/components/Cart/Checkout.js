@@ -1716,8 +1716,8 @@ textarea.form-control {
             Please Select Payment mode
           </Alert>
         ) : (
-          <Alert severity="info" onClose={handleClose}>
-            Mega Sale is gonna start from 29/07/21
+          <Alert severity="error" onClose={handleClose}>
+            Please Login
           </Alert>
         )}
       </Snackbar>
