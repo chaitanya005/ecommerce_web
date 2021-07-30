@@ -157,86 +157,85 @@ const CheckoutPage = () => {
 
   const handlePlaceOrder = async () => {
     // setState({ ...state, open: true });
-    if (!uId) {
+    /*   if (!uId) {
       setState({ ...state, open: true });
-    } else {
-      // console.log(cartItems);
-      if (
-        values.name === "" ||
-        values.address === "" ||
-        values.email === "" ||
-        values.phone === "" ||
-        values.pincode === "" ||
-        values.town === "" ||
-        values.district === ""
-      ) {
-        alert("Please fill all the fields");
-      } else if (values.phone.length < 10) {
-        alert("Please Enter Valid Phone Number");
-      } else if (!values.email.includes("@")) {
+    } else { */
+    // console.log(cartItems);
+    if (
+      values.name === "" ||
+      values.address === "" ||
+      values.email === "" ||
+      values.phone === "" ||
+      values.pincode === "" ||
+      values.town === "" ||
+      values.district === ""
+    ) {
+      alert("Please fill all the fields");
+    } else if (values.phone.length < 10) {
+      alert("Please Enter Valid Phone Number");
+    } /*  else if (!values.email.includes("@")) {
         alert("Please Enter Valid Email Id");
+      } */ else {
+      orderId =
+        "SS" +
+        new Date().getDate() +
+        new Date().getHours() +
+        new Date().getMinutes();
+      console.log(orderId);
+      if (paymentType.type === undefined) {
+        // console.log(paymentType);
+        setIsPaymentSelected(false);
+        setState({ ...state, open: true });
       } else {
-        orderId =
-          userDetails.email.substring(0, 3) +
-          new Date().getDate() +
-          new Date().getHours() +
-          new Date().getMinutes();
+        if (paymentType.type === "PO") {
+          setLoading(true);
+          setIsPaymentSelected(true);
+          // let totalBill = yourBill + 20;
+          // var amount = totalBill;
 
-        if (paymentType.type === undefined) {
-          // console.log(paymentType);
-          setIsPaymentSelected(false);
-          setState({ ...state, open: true });
+          let totalValues = [{ ...values }, yourBill];
+          dispatch(
+            setBillingDetails({
+              values,
+            })
+          );
+
+          var phone_number = values.phone;
+          var email = values.email;
+          orderId = "ORDERID_" + orderId;
+          let params = {
+            orderId: orderId,
+            email: email,
+            amount: yourBill + 20,
+            phone_number: phone_number,
+          };
+
+          // var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+          var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+          var request = {
+            url: url,
+            params: params,
+            method: "get",
+          };
+
+          const response = await axios(request);
+          // console.log(response);
+          const processParams = await response.data;
+          console.log(processParams);
+
+          var details = {
+            // action: "https://securegw-stage.paytm.in/order/process",
+            action: "https://securegw.paytm.in/order/process",
+            params: processParams,
+          };
+
+          post(details);
         } else {
-          if (paymentType.type === "PO") {
-            setLoading(true);
-            setIsPaymentSelected(true);
-            // let totalBill = yourBill + 20;
-            // var amount = totalBill;
-
-            let totalValues = [{ ...values }, yourBill];
-            dispatch(
-              setBillingDetails({
-                values,
-              })
-            );
-
-            var phone_number = values.phone;
-            var email = values.email;
-            orderId = "ORDERID_" + orderId;
-            let params = {
-              orderId: orderId,
-              email: email,
-              amount: yourBill + 20,
-              phone_number: phone_number,
-            };
-
-            // var url = "https://paytm-payment-gateway.herokuapp.com/payment";
-            var url = "https://paytm-payment-gateway.herokuapp.com/payment";
-            var request = {
-              url: url,
-              params: params,
-              method: "get",
-            };
-
-            const response = await axios(request);
-            // console.log(response);
-            const processParams = await response.data;
-            console.log(processParams);
-
-            var details = {
-              // action: "https://securegw-stage.paytm.in/order/process",
-              action: "https://securegw.paytm.in/order/process",
-              params: processParams,
-            };
-
-            post(details);
-          } else {
-            handleSaveOrder();
-          }
+          handleSaveOrder();
         }
-
-        // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
       }
+
+      // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
     }
   };
 
@@ -262,10 +261,26 @@ const CheckoutPage = () => {
     }
 
     try {
-      firestore
+      /* firestore
         .collection("orders")
         .doc(userDetails.uid)
         .collection("order")
+        .doc(orderId)
+        .set({
+          order,
+        })
+        .then(() => {
+          // history.push("/veggies/shop");
+          dispatch(
+            setOrderId({
+              orderId,
+            })
+          );
+          // console.log(res);
+          handleNotion();
+        }); */
+      firestore
+        .collection("orders")
         .doc(orderId)
         .set({
           order,

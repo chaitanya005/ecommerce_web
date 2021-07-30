@@ -169,52 +169,51 @@ const Cart = () => {
   let flag = 0;
   const handleCheckout = () => {
     // setState({ ...state, open: true });
-    if (!uId) {
+    /* if (!uId) {
       setState({ ...state, open: true });
       window.scrollTo(0, 0);
+    } else { */
+    // window.location.reload();
+
+    let total;
+    if (clicked) {
+      total = billTotal;
+      dispatch(
+        setCouponName({
+          coupon,
+        })
+      );
     } else {
-      // window.location.reload();
+      total = yourBill + 20;
+      dispatch(
+        setCouponName({
+          coupon,
+        })
+      );
+    }
 
-      let total;
-      if (clicked) {
-        total = billTotal;
-        dispatch(
-          setCouponName({
-            coupon,
-          })
-        );
-      } else {
-        total = yourBill + 20;
-        dispatch(
-          setCouponName({
-            coupon,
-          })
-        );
-      }
-
-      if (flag === 0) {
-        for (let veggie of storedVeggie.storeVeggies) {
-          for (let cartItems of cartStore) {
-            if (cartItems.name === veggie.name) {
-              if (
-                cartItems.price !== veggie.price ||
-                cartItems.in_stock !== veggie.in_stock
-              ) {
-                window.location.reload();
-                flag = 1;
-              }
+    if (flag === 0) {
+      for (let veggie of storedVeggie.storeVeggies) {
+        for (let cartItems of cartStore) {
+          if (cartItems.name === veggie.name) {
+            if (
+              cartItems.price !== veggie.price ||
+              cartItems.in_stock !== veggie.in_stock
+            ) {
+              window.location.reload();
+              flag = 1;
             }
           }
         }
-        if (flag === 0) {
-          dispatch(
-            setTotalBill({
-              total,
-            })
-          );
-          history.push("/checkout");
-          window.scrollTo(0, 0);
-        }
+      }
+      if (flag === 0) {
+        dispatch(
+          setTotalBill({
+            total,
+          })
+        );
+        history.push("/checkout");
+        window.scrollTo(0, 0);
       }
     }
   };
