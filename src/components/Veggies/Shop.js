@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveVeggies, storedVeggies, inStock } from "../../features/veggies";
 import db from "../../firebase";
@@ -38,6 +38,7 @@ const Shop = () => {
   const classes = useStyles();
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
 
   const storedVeggie = useSelector(storedVeggies);
   const storedCartItems = useSelector(storeCart);
@@ -139,8 +140,11 @@ const Shop = () => {
   // console.log(inStockVeggies);
 
   const handleVisible = () => {
-    // console.log(veggie);
-    setVisible((prev) => prev + 3);
+    if (visible < inStockVeggies.length) {
+      // console.log("skdjfhjkdlfj");
+      setVisible((prev) => prev + 3);
+      setHasMore(false);
+    }
   };
 
   const handleSearch = (e) => {
@@ -157,7 +161,47 @@ const Shop = () => {
     }
   };
 
+  const observer = useRef();
+
+  /*  const lastItem = useCallback((node) => {
+    console.log(node);
+    setIsLoading(true);
+    // if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver(callbackFunc);
+  }, []);
+ */
+  const callbackFunc = (entires) => {
+    console.log("sdfskdfjlksfdj");
+  };
+
+  const handleScroll = (e) => {
+    const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
+    // console.log(scrollHeight, scrollTop, clientHeight);
+    if (
+      scrollHeight - Math.ceil(scrollTop) === clientHeight + 1 ||
+      scrollHeight - Math.ceil(scrollTop) === clientHeight ||
+      scrollHeight - parseInt(scrollTop) === clientHeight ||
+      scrollHeight - Math.floor(scrollTop) === clientHeight
+    ) {
+      // console.log("loading...");
+      setHasMore(true);
+      // setInStockVeggies(inStockVeggies.concat({ length: 6 }));
+      // setVisible((prev) => prev + 3);
+      // console.log(visible, inStockVeggies.length);
+      if (visible >= inStockVeggies.length) {
+        setHasMore(false);
+      }
+      setTimeout(() => {
+        if (visible < inStockVeggies.length) {
+          handleVisible();
+        }
+      }, 1500);
+    }
+  };
+
   const fetchMore = () => {
+    // console.log(inStockVeggies.concat({ length: 6 }));
     setTimeout(() => {
       setInStockVeggies(inStockVeggies.concat({ length: 6 }));
     }, 1500);
@@ -549,6 +593,11 @@ button, select {
       .row {
         margin-left: -1rem;
         margin-right: -1rem;
+        
+    }
+
+    .row::-webkit-scrollbar {
+      display: none;
     }
     
     .col, .col-auto, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-sm, .col-sm-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md, .col-md-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg, .col-lg-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl, .col-xl-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
@@ -1248,6 +1297,18 @@ transform: scale(1.05); */
         <noscript>
           {`<link rel="stylesheet" href="/assets/css/theme.min.css" />`}
         </noscript> */}
+
+        <stlye>
+          {`
+          .row::-webkit-scrollbar {
+            display: none;
+          }
+
+          .row {
+            height: 1500px;
+          }
+          `}
+        </stlye>
       </Helmet>
       <section
         className="
@@ -1296,7 +1357,7 @@ transform: scale(1.05); */
           </div>
         </div>
       </section>
-      <section className="section" style={{ marginTop: "4rem" }}>
+      <section className="section" style={{ marginTop: "4rem" }} id="section">
         <Paper component="form" className={classes.root}>
           <InputBase
             className={classes.input}
@@ -1306,215 +1367,139 @@ transform: scale(1.05); */
           />
         </Paper>
         <br />
-        {isLoading ? <Loading /> : ""}
+        <br />
         <div className="container">
-          <div className="grid row">
+          {isLoading ? <Loading /> : ""}
+          <br />
+          <div
+            className="grid row"
+            id="main-grid"
+            onScroll={handleScroll}
+            style={{
+              height: "800px",
+              overflow: "auto",
+              // WebkitOverflowScrolling: "none",
+            }}
+          >
             {!searchTerm ? (
               <React.Fragment>
-                {/* <InfiniteScroll
-                  dataLength={inStockVeggies.length}
-                  next={fetchMore}
-                  hasMore={true}
-                  loader={<h4>Loading...</h4>}
-                >
-                  {inStockVeggies.map((veggie, i) => (
-                    <React.Fragment key={veggie.veggieId}>
-                      {veggie.in_stock && (
-                        <div className="col-12 col-md-6 col-xl-4 d-flex">
-                          <article className="entity-block entity-hover-shadow">
-                            <div
-                              className="entity-preview-show-up entity-preview"
-                              onClick={() => handleAddToCart(veggie)}
-                              // href={`/veggies/shop/product?id=${veggie.veggieId}`}
-                            >
-                              <span className="embed-responsive embed-responsive-4by3">
-                                <img
-                                  className="embed-responsive-item"
-                                  src={veggie.img}
-                                  alt=""
-                                />
-                              </span>
-                              <span className="with-back entity-preview-content">
-                                <span className="overflow-back bg-body-back opacity-70"></span>
-                                <span className="m-auto h1 text-theme text-center">
-                                  {/* <i className="fas fa-shopping-cart"></i> 
-                                  <ShoppingCartIcon
-                                    style={{ fontSize: "80px" }}
+                {visible ? (
+                  <React.Fragment>
+                    {inStockVeggies.slice(0, visible).map((veggie, i) => (
+                      <React.Fragment key={veggie.veggieId}>
+                        {veggie.in_stock && (
+                          <div className="col-12 col-md-6 col-xl-4 d-flex">
+                            <article className="entity-block entity-hover-shadow">
+                              <div
+                                className="entity-preview-show-up entity-preview"
+                                onClick={() => handleAddToCart(veggie)}
+                                // href={`/veggies/shop/product?id=${veggie.veggieId}`}
+                              >
+                                <span className="embed-responsive embed-responsive-4by3">
+                                  <img
+                                    className="embed-responsive-item"
+                                    src={veggie.img}
+                                    alt=""
                                   />
                                 </span>
-                              </span>
-                            </div>
-                            <div
-                              className="fill-color-line"
-                              data-role="fill-line"
-                            >
-                              <div
-                                className="opacity-30 fill-line-segment bg-theme"
-                                data-role="fill-line-segment"
-                                data-min-width="10"
-                                data-preffered-width="50"
-                                data-max-width="80"
-                              ></div>
-                              <div
-                                className="opacity-60 fill-line-segment bg-theme"
-                                data-role="fill-line-segment"
-                                data-min-width="10"
-                                data-preffered-width="50"
-                                data-max-width="80"
-                              ></div>
-                              <div
-                                className="fill-line-segment bg-theme"
-                                data-role="fill-line-segment"
-                                data-min-width="10"
-                                data-preffered-width="50"
-                                data-max-width="80"
-                              ></div>
-                            </div>
-                            <div className="entity-content">
-                              <h4 className="entity-title">
-                                <a className="content-link" href="#">
-                                  {veggie.name} / {veggie.tel_name}
-                                </a>
-                              </h4>
-                              <p className="entity-text">{veggie.desc}</p>
-                              <div className="entity-bottom-line">
-                                <div className="entity-price">
-                                  <span className="currency">
-                                    Rs. {veggie.price}
+                                <span className="with-back entity-preview-content">
+                                  <span className="overflow-back bg-body-back opacity-70"></span>
+                                  <span className="m-auto h1 text-theme text-center">
+                                    <ShoppingCartIcon
+                                      style={{ fontSize: "80px" }}
+                                    />
                                   </span>
+                                </span>
+                              </div>
+                              <div
+                                className="fill-color-line"
+                                data-role="fill-line"
+                              >
+                                <div
+                                  className="opacity-30 fill-line-segment bg-theme"
+                                  data-role="fill-line-segment"
+                                  data-min-width="10"
+                                  data-preffered-width="50"
+                                  data-max-width="80"
+                                ></div>
+                                <div
+                                  className="opacity-60 fill-line-segment bg-theme"
+                                  data-role="fill-line-segment"
+                                  data-min-width="10"
+                                  data-preffered-width="50"
+                                  data-max-width="80"
+                                ></div>
+                                <div
+                                  className="fill-line-segment bg-theme"
+                                  data-role="fill-line-segment"
+                                  data-min-width="10"
+                                  data-preffered-width="50"
+                                  data-max-width="80"
+                                ></div>
+                              </div>
+                              <div className="entity-content">
+                                <h4 className="entity-title">
+                                  <a className="content-link" href="#">
+                                    {veggie.name} / {veggie.tel_name}
+                                  </a>
+                                </h4>
+                                <p className="entity-text">{veggie.desc}</p>
+                                <div className="entity-bottom-line">
+                                  <div className="entity-price">
+                                    <span className="currency">
+                                      Rs. {veggie.price}
+                                    </span>
 
-                                  {veggie.name !== "Bottle Gourd" &&
-                                  veggie.name !== "Drum Sticks" ? (
-                                    <span className="price-unit"> / kg</span>
-                                  ) : (
-                                    <span className="price-unit"> / kg</span>
-                                  )}
-                                  <span className="entity-price-old">
-                                    Rs. {veggie.actual_price}
-                                  </span>
-                                </div>
-                                <div className="entity-action-btns">
-                                  <div
-                                    className="btn-sm btn btn-theme"
-                                    onClick={() => handleAddToCart(veggie)}
-                                  >
-                                    Add to cart
+                                    {veggie.name !== "Bottle Gourd" &&
+                                    veggie.name !== "Drum Sticks" ? (
+                                      <span className="price-unit"> / kg</span>
+                                    ) : (
+                                      <span className="price-unit"> / kg</span>
+                                    )}
+                                    <span className="entity-price-old">
+                                      Rs. {veggie.actual_price}
+                                    </span>
+                                  </div>
+                                  <div className="entity-action-btns">
+                                    <div
+                                      className="btn-sm btn btn-theme"
+                                      onClick={() => handleAddToCart(veggie)}
+                                    >
+                                      Add to cart
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </article>
-                        </div>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </InfiniteScroll> */}
-                <React.Fragment>
-                  {inStockVeggies.map((veggie, i) => (
-                    <React.Fragment key={veggie.veggieId}>
-                      {veggie.in_stock && (
-                        <div className="col-12 col-md-6 col-xl-4 d-flex">
-                          <article className="entity-block entity-hover-shadow">
-                            <div
-                              className="entity-preview-show-up entity-preview"
-                              onClick={() => handleAddToCart(veggie)}
-                              // href={`/veggies/shop/product?id=${veggie.veggieId}`}
-                            >
-                              <span className="embed-responsive embed-responsive-4by3">
-                                <img
-                                  className="embed-responsive-item"
-                                  src={veggie.img}
-                                  alt=""
-                                />
-                              </span>
-                              <span className="with-back entity-preview-content">
-                                <span className="overflow-back bg-body-back opacity-70"></span>
-                                <span className="m-auto h1 text-theme text-center">
-                                  {/* <i className="fas fa-shopping-cart"></i> */}
-                                  <ShoppingCartIcon
-                                    style={{ fontSize: "80px" }}
-                                  />
-                                </span>
-                              </span>
-                            </div>
-                            <div
-                              className="fill-color-line"
-                              data-role="fill-line"
-                            >
-                              <div
-                                className="opacity-30 fill-line-segment bg-theme"
-                                data-role="fill-line-segment"
-                                data-min-width="10"
-                                data-preffered-width="50"
-                                data-max-width="80"
-                              ></div>
-                              <div
-                                className="opacity-60 fill-line-segment bg-theme"
-                                data-role="fill-line-segment"
-                                data-min-width="10"
-                                data-preffered-width="50"
-                                data-max-width="80"
-                              ></div>
-                              <div
-                                className="fill-line-segment bg-theme"
-                                data-role="fill-line-segment"
-                                data-min-width="10"
-                                data-preffered-width="50"
-                                data-max-width="80"
-                              ></div>
-                            </div>
-                            <div className="entity-content">
-                              <h4 className="entity-title">
-                                <a className="content-link" href="#">
-                                  {veggie.name} / {veggie.tel_name}
-                                </a>
-                              </h4>
-                              <p className="entity-text">{veggie.desc}</p>
-                              <div className="entity-bottom-line">
-                                <div className="entity-price">
-                                  <span className="currency">
-                                    Rs. {veggie.price}
-                                  </span>
-
-                                  {veggie.name !== "Bottle Gourd" &&
-                                  veggie.name !== "Drum Sticks" ? (
-                                    <span className="price-unit"> / kg</span>
-                                  ) : (
-                                    <span className="price-unit"> / kg</span>
-                                  )}
-                                  <span className="entity-price-old">
-                                    Rs. {veggie.actual_price}
-                                  </span>
-                                </div>
-                                <div className="entity-action-btns">
-                                  <div
-                                    className="btn-sm btn btn-theme"
-                                    onClick={() => handleAddToCart(veggie)}
-                                  >
-                                    Add to cart
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </article>
-                        </div>
-                      )}
-                      {/* i === inStockVeggies.slice(0, visible).length - 1 &&
-                      visible < inStockVeggies.length ? (
-                        <div className="section-footer">
-                          <div
-                            className="btn-theme-white-bordered btn"
-                            onClick={() => handleVisible(veggie)}
-                          >
-                            View More
+                            </article>
                           </div>
-                        </div>
-                      ) : (
-                        ""
-                      ) */}
-                    </React.Fragment>
-                  ))}
-                </React.Fragment>
+                        )}
+                        {/* i === inStockVeggies.slice(0, visible).length - 1 &&
+                        visible < inStockVeggies.length ? (
+                          <div className="section-footer">
+                            <div
+                              className="btn-theme-white-bordered btn"
+                              onClick={() => handleVisible(veggie)}
+                            >
+                              View More
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        ) */}
+                      </React.Fragment>
+                    ))}
+                    {hasMore ? (
+                      <div style={{ margin: "auto", width: "100%" }}>
+                        <br />
+                        <Loading />
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </React.Fragment>
+                ) : (
+                  ""
+                )}
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -1613,19 +1598,6 @@ transform: scale(1.05); */
                               </div>
                             </article>
                           </div>
-                        )}
-                        {i === inStockVeggies.slice(0, visible).length - 1 &&
-                        visible < inStockVeggies.length ? (
-                          <div className="section-footer">
-                            <div
-                              className="btn-theme-white-bordered btn"
-                              onClick={() => handleVisible(veggie)}
-                            >
-                              View More
-                            </div>
-                          </div>
-                        ) : (
-                          ""
                         )}
                       </React.Fragment>
                     ))}

@@ -164,7 +164,7 @@ const CheckoutPage = () => {
     if (
       values.name === "" ||
       values.address === "" ||
-      values.email === "" ||
+      // values.email === "" ||
       values.phone === "" ||
       values.pincode === "" ||
       values.town === "" ||
@@ -1474,14 +1474,14 @@ textarea.form-control {
                   </div>
                   <div className="col-md-6">
                     <div className="input-view-flat input-gray-shadow form-group">
-                      <label className="required">Your Email</label>
+                      <label className="">Your Email</label>
                       <div className="input-group">
                         <input
                           className="form-control"
                           name="email"
                           type="email"
                           placeholder="Email"
-                          required="required"
+                          // required=""
                           values={values.email}
                           onChange={handleChange}
                         />
