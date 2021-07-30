@@ -1311,7 +1311,7 @@ transform: scale(1.05); */
           <div className="grid row">
             {!searchTerm ? (
               <React.Fragment>
-                <InfiniteScroll
+                {/* <InfiniteScroll
                   dataLength={inStockVeggies.length}
                   next={fetchMore}
                   hasMore={true}
@@ -1337,7 +1337,7 @@ transform: scale(1.05); */
                               <span className="with-back entity-preview-content">
                                 <span className="overflow-back bg-body-back opacity-70"></span>
                                 <span className="m-auto h1 text-theme text-center">
-                                  {/* <i className="fas fa-shopping-cart"></i> */}
+                                  {/* <i className="fas fa-shopping-cart"></i> 
                                   <ShoppingCartIcon
                                     style={{ fontSize: "80px" }}
                                   />
@@ -1406,22 +1406,9 @@ transform: scale(1.05); */
                           </article>
                         </div>
                       )}
-                      {/* i === inStockVeggies.slice(0, visible).length - 1 &&
-                      visible < inStockVeggies.length ? (
-                        <div className="section-footer">
-                          <div
-                            className="btn-theme-white-bordered btn"
-                            onClick={() => handleVisible(veggie)}
-                          >
-                            View More
-                          </div>
-                        </div>
-                      ) : (
-                        ""
-                      ) */}
                     </React.Fragment>
                   ))}
-                </InfiniteScroll>
+                </InfiniteScroll> */}
                 <React.Fragment>
                   {inStockVeggies.map((veggie, i) => (
                     <React.Fragment key={veggie.veggieId}>
