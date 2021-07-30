@@ -55,10 +55,19 @@ const OrderConfirmation = () => {
 
     if (!snapshot.exists) {
       try {
-        firestore
+        /* firestore
           .collection("orders")
           .doc(userDetails.uid)
           .collection("order")
+          .doc(id)
+          .set({
+            order,
+          })
+          .then(() => handleNotion()); */
+        firestore
+          .collection("orders")
+          // .doc(userDetails.uid)
+          // .collection("order")
           .doc(id)
           .set({
             order,
