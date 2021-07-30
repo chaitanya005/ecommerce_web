@@ -157,87 +157,87 @@ const CheckoutPage = () => {
 
   const handlePlaceOrder = async () => {
     // setState({ ...state, open: true });
-    /* if (!uId) {
+    if (!uId) {
       setState({ ...state, open: true });
-    } else { */
-    // console.log(cartItems);
-    if (
-      values.name === "" ||
-      values.address === "" ||
-      // values.email === "" ||
-      values.phone === "" ||
-      values.pincode === "" ||
-      values.town === "" ||
-      values.district === ""
-    ) {
-      alert("Please fill all the fields");
-    } else if (values.phone.length < 10) {
-      alert("Please Enter Valid Phone Number");
-    } else if (!values.email.includes("@")) {
-      alert("Please Enter Valid Email Id");
     } else {
-      orderId =
-        userDetails.email.substring(0, 3) +
-        new Date().getDate() +
-        new Date().getHours() +
-        new Date().getMinutes();
-
-      if (paymentType.type === undefined) {
-        // console.log(paymentType);
-        setIsPaymentSelected(false);
-        setState({ ...state, open: true });
+      // console.log(cartItems);
+      if (
+        values.name === "" ||
+        values.address === "" ||
+        values.email === "" ||
+        values.phone === "" ||
+        values.pincode === "" ||
+        values.town === "" ||
+        values.district === ""
+      ) {
+        alert("Please fill all the fields");
+      } else if (values.phone.length < 10) {
+        alert("Please Enter Valid Phone Number");
+      } else if (!values.email.includes("@")) {
+        alert("Please Enter Valid Email Id");
       } else {
-        if (paymentType.type === "PO") {
-          setLoading(true);
-          setIsPaymentSelected(true);
-          // let totalBill = yourBill + 20;
-          // var amount = totalBill;
+        orderId =
+          userDetails.email.substring(0, 3) +
+          new Date().getDate() +
+          new Date().getHours() +
+          new Date().getMinutes();
 
-          let totalValues = [{ ...values }, yourBill];
-          dispatch(
-            setBillingDetails({
-              values,
-            })
-          );
-
-          var phone_number = values.phone;
-          var email = values.email;
-          orderId = "ORDERID_" + orderId;
-          let params = {
-            orderId: orderId,
-            email: email,
-            amount: yourBill + 20,
-            phone_number: phone_number,
-          };
-
-          // var url = "https://paytm-payment-gateway.herokuapp.com/payment";
-          var url = "https://paytm-payment-gateway.herokuapp.com/payment";
-          var request = {
-            url: url,
-            params: params,
-            method: "get",
-          };
-
-          const response = await axios(request);
-          // console.log(response);
-          const processParams = await response.data;
-          console.log(processParams);
-
-          var details = {
-            // action: "https://securegw-stage.paytm.in/order/process",
-            action: "https://securegw.paytm.in/order/process",
-            params: processParams,
-          };
-
-          post(details);
+        if (paymentType.type === undefined) {
+          // console.log(paymentType);
+          setIsPaymentSelected(false);
+          setState({ ...state, open: true });
         } else {
-          handleSaveOrder();
-        }
-      }
+          if (paymentType.type === "PO") {
+            setLoading(true);
+            setIsPaymentSelected(true);
+            // let totalBill = yourBill + 20;
+            // var amount = totalBill;
 
-      // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
+            let totalValues = [{ ...values }, yourBill];
+            dispatch(
+              setBillingDetails({
+                values,
+              })
+            );
+
+            var phone_number = values.phone;
+            var email = values.email;
+            orderId = "ORDERID_" + orderId;
+            let params = {
+              orderId: orderId,
+              email: email,
+              amount: yourBill + 20,
+              phone_number: phone_number,
+            };
+
+            // var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+            var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+            var request = {
+              url: url,
+              params: params,
+              method: "get",
+            };
+
+            const response = await axios(request);
+            // console.log(response);
+            const processParams = await response.data;
+            console.log(processParams);
+
+            var details = {
+              // action: "https://securegw-stage.paytm.in/order/process",
+              action: "https://securegw.paytm.in/order/process",
+              params: processParams,
+            };
+
+            post(details);
+          } else {
+            handleSaveOrder();
+          }
+        }
+
+        // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
+      }
     }
-    // }
   };
 
   const handleSaveOrder = async () => {
@@ -288,7 +288,7 @@ const CheckoutPage = () => {
 
   const handleNotion = () => {
     let items = "",
-      i = 1;
+      i = 0;
 
     for (let item of cartItems) {
       items += ` (${i} - ${item.name} - ${item.qty} Kg - ${item.price} Price - ${item.newPrice} Total) `;
@@ -303,7 +303,7 @@ const CheckoutPage = () => {
         values,
         i,
         orderId,
-        totalBill,
+        total,
         coupon,
       })
       .then((res) => {
@@ -1459,7 +1459,7 @@ textarea.form-control {
                   </div>
                   <div className="col-md-6">
                     <div className="input-view-flat input-gray-shadow form-group">
-                      <label className="">Your Email</label>
+                      <label className="required">Your Email</label>
                       <div className="input-group">
                         <input
                           className="form-control"
