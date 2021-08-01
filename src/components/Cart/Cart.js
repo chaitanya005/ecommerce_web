@@ -168,14 +168,14 @@ const Cart = () => {
 
   let flag = 0;
   const handleCheckout = () => {
-    // setState({ ...state, open: true });
+    setState({ ...state, open: true });
     /* if (!uId) {
       setState({ ...state, open: true });
       window.scrollTo(0, 0);
     } else { */
     // window.location.reload();
 
-    let total;
+    /* let total;
     if (clicked) {
       total = billTotal;
       dispatch(
@@ -215,7 +215,7 @@ const Cart = () => {
         history.push("/checkout");
         window.scrollTo(0, 0);
       }
-    }
+    } */
   };
 
   const handleCoupon = () => {
@@ -1881,8 +1881,8 @@ a:hover {
           message=""
           key={vertical + horizontal}
         >
-          <Alert severity="error" onClose={handleClose}>
-            Please Login
+          <Alert severity="info" onClose={handleClose}>
+            Sorry! We are not accepting orders today anymore
           </Alert>
         </Snackbar>
       </section>

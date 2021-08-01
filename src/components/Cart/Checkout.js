@@ -156,15 +156,14 @@ const CheckoutPage = () => {
   }
 
   const handlePlaceOrder = async () => {
-    // setState({ ...state, open: true });
+    setState({ ...state, open: true });
     /*   if (!uId) {
       setState({ ...state, open: true });
     } else { */
     // console.log(cartItems);
-    if (
+    /* if (
       values.name === "" ||
       values.address === "" ||
-      // values.email === "" ||
       values.phone === "" ||
       values.pincode === "" ||
       values.town === "" ||
@@ -173,9 +172,7 @@ const CheckoutPage = () => {
       alert("Please fill all the fields");
     } else if (values.phone.length < 10) {
       alert("Please Enter Valid Phone Number");
-    } /*  else if (!values.email.includes("@")) {
-        alert("Please Enter Valid Email Id");
-      } */ else {
+    } else {
       orderId =
         "SS" +
         new Date().getDate() +
@@ -236,7 +233,7 @@ const CheckoutPage = () => {
       }
 
       // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
-    }
+    } */
   };
 
   const handleSaveOrder = async () => {
@@ -1731,8 +1728,8 @@ textarea.form-control {
             Please Select Payment mode
           </Alert>
         ) : (
-          <Alert severity="error" onClose={handleClose}>
-            Please Login
+          <Alert severity="info" onClose={handleClose}>
+            Sorry! We are not accepting order today anymore.
           </Alert>
         )}
       </Snackbar>
