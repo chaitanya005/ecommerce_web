@@ -32,6 +32,8 @@ import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import React, { Suspense, lazy } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Loading from "./components/Loading";
+import Team from "./components/Team";
+import Fruits from "./components/Fruits/Fruits";
 
 // import './App.css'
 
@@ -74,6 +76,9 @@ function App() {
           {/* <Route exact path="/veggies/shop/product">
             <VeggieProduct />
           </Route> */}
+          <Route path="/team">
+            <Team />
+          </Route>
           <Route path="/checkout">
             <CheckoutPage />
           </Route>
@@ -88,6 +93,9 @@ function App() {
           </Route>
           <Route path="/food-delivery">
             <LandingPage />
+          </Route>
+          <Route path="/fruits">
+            <Fruits />
           </Route>
           <Route path="/resto">
             <Restaurants />

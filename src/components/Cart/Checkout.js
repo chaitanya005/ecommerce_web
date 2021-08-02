@@ -156,12 +156,12 @@ const CheckoutPage = () => {
   }
 
   const handlePlaceOrder = async () => {
-    setState({ ...state, open: true });
+    // setState({ ...state, open: true });
     /*   if (!uId) {
       setState({ ...state, open: true });
     } else { */
     // console.log(cartItems);
-    /* if (
+    if (
       values.name === "" ||
       values.address === "" ||
       values.phone === "" ||
@@ -233,7 +233,7 @@ const CheckoutPage = () => {
       }
 
       // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
-    } */
+    }
   };
 
   const handleSaveOrder = async () => {
@@ -1647,44 +1647,48 @@ textarea.form-control {
                       <div className="form-groups">
                         <div className="input-view-flat input-gray-shadow form-group">
                           <div className="form-check">
-                            <input
-                              className="form-check-icon"
-                              type="radio"
-                              id="pay-online"
-                              name="paymentType"
-                              value="PO"
-                              checked={paymentType.type === "PO"}
-                              // onChange={(e) => handlePaymentType(e)}
-                              // onChange={() => console.log("slkdjflksdfjklsfj")}
-                            />
-                            {/* <span className="form-check-icon"></span> */}
-                            <label
-                              className="form-check-label"
-                              for="cash-on-payment"
-                            >
-                              PAY ONLINE
+                            <label>
+                              <input
+                                className="form-check-icon"
+                                type="radio"
+                                id="pay-online"
+                                name="paymentType"
+                                value="PO"
+                                checked={paymentType.type === "PO"}
+                                // onChange={(e) => handlePaymentType(e)}
+                                // onChange={() => console.log("slkdjflksdfjklsfj")}
+                              />
+                              {/* <span className="form-check-icon"></span> */}
+                              <div
+                                className="form-check-label"
+                                for="cash-on-payment"
+                              >
+                                PAY ONLINE
+                              </div>
                             </label>
                           </div>
                         </div>
                         <div className="input-view-flat input-gray-shadow form-group">
                           <div className="form-check">
-                            <input
-                              // className="form-check-input"
-                              className="form-check-icon"
-                              type="radio"
-                              id="c-o-d"
-                              name="paymentType"
-                              value="COD"
-                              checked={paymentType.type === "COD"}
-                              // onChange={handlePaymentType}
-                              // onChange={console.log("slkdjflksdfjklsfj")}
-                            />
-                            {/* <span className="form-check-icon"></span> */}
-                            <label
-                              className="form-check-label"
-                              for="cash-on-payment"
-                            >
-                              CASH ON DELIVERY (COD)
+                            <label>
+                              <input
+                                // className="form-check-input"
+                                className="form-check-icon"
+                                type="radio"
+                                id="c-o-d"
+                                name="paymentType"
+                                value="COD"
+                                checked={paymentType.type === "COD"}
+                                // onChange={handlePaymentType}
+                                // onChange={console.log("slkdjflksdfjklsfj")}
+                              />
+                              {/* <span className="form-check-icon"></span> */}
+                              <div
+                                className="form-check-label"
+                                for="cash-on-payment"
+                              >
+                                CASH ON DELIVERY (COD)
+                              </div>
                             </label>
                           </div>
                         </div>

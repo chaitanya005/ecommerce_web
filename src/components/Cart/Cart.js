@@ -1761,37 +1761,35 @@ a:hover {
               <div className="col-lg-6 mr-auto">
                 <div className="cart-form">
                   <h5 className="form-title">Coupon Discount</h5>
-                  <form autocomplete="off">
-                    <div className="row grid">
-                      <div className="col-12 col-sm-7">
-                        <div className="input-view-flat input-gray-shadow input-group">
-                          <input
-                            className="form-control"
-                            name="text"
-                            type="text"
-                            placeholder="Enter Your Coupon Code Here!"
-                            required="required"
-                            value={coupon}
-                            onChange={(e) => setCoupon(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-12 col-sm-5">
-                        <div
-                          className="w-100 btn btn-theme-bordered"
-                          // type="submit"
-                          onClick={handleCoupon}
-                        >
-                          Apply coupon
-                        </div>
+                  <div className="row grid">
+                    <div className="col-12 col-sm-7">
+                      <div className="input-view-flat input-gray-shadow input-group">
+                        <input
+                          className="form-control"
+                          name="text"
+                          type="text"
+                          placeholder="Enter Your Coupon Code Here!"
+                          required="required"
+                          value={coupon}
+                          onChange={(e) => setCoupon(e.target.value)}
+                        />
                       </div>
                     </div>
-                    {inValidCoupon ? (
-                      <p style={{ color: "#fff" }}>Please Enter VALID Coupon</p>
-                    ) : (
-                      ""
-                    )}
-                  </form>
+                    <div className="col-12 col-sm-5">
+                      <div
+                        className="w-100 btn btn-theme-bordered"
+                        // type="submit"
+                        onClick={handleCoupon}
+                      >
+                        Apply coupon
+                      </div>
+                    </div>
+                  </div>
+                  {inValidCoupon ? (
+                    <p style={{ color: "#fff" }}>Please Enter VALID Coupon</p>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 {/* <div className="cart-form">
                   <h5 className="form-title">Check Availability</h5>
@@ -2054,7 +2052,7 @@ const CartItems = ({ cartItem }) => {
                 alt=""
               />
             </span>
-            <span className="with-back entity-preview-content">
+            <span className="">
               <span className="h3 m-auto text-theme text-center">
                 <i className="fas fa-search"></i>
               </span>
