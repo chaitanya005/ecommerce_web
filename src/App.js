@@ -33,7 +33,8 @@ import React, { Suspense, lazy } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Loading from "./components/Loading";
 import Team from "./components/Team";
-import Fruits from "./components/Fruits/Fruits";
+import FruitsLand from "./components/Fruits/FruitsLand";
+import Cashews from "./components/Fruits/Cashews";
 
 // import './App.css'
 
@@ -95,7 +96,10 @@ function App() {
             <LandingPage />
           </Route>
           <Route path="/fruits">
-            <Fruits />
+            <FruitsLand />
+          </Route>
+          <Route path="/dryfruits/cashews">
+            <Cashews />
           </Route>
           <Route path="/resto">
             <Restaurants />
