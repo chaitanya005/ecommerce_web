@@ -11,6 +11,7 @@ const Loading = () => {
             // marginRight: "auto",
             // marginLeft: "auto",
             margin: "auto",
+            // color: "red",
           }}
         />
       </div>

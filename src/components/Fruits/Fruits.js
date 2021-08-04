@@ -5,7 +5,7 @@ const Fruits = () => {
     <React.Fragment>
       <div className="container" style={{ marginTop: "4rem" }}>
         <div className="grid justify-content-center row">
-          <div className="col-sm-6 col-md-4 col-lg-3">
+          {/* <div className="col-sm-6 col-md-4 col-lg-3">
             <article className="entity-block entity-hover-shadow bg-white text-center">
               <div className="my-3 entity-image">
                 <div className="embed-responsive embed-responsive-4by3">
@@ -111,7 +111,7 @@ const Fruits = () => {
                 </div>
               </div>
             </article>
-          </div>
+          </div> */}
           <h2>Fruits are Coming Soon!</h2>
         </div>
       </div>
