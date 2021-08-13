@@ -14,7 +14,7 @@ const cart = createSlice({
   reducers: {
     addToCart: (state, action) => {
       // console.log(action.payload);
-      state.cartItem = [...state.cartItem.concat(action.payload.veggie)];
+      state.cartItem = [...state.cartItem.concat(action.payload.newItem)];
     },
 
     updateCart: (state, action) => {
@@ -31,7 +31,7 @@ const cart = createSlice({
     },
 
     removeItem: (state, action) => {
-      console.log(action.payload.removeeItem);
+      // console.log(action.payload.removeeItem);
       /* state.cartItem.map((veggie, i) =>
         veggie.veggieId === action.payload.removeeItem.veggieId
           ? state.cartItem.splice(i, 1)
@@ -40,6 +40,13 @@ const cart = createSlice({
 
       state.cartItem = state.cartItem.filter(
         (item) => item.veggieId !== action.payload.removeeItem.veggieId
+      );
+    },
+
+    removeDryFruitItem: (state, action) => {
+      console.log(action.payload.removeeItem);
+      state.cartItem = state.cartItem.filter(
+        (item) => item.name !== action.payload.removeeItem.name
       );
     },
 
@@ -74,6 +81,7 @@ export const {
   setBillingDetails,
   setTotalBill,
   setCouponName,
+  removeDryFruitItem,
 } = cart.actions;
 
 export const storeCart = (state) => state.cart.cartItem;

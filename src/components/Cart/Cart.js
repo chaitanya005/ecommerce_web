@@ -6,13 +6,14 @@ import Divider from "@material-ui/core/Divider";
 import db from "../../firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserUid } from "../../features/user/userSlice";
-import {
+import cart, {
   addToCart,
   removeItem,
   setTotalBill,
   storeCart,
   updateCart,
   setCouponName,
+  removeDryFruitItem,
 } from "../../features/cart/cart";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -132,10 +133,11 @@ const Cart = () => {
 
   let [billTotal, setBillTotal] = useState(0);
 
-  for (let item of cartStore) {
+  /* for (let item of cartStore) {
     yourBill = yourBill + item.newPrice;
     marketPrice += item.actual_price * item.qty;
-  }
+  } */
+  // console.log(cartStore);
 
   saveTotal += marketPrice - yourBill;
 
@@ -1670,7 +1672,9 @@ a:hover {
             ) : (
               <React.Fragment>
                 {cartStore.map((cartItem) => (
-                  <CartItems cartItem={cartItem} />
+                  <React.Fragment>
+                    <CartItems cartItem={cartItem} />
+                  </React.Fragment>
                 ))}
               </React.Fragment>
             )}
@@ -1829,11 +1833,14 @@ a:hover {
                       <span className="list-item-title">Your Bill</span>
                       <span className="list-item-value">Rs.{yourBill}</span>
                     </li>
-
-                    <li>
-                      <span className="list-item-title">Shipping</span>
-                      <span className="list-item-value">Rs.20.00</span>
-                    </li>
+                    {cartStore.length === 0 ? (
+                      ""
+                    ) : (
+                      <li>
+                        <span className="list-item-title">Shipping</span>
+                        <span className="list-item-value">Rs.20.00</span>
+                      </li>
+                    )}
 
                     <li>
                       <span className="list-item-title">You Save</span>
@@ -1842,9 +1849,13 @@ a:hover {
                     <li className="separator-line"></li>
                     <li className="cart-total">
                       <span className="list-item-title">Total</span>
-                      <span className="list-item-value">
-                        Rs.{yourBill + 20}
-                      </span>
+                      {cartStore.length === 0 ? (
+                        <span className="list-item-value">Rs.{yourBill}</span>
+                      ) : (
+                        <span className="list-item-value">
+                          Rs.{yourBill + 20}
+                        </span>
+                      )}
                     </li>
                     {clicked ? (
                       <React.Fragment>
@@ -1880,7 +1891,7 @@ a:hover {
           key={vertical + horizontal}
         >
           <Alert severity="info" onClose={handleClose}>
-            Sorry! We are not accepting orders today anymore
+            Sorry! Currently, We are not accepting orders
           </Alert>
         </Snackbar>
       </section>
@@ -1900,6 +1911,7 @@ const CartItems = ({ cartItem }) => {
 
   const [count, setCounter] = useState(1);
   const [updatePrice, setUpdatePrice] = useState(cartItem.price);
+  console.log(updatePrice);
   const dispatch = useDispatch();
   const [halfKilo, setHalfKilo] = useState(false);
   const [pavKilo, setPavKilo] = useState(false);
@@ -1916,6 +1928,13 @@ const CartItems = ({ cartItem }) => {
     setState({ ...state, open: false });
   };
 
+  // console.log(updatePrice);
+
+  // console.log(cartStore.length);
+  /*   useEffect(() => {
+    console.log(updatePrice);
+  }, [updatePrice]); */
+
   useEffect(() => {
     // console.log(storedVeggie.storeVeggies);
     for (let veggie of storedVeggie.storeVeggies) {
@@ -1927,6 +1946,9 @@ const CartItems = ({ cartItem }) => {
         ) {
           // console.log(veggie.price, cartItem.price);
           setUpdatePrice(veggie);
+          /* console.log(
+            "skdljfsdlkfjsdlkfjsdflkdsjflksdjfdslkfjdslkfjsdflksdfjdslkfj"
+          ); */
           handleRemoveItem(cartItem);
         }
       }
@@ -1970,7 +1992,7 @@ const CartItems = ({ cartItem }) => {
         setUpdatePrice(p);
       }
     } else {
-      console.log("slkdnfkldsf");
+      // console.log("slkdnfkldsf");
       setHalfKilo(true);
       // setPavKilo(false);
       setState({ ...state, open: true });
@@ -2006,11 +2028,33 @@ const CartItems = ({ cartItem }) => {
       setCounter(cartItem.qty);
       setUpdatePrice(cartItem.newPrice);
     }
+    console.log(cartItem);
+    console.log(cartItem.qty, cartItem.newPrice);
   }, []);
 
   useEffect(() => {
+    /*  if (cartItem.category !== "dryfruit") {
+      let updatedItem = { ...cartItem, newPrice: updatePrice, qty: count };
+      // console.log(updatedItem);
+      dispatch(
+        updateCart({
+          updatedItem,
+        })
+      );
+    } else {
+      let updatedItem = { ...cartItem, newPrice: updatePrice, qty: count };
+
+      // console.log(updatedItem);
+      dispatch(
+        updateCart({
+          updatedItem,
+        })
+      );
+    } */
+
     let updatedItem = { ...cartItem, newPrice: updatePrice, qty: count };
 
+    console.log(updatedItem);
     dispatch(
       updateCart({
         updatedItem,
@@ -2019,25 +2063,35 @@ const CartItems = ({ cartItem }) => {
   }, [count]);
 
   const [removeCount, setRemoveCount] = useState(false);
+  // console.log(removeCount);
 
   const handleRemoveItem = (removeeItem) => {
-    // console.log(removeeItem);
-
-    dispatch(
-      removeItem({
-        removeeItem,
-      })
-    );
     setRemoveCount(true);
+    console.log("removeItem");
+    if (removeeItem.category !== "dryfruit") {
+      dispatch(
+        removeItem({
+          removeeItem,
+        })
+      );
+    } else {
+      dispatch(
+        removeDryFruitItem({
+          removeeItem,
+        })
+      );
+    }
   };
 
   useEffect(() => {
+    // console.log("skdjfsdlkfjsdlkfdsjf");
     if (removeCount === true) {
       window.location.reload();
       setRemoveCount(false);
     }
   }, [removeCount]);
 
+  // console.log(cartItem);
   // let updatedPrice = cartItem.newPrice;
 
   return (
@@ -2065,12 +2119,21 @@ const CartItems = ({ cartItem }) => {
             {cartItem.name} / {cartItem.tel_name}
           </a>
         </div>
-        {cartItem.name !== "Bottle Gourd" && cartItem.name !== "Drum Sticks" ? (
-          <div className="cart-item-price">Rs. {cartItem.price} /kg</div>
-        ) : (
+        {cartItem.category === "dryfruit" ? (
           <div className="cart-item-price">
-            Rs. {cartItem.price} / {cartItem.piece} piece
+            Rs. {cartItem.price} / {cartItem.gms}gms
           </div>
+        ) : (
+          <React.Fragment>
+            {cartItem.name !== "Bottle Gourd" &&
+            cartItem.name !== "Drum Sticks" ? (
+              <div className="cart-item-price">Rs. {cartItem.price} /kg</div>
+            ) : (
+              <div className="cart-item-price">
+                Rs. {cartItem.price} / {cartItem.piece} piece
+              </div>
+            )}
+          </React.Fragment>
         )}
 
         <div className="cart-item-quantity">

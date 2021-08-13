@@ -92,9 +92,10 @@ const Shop = () => {
     setState({ ...state, open: false });
   };
 
-  const handleAddToCart = async (veggie) => {
+  const handleAddToCart = (veggie) => {
     let inCart = false;
-
+    let newItem = veggie;
+    console.log(veggie);
     if (storedCartItems.length >= 1) {
       for (let item of storedCartItems) {
         if (item.veggieId === veggie.veggieId) {
@@ -111,7 +112,7 @@ const Shop = () => {
       if (inCart === false) {
         dispatch(
           addToCart({
-            veggie,
+            newItem,
           })
         );
         setIsCartItem(false);
@@ -125,7 +126,7 @@ const Shop = () => {
     } else {
       dispatch(
         addToCart({
-          veggie,
+          newItem,
         })
       );
 

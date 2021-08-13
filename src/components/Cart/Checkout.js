@@ -154,6 +154,7 @@ const CheckoutPage = () => {
     form.submit();
     form.remove();
   }
+  console.log(cartItems);
 
   const handlePlaceOrder = async () => {
     // setState({ ...state, open: true });
@@ -1594,7 +1595,7 @@ textarea.form-control {
                   </div>
                   {cartItems &&
                     cartItems.map((item) => (
-                      <div className="order-item" key={item}>
+                      <div className="order-item" key={item.name}>
                         <div className="order-line-title">{item.name}</div>
                         <div className="order-line-total">
                           Rs. {item.newPrice}
@@ -1612,7 +1613,11 @@ textarea.form-control {
                   </div>
                   <div className="order-subtotal">
                     <div className="order-line-title">Shipping</div>
-                    <div className="order-line-total">Rs. 20.00</div>
+                    {cartItems && cartItems.length === 0 ? (
+                      <div className="order-line-total">Rs. 0</div>
+                    ) : (
+                      <div className="order-line-total">Rs. 20.00</div>
+                    )}
                   </div>
                   <div className="order-subtotal">
                     <div className="order-line-title">You Save</div>
@@ -1733,7 +1738,7 @@ textarea.form-control {
           </Alert>
         ) : (
           <Alert severity="info" onClose={handleClose}>
-            Sorry! We are not accepting order today anymore.
+            Sorry! Currently, We are not accepting orders.
           </Alert>
         )}
       </Snackbar>

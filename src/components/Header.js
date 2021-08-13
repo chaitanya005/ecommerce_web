@@ -126,10 +126,15 @@ const Header = () => {
     if (!userName) {
       auth
         .signInWithPopup(provider)
-        .then(async (res) => {
+        .then((res) => {
           // console.log(res);
-          saveUser(res.user);
-          await createUserDocument(res.user);
+          auth
+            .signInWithCredential(res.credential)
+            .then(async (res) => {
+              saveUser(res.user);
+              await createUserDocument(res.user);
+            })
+            .catch((err) => console.log(err));
         })
         .catch((err) => {});
     } else {

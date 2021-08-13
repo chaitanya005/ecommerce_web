@@ -1,23 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import db from "../../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Loading from "../Loading";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart, storeCart } from "../../features/cart/cart";
 
 const DryFruits = () => {
   const [dryFruits, loading, error] = useCollection(db.collection("dryfruits"));
+  const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  const storedCartItems = useSelector(storeCart);
+  const [isCartItem, setIsCartItem] = useState(false);
 
-  let settings = {
-    // dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
+  const handleAddToCart = (dryFruit) => {
+    let inCart = false;
+    let newItem = dryFruit;
+    console.log(dryFruit);
+    dispatch(
+      addToCart({
+        newItem,
+      })
+    );
   };
-
-  // const color = ''
 
   return (
     <React.Fragment>
@@ -30,7 +34,7 @@ const DryFruits = () => {
               <div
                 // className="col-sm-6 col-md-4 col-lg-3"
                 className="col-12 col-md-6 col-xl-4 d-flex"
-                key={dryFruit.data().name}
+                key={dryFruit.data().img}
               >
                 <article className="entity-block entity-hover-shadow bg-white text-center">
                   <div className="my-3 entity-image">
@@ -38,6 +42,7 @@ const DryFruits = () => {
                       <img
                         className="embed-responsive-item"
                         src={dryFruit.data().img}
+                        style={{ cursor: "pointer" }}
                         // src="/images/indian-yellow-raisin-.png"
                         alt=""
                       />
@@ -52,7 +57,10 @@ const DryFruits = () => {
                   ></div>
                   <div className="pt-0 entity-content">
                     <h4 className="entity-title">
-                      <div className="content-link" style={{ color: "#000" }}>
+                      <div
+                        className="content-link"
+                        style={{ color: "#000", cursor: "pointer" }}
+                      >
                         {dryFruit.data().name}
                       </div>
                     </h4>
@@ -73,16 +81,20 @@ const DryFruits = () => {
                         className="price-unit"
                         // style={{ textDecoration: "line-through" }}
                       >
-                        / {dryFruit.data().qty} gms
+                        / {dryFruit.data().gms} gms
                       </span>
                       <br />
                       <span className="currency">Rs.</span>
                       {dryFruit.data().price}
                     </div>
                     <div className="mt-4 entity-action-btns">
-                      <a className="btn-wide btn btn-theme" href="#">
+                      <button
+                        className="btn-wide btn btn-theme"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleAddToCart(dryFruit.data())}
+                      >
                         Add to cart
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </article>
