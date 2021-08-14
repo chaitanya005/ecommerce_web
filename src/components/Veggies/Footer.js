@@ -47,8 +47,22 @@ const Footer = () => {
               </div>
               <div className="col-md-12 col-lg-6 order-md-last">
                 <div className="grid row">
+                  <div class="col-md-6">
+                    <h5 class="footer-title">Pages</h5>
+                    <ul class="nav">
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
+                          href="/veggies/shop"
+                          style={{ color: "#fff" }}
+                        >
+                          Veggies
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                   <div className="col-md-6">
-                    <h5 className="footer-title"></h5>
+                    <h5 className="footer-title">Policies</h5>
                     <ul className="nav">
                       <li className="nav-item">
                         <a

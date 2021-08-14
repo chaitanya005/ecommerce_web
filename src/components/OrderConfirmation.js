@@ -113,6 +113,7 @@ const OrderConfirmation = () => {
   return (
     <React.Fragment>
       <Helmet>
+        <title>Spont Store | Order Confirm</title>
         <style>
           {`
         :root {

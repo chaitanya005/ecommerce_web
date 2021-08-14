@@ -60,8 +60,6 @@ const CheckoutPage = () => {
   });
   const [isPaymentSelected, setIsPaymentSelected] = useState(true);
 
-  console.log(paymentType);
-
   let yourBill = 0;
   let marketPrice = 0;
   let saveTotal = 0;
@@ -154,7 +152,7 @@ const CheckoutPage = () => {
     form.submit();
     form.remove();
   }
-  console.log(cartItems);
+  // console.log(cartItems);
 
   const handlePlaceOrder = async () => {
     // setState({ ...state, open: true });
@@ -304,7 +302,11 @@ const CheckoutPage = () => {
       i = 0;
 
     for (let item of cartItems) {
-      items += ` (${i} - ${item.name} - ${item.qty} Kg - ${item.price} Price - ${item.newPrice} Total) `;
+      if (item.category !== "dryfruit") {
+        items += ` (${i} - ${item.name} - ${item.qty} Kg - ${item.price} Price - ${item.newPrice} Total) `;
+      } else {
+        items += ` (${i} - ${item.name} - ${item.qty} qty - ${item.price} Price - ${item.newPrice} Total) `;
+      }
       i++;
     }
 
@@ -1107,6 +1109,15 @@ a {
   font-size: 1.5rem;
 }
 
+.order-item {
+  position: relative;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  line-height: 1.25;
+  font-size: 1.125rem;
+  border-bottom: 1px dashed #c4c4c4;
+}
+
 .order-line-title {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -1595,7 +1606,11 @@ textarea.form-control {
                   </div>
                   {cartItems &&
                     cartItems.map((item) => (
-                      <div className="order-item" key={item.name}>
+                      <div
+                        className="order-item"
+                        key={item.name}
+                        style={{ color: "#fff" }}
+                      >
                         <div className="order-line-title">{item.name}</div>
                         <div className="order-line-total">
                           Rs. {item.newPrice}
@@ -1627,7 +1642,7 @@ textarea.form-control {
 
                   <div className="order-total">
                     <div className="order-line-title">Total</div>
-                    <div className="order-line-total">Rs. {yourBill}</div>
+                    <div className="order-line-total">Rs. {yourBill + 20}</div>
                   </div>
 
                   {coupon ? (

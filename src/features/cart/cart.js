@@ -19,14 +19,14 @@ const cart = createSlice({
 
     updateCart: (state, action) => {
       // console.log(action.payload.updatedItem);
-      state.cartItem = state.cartItem.map((veggie) =>
-        veggie.veggieId === action.payload.updatedItem.veggieId
+      state.cartItem = state.cartItem.map((updateElement) =>
+        updateElement.name === action.payload.updatedItem.name
           ? {
-              ...veggie,
+              ...updateElement,
               newPrice: action.payload.updatedItem.newPrice,
               qty: action.payload.updatedItem.qty,
             }
-          : veggie
+          : updateElement
       );
     },
 
@@ -44,7 +44,7 @@ const cart = createSlice({
     },
 
     removeDryFruitItem: (state, action) => {
-      console.log(action.payload.removeeItem);
+      // console.log(action.payload.removeeItem);
       state.cartItem = state.cartItem.filter(
         (item) => item.name !== action.payload.removeeItem.name
       );

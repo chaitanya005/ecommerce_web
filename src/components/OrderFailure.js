@@ -12,6 +12,7 @@ const OrderFailure = () => {
   return (
     <React.Fragment>
       <Helmet>
+        <title>Spont Store | Order Fail</title>
         <style>
           {`
   :root {

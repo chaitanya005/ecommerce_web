@@ -133,10 +133,10 @@ const Cart = () => {
 
   let [billTotal, setBillTotal] = useState(0);
 
-  /* for (let item of cartStore) {
+  for (let item of cartStore) {
     yourBill = yourBill + item.newPrice;
     marketPrice += item.actual_price * item.qty;
-  } */
+  }
   // console.log(cartStore);
 
   saveTotal += marketPrice - yourBill;
@@ -1911,7 +1911,6 @@ const CartItems = ({ cartItem }) => {
 
   const [count, setCounter] = useState(1);
   const [updatePrice, setUpdatePrice] = useState(cartItem.price);
-  console.log(updatePrice);
   const dispatch = useDispatch();
   const [halfKilo, setHalfKilo] = useState(false);
   const [pavKilo, setPavKilo] = useState(false);
@@ -1928,27 +1927,14 @@ const CartItems = ({ cartItem }) => {
     setState({ ...state, open: false });
   };
 
-  // console.log(updatePrice);
-
-  // console.log(cartStore.length);
-  /*   useEffect(() => {
-    console.log(updatePrice);
-  }, [updatePrice]); */
-
   useEffect(() => {
-    // console.log(storedVeggie.storeVeggies);
     for (let veggie of storedVeggie.storeVeggies) {
       if (cartItem.name === veggie.name) {
-        // console.log(veggie);
         if (
           cartItem.price !== veggie.price ||
           cartItem.in_stock !== veggie.in_stock
         ) {
-          // console.log(veggie.price, cartItem.price);
           setUpdatePrice(veggie);
-          /* console.log(
-            "skdljfsdlkfjsdlkfjsdflkdsjflksdjfdslkfjdslkfjsdflksdfjdslkfj"
-          ); */
           handleRemoveItem(cartItem);
         }
       }
@@ -2021,40 +2007,19 @@ const CartItems = ({ cartItem }) => {
     }
   };
 
-  // console.log(pavKilo, halfKilo);
-
   useEffect(() => {
     if (cartItem.qty >= 0.25) {
       setCounter(cartItem.qty);
       setUpdatePrice(cartItem.newPrice);
     }
-    console.log(cartItem);
-    console.log(cartItem.qty, cartItem.newPrice);
+    // console.log(cartItem);
+    // console.log(cartItem.qty, cartItem.newPrice);
   }, []);
 
   useEffect(() => {
-    /*  if (cartItem.category !== "dryfruit") {
-      let updatedItem = { ...cartItem, newPrice: updatePrice, qty: count };
-      // console.log(updatedItem);
-      dispatch(
-        updateCart({
-          updatedItem,
-        })
-      );
-    } else {
-      let updatedItem = { ...cartItem, newPrice: updatePrice, qty: count };
-
-      // console.log(updatedItem);
-      dispatch(
-        updateCart({
-          updatedItem,
-        })
-      );
-    } */
-
     let updatedItem = { ...cartItem, newPrice: updatePrice, qty: count };
 
-    console.log(updatedItem);
+    // console.log("updatedItem");
     dispatch(
       updateCart({
         updatedItem,

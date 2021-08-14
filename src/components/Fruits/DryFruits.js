@@ -4,6 +4,14 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import Loading from "../Loading";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, storeCart } from "../../features/cart/cart";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { Helmet } from "react-helmet";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const DryFruits = () => {
   const [dryFruits, loading, error] = useCollection(db.collection("dryfruits"));
@@ -12,19 +20,80 @@ const DryFruits = () => {
   const storedCartItems = useSelector(storeCart);
   const [isCartItem, setIsCartItem] = useState(false);
 
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
   const handleAddToCart = (dryFruit) => {
     let inCart = false;
     let newItem = dryFruit;
-    console.log(dryFruit);
-    dispatch(
+    // console.log(dryFruit);
+    if (storedCartItems.length >= 1) {
+      for (let item of storedCartItems) {
+        if (item.name === dryFruit.name) {
+          setIsCartItem(true);
+          setState({ ...state, open: true });
+          setTimeout(() => {
+            setState({ ...state, open: false });
+          }, 1000);
+          inCart = true;
+          break;
+        }
+      }
+
+      if (inCart === false) {
+        dispatch(
+          addToCart({
+            newItem,
+          })
+        );
+        setIsCartItem(false);
+        setState({ ...state, open: true });
+        setTimeout(() => {
+          setState({ ...state, open: false });
+        }, 1000);
+      }
+    } else {
+      dispatch(
+        addToCart({
+          newItem,
+        })
+      );
+
+      setIsCartItem(false);
+      setState({ ...state, open: true });
+
+      setTimeout(() => {
+        setState({ ...state, open: false });
+      }, 1000);
+    }
+    /* dispatch(
       addToCart({
         newItem,
       })
-    );
+    ); */
+    // setIsCartItem(true);
+    // setState({ ...state, open: true });
   };
 
   return (
     <React.Fragment>
+      <Helmet>
+        <link
+          href="/assets/animate.css/animate.min.css"
+          rel="stylesheet"
+          type="text/css"
+          // rel="preload"
+        />
+      </Helmet>
       <br />
       {loading ? <Loading /> : ""}
       <div className="container">
@@ -36,9 +105,14 @@ const DryFruits = () => {
                 className="col-12 col-md-6 col-xl-4 d-flex"
                 key={dryFruit.data().img}
               >
+                {/* bg-white text-center */}
                 <article className="entity-block entity-hover-shadow bg-white text-center">
-                  <div className="my-3 entity-image">
-                    <div className="embed-responsive embed-responsive-4by3">
+                  {/* my-3 entity-image */}
+                  <div
+                    className="entity-preview-show-up entity-preview"
+                    onClick={() => handleAddToCart(dryFruit.data())}
+                  >
+                    <span className="embed-responsive embed-responsive-4by3">
                       <img
                         className="embed-responsive-item"
                         src={dryFruit.data().img}
@@ -46,7 +120,13 @@ const DryFruits = () => {
                         // src="/images/indian-yellow-raisin-.png"
                         alt=""
                       />
-                    </div>
+                    </span>
+                    <span className="with-back entity-preview-content">
+                      <span className="m-auto h1 text-theme text-center">
+                        <ShoppingCartIcon style={{ fontSize: "80px" }} />
+                      </span>
+                      <span className="overflow-back bg-body-back opacity-70"></span>
+                    </span>
                   </div>
                   <div
                     className="entity-bg"
@@ -60,6 +140,7 @@ const DryFruits = () => {
                       <div
                         className="content-link"
                         style={{ color: "#000", cursor: "pointer" }}
+                        onClick={() => handleAddToCart(dryFruit.data())}
                       >
                         {dryFruit.data().name}
                       </div>
@@ -102,6 +183,24 @@ const DryFruits = () => {
             ))}
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        // message="Please  Login"
+        key={vertical + horizontal}
+        // style={{ background: "#fff", color: "#000" }}
+      >
+        {isCartItem ? (
+          <Alert severity="error" onClose={handleClose}>
+            Item Already in Cart
+          </Alert>
+        ) : (
+          <Alert severity="success" onClose={handleClose}>
+            Item Added Cart
+          </Alert>
+        )}
+      </Snackbar>
     </React.Fragment>
   );
 };

@@ -15,6 +15,7 @@ import Loading from "../Loading";
 import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useCollection } from "react-firebase-hooks/firestore";
+import DocumentMeta from "react-document-meta";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -95,7 +96,7 @@ const Shop = () => {
   const handleAddToCart = (veggie) => {
     let inCart = false;
     let newItem = veggie;
-    console.log(veggie);
+    // console.log(veggie);
     if (storedCartItems.length >= 1) {
       for (let item of storedCartItems) {
         if (item.veggieId === veggie.veggieId) {
@@ -193,7 +194,29 @@ const Shop = () => {
       <Helmet>
         <title>Spont Store | Veggies Shop</title>
         <meta name="description" content="Online Rythu bazaar in Chirala" />
-        <link rel="icon" href="/images/favicon.ico" />
+        <meta
+          property="og:description"
+          content="Online Rythu bazaar in Chirala"
+        />
+        {/* <link rel="icon" href="/images/favicon.ico" /> */}
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/images/favicons/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/images/favicons/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/images/favicons/favicon-16x16.png"
+        />
+        <link rel="manifest" href="images/favicons/site.webmanifest" />
         <link
           href="/assets/animate.css/animate.min.css"
           rel="stylesheet"
