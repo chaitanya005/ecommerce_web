@@ -207,10 +207,11 @@ const Shop = () => {
       <DocumentMeta {...meta}>
         <Helmet>
           <title>Spont Store | Veggies Shop</title>
+          <meta property="og:title" content="Veggies Shop" />
           <meta name="description" content="Online Rythu bazaar in Chirala" />
           <meta
             property="og:description"
-            content="Online Rythu bazaar in Chirala"
+            content="Online Rythuu bazaar in Chirala"
           />
           {/* <link rel="icon" href="/images/favicon.ico" /> */}
           <link

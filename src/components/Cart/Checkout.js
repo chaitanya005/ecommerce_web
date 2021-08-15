@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import emailjs from "emailjs-com";
 import { init } from "emailjs-com";
 import { Helmet } from "react-helmet";
+import MetaTags from "react-meta-tags";
 // import RadioGroup from "@material-ui/core/RadioGroup";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
 // import Radio from "@material-ui/core/Radio";
@@ -353,6 +354,11 @@ const CheckoutPage = () => {
 
   return (
     <React.Fragment>
+      <MetaTags>
+        <meta property="og:title" content="Spont Store | Check out" />
+        <meta name="description" content="Some description." />
+        <meta name="og:description" content="Some og:description" />
+      </MetaTags>
       <Helmet>
         <title>Spont Store | Checkout</title>
         <style>{`
