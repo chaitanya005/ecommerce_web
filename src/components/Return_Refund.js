@@ -5,7 +5,7 @@ const Return_Refund = () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Spont Store | Return Refunc</title>
+        <title>Spont Store | Return Refund</title>
         <style>
           {`
         :root {

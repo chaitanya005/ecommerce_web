@@ -243,6 +243,8 @@ const Cart = () => {
     <React.Fragment>
       <Helmet>
         <title>Spont Store | Cart </title>{" "}
+        <meta property="og:title" content="Spont Store | Cart" />
+        <meta name="og:description" content="spont store cart" />
         <style>
           {`
           :root {
@@ -1121,7 +1123,7 @@ a:hover {
 
 .cart-item-entity .cart-item-title {
     font-size: 1.375rem;
-    margin-bottom: 1rem;
+    // margin-bottom: 1rem;
 }
 
 .cart-item-entity .cart-item-price, .cart-item-entity .cart-item-total {
@@ -1656,7 +1658,7 @@ a:hover {
         <form className="container" action="#" method="POST">
           <div className="cart-items">
             <div className="cart-header">
-              <h2 className="cart-title">Products in Your Cart</h2>
+              <h2 className="cart-title">Products in Cart</h2>
               <div className="cart-item-title">Product</div>
               <div className="cart-item-price">Price</div>
               <div className="cart-item-quantity">Quantity</div>
@@ -1969,7 +1971,8 @@ const CartItems = ({ cartItem }) => {
     if (
       cartItem.name !== "Bottle Gourd" &&
       cartItem.name !== "Drum Sticks" &&
-      cartItem.name !== "Cabbage"
+      cartItem.name !== "Cabbage" &&
+      cartItem.category !== "dryfruit"
     ) {
       // console.log(cartItem.name);
       if (count === 1) {
@@ -2080,9 +2083,15 @@ const CartItems = ({ cartItem }) => {
           </a>
         </div>
         <div className="cart-item-title">
-          <a className="content-link" href="#" style={{ margin: "2%" }}>
-            {cartItem.name} / {cartItem.tel_name}
-          </a>
+          {cartItem.category !== "dryfruit" ? (
+            <a className="content-link" href="#" style={{ margin: "2%" }}>
+              {cartItem.name} / {cartItem.tel_name}
+            </a>
+          ) : (
+            <a className="content-link" href="#" style={{ margin: "2%" }}>
+              {cartItem.name}
+            </a>
+          )}
         </div>
         {cartItem.category === "dryfruit" ? (
           <div className="cart-item-price">
@@ -2121,7 +2130,7 @@ const CartItems = ({ cartItem }) => {
             </span>
           </div>
         </div>
-        <div className="cart-item-total">
+        <div className="cart-item-total" style={{ fontSize: "1.5rem" }}>
           <span className="cart-item-total-text">Item total:</span>
           Rs.{updatePrice}
         </div>

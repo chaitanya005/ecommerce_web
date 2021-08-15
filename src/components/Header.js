@@ -676,7 +676,9 @@ const Header = () => {
             </a>
           </CartIcon>
           {!userName ? (
-            <Login onClick={handleAuth}>Login</Login>
+            <Login onClick={handleAuth} style={{ color: "#fff" }}>
+              Login
+            </Login>
           ) : (
             <React.Fragment>
               <SignOut>

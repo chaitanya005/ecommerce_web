@@ -305,7 +305,7 @@ const CheckoutPage = () => {
       if (item.category !== "dryfruit") {
         items += ` (${i} - ${item.name} - ${item.qty} Kg - ${item.price} Price - ${item.newPrice} Total) `;
       } else {
-        items += ` (${i} - ${item.name} - ${item.qty} qty - ${item.price} Price - ${item.newPrice} Total) `;
+        items += ` (${i} - ${item.name} - ${item.gms}grams -  ${item.qty} qty - ${item.price} Price - ${item.newPrice} Total) `;
       }
       i++;
     }
@@ -1618,6 +1618,8 @@ textarea.form-control {
                         <div className="order-line"> {item.qty}</div>
                       </div>
                     ))}
+
+                  <div className="separator-line"></div>
                   <div className="order-subtotal">
                     <div className="order-line-title">Market Price</div>
                     <div className="order-line-total">Rs. {marketPrice}</div>
