@@ -5,21 +5,23 @@ import Header from "./components/Header";
 import Home from "./components/Home";
 import MenShirts from "./components/Men/Men_shirts";
 import ProductPage from "./components/Men/Product_page";
-import Cart from "./components/Cart/Cart";
 import Notion from "./notion";
 import HomePage from "./components/Veggies/Homepage";
 import VeggiesLandingPage from "./components/Veggies/VeggiesLandingPage";
 import Footer from "./components/Veggies/Footer";
-import Shop from "./components/Veggies/Shop";
 import VeggieProduct from "./components/Veggies/ProductPage";
-import CheckoutPage from "./components/Cart/Checkout";
 import PageNotFound from "./components/404";
 // import { getToken } from "./firebase";
 import { useState } from "react";
 import OrderConfirmation from "./components/OrderConfirmation";
 import OrderFailure from "./components/OrderFailure";
+
+/* import Cart from "./components/Cart/Cart";
+import Shop from "./components/Veggies/Shop";
+import CheckoutPage from "./components/Cart/Checkout";
 import UserOrders from "./components/Veggies/UserOrders";
-import LandingPage from "./components/FoodDelivery/LandingPage";
+import LandingPage from "./components/FoodDelivery/LandingPage"; */
+
 import Restaurants from "./components/FoodDelivery/Restaurants";
 import HomePageTwo from "./components/FoodDelivery/HomePage";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
@@ -39,8 +41,12 @@ import Detail from "./components/FoodDelivery/Detail";
 
 // import './App.css'
 
-// const Header = lazy(() => import("./components/Header"));
-// const Footer = lazy(() => import("./components/Veggies/Footer"));
+// const Home = lazy(() => import("./components/Home"));
+const Cart = lazy(() => import("./components/Cart/Cart"));
+const CheckoutPage = lazy(() => import("./components/Cart/Checkout"));
+const Shop = lazy(() => import("./components/Veggies/Shop"));
+const UserOrders = lazy(() => import("./components/Veggies/UserOrders"));
+const LandingPage = lazy(() => import("./components/FoodDelivery/LandingPage"));
 
 function App() {
   /* const [isTokenFound, setTokenFound] = useState(false);
@@ -133,6 +139,7 @@ function App() {
             <PageNotFound />
           </Route>
         </Switch>
+
         <Footer />
         {/* <Suspense
           fallback={<div style={{ color: "#000" }}>Loading Footer....</div>}
