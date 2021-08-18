@@ -35,6 +35,7 @@ import Loading from "./components/Loading";
 import Team from "./components/Team";
 import FruitsLand from "./components/Fruits/FruitsLand";
 import Cashews from "./components/Fruits/Cashews";
+import Detail from "./components/FoodDelivery/Detail";
 
 // import './App.css'
 
@@ -95,15 +96,18 @@ function App() {
           <Route path="/food-delivery">
             <LandingPage />
           </Route>
+          <Route path="/resto-name">
+            <Detail />
+          </Route>
           <Route path="/fruits">
             <FruitsLand />
           </Route>
           <Route path="/dryfruits/cashews">
             <Cashews />
           </Route>
-          <Route path="/resto">
+          {/* <Route path="/resto">
             <Restaurants />
-          </Route>
+          </Route> */}
           <Route path="/hello">
             <HomePageTwo />
           </Route>
