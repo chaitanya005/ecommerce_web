@@ -3,6 +3,8 @@ import userReducer from "../features/user/userSlice";
 import movieReducer from "../features/movie/movieSlice";
 import menShirtReducer from "../features/men-shirts/menShirt";
 import veggiesReducer from "../features/veggies";
+import restoReducer from "../features/resto";
+import restoMenuReducer from "../features/restomenu";
 import cartReducer from "../features/cart/cart";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
@@ -18,6 +20,8 @@ const reducers = combineReducers({
   cart: cartReducer,
   veggie: veggiesReducer,
   order: orderReducer,
+  restomenu: restoMenuReducer,
+  resto: restoReducer,
 });
 
 const persistConfig = {

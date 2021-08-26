@@ -1,18 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { green, yellow, grey } from "@material-ui/core/colors";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { Helmet } from "react-helmet";
+import { useCollection } from "react-firebase-hooks/firestore";
+import db from "../../firebase";
+import { storeMenuItems, getStoredMenuItems } from "../../features/restomenu";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
 
 const Detail = () => {
+  const search = useLocation().search;
+  const id = new URLSearchParams(search).get("restoId");
+  // console.log(id);
+
   const [state, setState] = React.useState({
     nonVeg: false,
     veg: false,
     egg: false,
   });
+
+  const [menu, loading, error] = useCollection(
+    db.collection("restaurants").doc(id).collection("menu")
+  );
+
+  const dispatch = useDispatch();
+  const storedMenuItems = useSelector(getStoredMenuItems);
+  // console.log(storedMenuItems.menuItems);
+
+  const [cates, setCategory] = useState({});
+  let restoMenuItems = [];
+
+  useEffect(() => {
+    menu &&
+      menu.docs.map((doc) => {
+        // console.log(doc.data());
+        let id = doc.id;
+
+        let obj, docu;
+
+        docu = doc.data();
+
+        restoMenuItems = [...restoMenuItems, { menuItemId: id, ...docu }];
+
+        dispatch(
+          storeMenuItems({
+            restoMenuItems,
+          })
+        );
+
+        if (id === "Categories") {
+          obj = { ...doc.data() };
+          setCategory(obj);
+        }
+      });
+  }, [menu]);
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
@@ -158,292 +201,252 @@ const Detail = () => {
                 />
 
                 <div className="row">
-                  <h5 className="mb-4 mt-3 col-md-12">Best Sellers</h5>
-                  <div className="col-md-4 col-sm-6 mb-4">
-                    <div
-                      className="
-                    list-card
-                    bg-white
-                    h-100
-                    rounded
-                    overflow-hidden
-                    position-relative
-                    shadow-sm
-                  "
-                    >
-                      <div className="list-card-image">
-                        <a href="#/">
-                          <img
-                            src="/img/list/7.png"
-                            className="img-fluid item-img"
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                      <div className="p-3 position-relative">
-                        <div className="list-card-body">
-                          <h6 className="mb-1">
-                            <a
-                              href="#/"
-                              className="text-black"
-                              style={{ color: "#000" }}
-                            >
-                              Bite Me Sandwiches
-                            </a>
-                          </h6>
-                          <p
-                            className="text-gray mb-2"
-                            style={{ color: "#747d88" }}
-                          >
-                            North Indian • Indian
-                          </p>
-                          <p className="text-gray time mb-0">
-                            <a
-                              className="btn btn-link btn-sm pl-0 text-black pr-0"
-                              href="#/"
-                            >
-                              $550
-                            </a>
-                            <span className="float-right">
-                              <a
-                                className="btn btn-outline-secondary btn-sm"
-                                href="#/"
+                  <h5 className="mb-4 mt-3 col-md-12">{cates && cates.cat1}</h5>
+                  {storedMenuItems.menuItems &&
+                    storedMenuItems.menuItems.map((menuItem) => (
+                      <React.Fragment>
+                        {cates !== undefined ? (
+                          <React.Fragment>
+                            {menuItem.category === cates.cat1 ? (
+                              <div
+                                className="col-md-4 col-sm-6 mb-4"
+                                key={menuItem.menuItemId}
                               >
-                                ADD
-                              </a>
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-4 col-sm-6 mb-4">
-                    <div
-                      className="
-                    list-card
-                    bg-white
-                    h-100
-                    rounded
-                    overflow-hidden
-                    position-relative
-                    shadow-sm
-                  "
-                    >
-                      <div className="list-card-image">
-                        <a href="#/">
-                          <img
-                            src="/img/list/9.png"
-                            className="img-fluid item-img"
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                      <div className="p-3 position-relative">
-                        <div className="list-card-body">
-                          <h6 className="mb-1">
-                            <a
-                              href="#/"
-                              className="text-black"
-                              style={{ color: "#000" }}
-                            >
-                              Bite Me Sandwiches
-                            </a>
-                          </h6>
-                          <p className="text-gray mb-2">
-                            North Indian • Indian
-                          </p>
-                          <p className="text-gray time mb-0">
-                            <a
-                              className="btn btn-link btn-sm pl-0 text-black pr-0"
-                              href="#/"
-                            >
-                              $550
-                            </a>
-                            <span className="float-right">
-                              <a
-                                className="btn btn-outline-secondary btn-sm"
-                                href="#/"
-                              >
-                                ADD
-                              </a>
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-4 col-sm-6 mb-4">
-                    <div
-                      className="
-                    list-card
-                    bg-white
-                    h-100
-                    rounded
-                    overflow-hidden
-                    position-relative
-                    shadow-sm
-                  "
-                    >
-                      <div className="list-card-image">
-                        <a href="#/">
-                          <img
-                            src="/img/list/9.png"
-                            className="img-fluid item-img"
-                            alt=""
-                          />
-                        </a>
-                      </div>
-                      <div className="p-3 position-relative">
-                        <div className="list-card-body">
-                          <h6 className="mb-1">
-                            <a
-                              href="#/"
-                              className="text-black"
-                              style={{ color: "#000" }}
-                            >
-                              Bite Me Sandwiches
-                            </a>
-                          </h6>
-                          <p className="text-gray mb-2">
-                            North Indian • Indian
-                          </p>
-                          <p className="text-gray time mb-0">
-                            <a
-                              className="btn btn-link btn-sm pl-0 text-black pr-0"
-                              href="#/"
-                            >
-                              $550
-                            </a>
-                            <span className="float-right">
-                              <a
-                                className="btn btn-outline-secondary btn-sm"
-                                href="#/"
-                              >
-                                ADD
-                              </a>
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                                <div
+                                  className="
+                                    list-card
+                                    bg-white
+                                    h-100
+                                    rounded
+                                    overflow-hidden
+                                    position-relative
+                                    shadow-sm
+                                  "
+                                >
+                                  <div className="list-card-image">
+                                    <a href="#/">
+                                      <img
+                                        src="/img/list/7.png"
+                                        className="img-fluid item-img"
+                                        alt=""
+                                      />
+                                    </a>
+                                  </div>
+                                  <div className="p-3 position-relative">
+                                    <div className="list-card-body">
+                                      <h6 className="mb-1">
+                                        <a
+                                          href="#/"
+                                          className="text-black"
+                                          style={{ color: "#000" }}
+                                        >
+                                          {/* console.log(menuItem.data()) */}
+                                          {menuItem.name}
+                                        </a>
+                                      </h6>
+                                      <p
+                                        className="text-gray mb-2"
+                                        style={{ color: "#747d88" }}
+                                      >
+                                        North Indian • Indian
+                                      </p>
+                                      <p className="text-gray time mb-0">
+                                        <a
+                                          className="btn btn-link btn-sm pl-0 text-black pr-0"
+                                          href="#/"
+                                        >
+                                          ₹ {menuItem.price}
+                                        </a>
+                                        <span className="float-right">
+                                          <a
+                                            className="btn btn-outline-secondary btn-sm"
+                                            href="#/"
+                                          >
+                                            ADD
+                                          </a>
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </React.Fragment>
+                        ) : (
+                          ""
+                        )}
+                      </React.Fragment>
+                    ))}
                 </div>
-                <div class="row">
-                  <h5 class="mb-4 mt-3 col-md-12">Ice Berg Specials</h5>
-                  <div class="col-md-12">
-                    <div class="bg-white rounded border shadow-sm mb-4">
-                      <div class="gold-members p-3 border-bottom">
-                        <a
-                          class="btn btn-outline-secondary btn-sm float-right"
-                          href="#/"
-                        >
-                          ADD
-                        </a>
-                        <div class="media">
-                          <div class="mr-3">
-                            <i class="icofont-ui-press text-danger food-item"></i>
+
+                <div>
+                  {Array.from(Array(Object.keys(cates).length), (e, i) => {
+                    const cat = Object.values(cates);
+                    if (cat[i] !== "Recommended") {
+                      return (
+                        <React.Fragment key={i}>
+                          <div className="row">
+                            <h5 className="mb-4 mt-3 col-md-12">
+                              {cat[i] && cat[i]}
+                            </h5>
+
+                            <div className="col-md-12">
+                              <div
+                                className="bg-white rounded border shadow-sm mb-4"
+                                // style={{ margin: "0" }}
+                              >
+                                {storedMenuItems.menuItems &&
+                                  storedMenuItems.menuItems.map((menuItem) => (
+                                    <React.Fragment>
+                                      {menuItem.category === cat[i] ? (
+                                        <React.Fragment
+                                          key={menuItem.menuItemId}
+                                        >
+                                          <div className="gold-members p-3 border-bottom">
+                                            <a
+                                              className="btn btn-outline-secondary btn-sm float-right"
+                                              href="#/"
+                                            >
+                                              ADD
+                                            </a>
+                                            <div className="media">
+                                              <div className="mr-3">
+                                                <i className="icofont-ui-press text-danger food-item"></i>
+                                              </div>
+                                              <div className="media-body">
+                                                <h6 className="mb-1">
+                                                  {menuItem.name}{" "}
+                                                  <span className="badge badge-success">
+                                                    BESTSELLER
+                                                  </span>
+                                                </h6>
+                                                <p
+                                                  className="text-gray mb-0"
+                                                  style={{ color: "#747d88" }}
+                                                >
+                                                  ₹ {menuItem.price}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </React.Fragment>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </React.Fragment>
+                                  ))}
+                              </div>
+                            </div>
                           </div>
-                          <div class="media-body">
-                            <h6 class="mb-1">
-                              Lava Cake{" "}
-                              <span class="badge badge-success">
-                                BESTSELLER
-                              </span>
-                            </h6>
-                            <p
-                              class="text-gray mb-0"
-                              style={{ color: "#747d88" }}
-                            >
-                              ₹ 75
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <hr />
-                      <div class="gold-members p-3">
-                        <a
-                          class="btn btn-outline-secondary btn-sm float-right"
-                          href="#/"
-                        >
-                          ADD
-                        </a>
-                        <div class="media">
-                          <div class="mr-3">
-                            <i class="icofont-ui-press text-success food-item"></i>
-                          </div>
-                          <div class="media-body">
-                            <h6 class="mb-1">
-                              Hot Brownie{" "}
-                              <span class="badge badge-success">Pure Veg</span>
-                            </h6>
-                            <p
-                              class="text-gray mb-0"
-                              style={{ color: "#747d88" }}
-                            >
-                              ₹ 88
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <hr />
-                      <div class="gold-members p-3">
-                        <a
-                          class="btn btn-outline-secondary btn-sm float-right"
-                          href="#/"
-                        >
-                          ADD
-                        </a>
-                        <div class="media">
-                          <div class="mr-3">
-                            <i class="icofont-ui-press text-success food-item"></i>
-                          </div>
-                          <div class="media-body">
-                            <h6 class="mb-1">
-                              Fudge Brownie{" "}
-                              <span class="badge badge-warning">
-                                CHEF'S SPECIAL
-                              </span>
-                            </h6>
-                            <p
-                              class="text-gray mb-0"
-                              style={{ color: "#747d88" }}
-                            >
-                              ₹ 150
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <hr />
-                      <div class="gold-members p-3">
-                        <a
-                          class="btn btn-outline-secondary btn-sm float-right"
-                          href="#/"
-                        >
-                          ADD
-                        </a>
-                        <div class="media">
-                          <div class="mr-3">
-                            <i class="icofont-ui-press text-success food-item"></i>
-                          </div>
-                          <div class="media-body">
-                            <h6 class="mb-1">
-                              Sizzling Hot Chocolate Brownie{" "}
-                              <span class="badge badge-warning">
-                                CHEF'S SPECIAL
-                              </span>
-                            </h6>
-                            <p
-                              class="text-gray mb-0"
-                              style={{ color: "#747d88" }}
-                            >
-                              ₹ 175
-                            </p>
-                          </div>
-                        </div>
+                        </React.Fragment>
+                      );
+                    }
+                  })}
+                </div>
+
+                {/* cates !== undefined && cates.cat2 !== undefined ? (
+                  <div className="row">
+                    <h5 className="mb-4 mt-3 col-md-12">{cates && cates.cat2}</h5>
+                    <div className="col-md-12">
+                      <div className="bg-white rounded border shadow-sm mb-4">
+                        {menu &&
+                          menu.docs.map((menuItem) => (
+                            <React.Fragment>
+                              <React.Fragment>
+                                {menuItem.data().category === cates.cat2 ? (
+                                  <div className="gold-members p-3 border-bottom">
+                                    <a
+                                      className="btn btn-outline-secondary btn-sm float-right"
+                                      href="#/"
+                                    >
+                                      ADD
+                                    </a>
+                                    <div className="media">
+                                      <div className="mr-3">
+                                        <i className="icofont-ui-press text-danger food-item"></i>
+                                      </div>
+                                      <div className="media-body">
+                                        <h6 className="mb-1">
+                                          {menuItem.data().name}{" "}
+                                          <span className="badge badge-success">
+                                            BESTSELLER
+                                          </span>
+                                        </h6>
+                                        <p
+                                          className="text-gray mb-0"
+                                          style={{ color: "#747d88" }}
+                                        >
+                                          ₹ 75
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </React.Fragment>
+                            </React.Fragment>
+                          ))}
+                        <hr />
                       </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  ""
+                ) */}
+
+                {/* cates !== undefined && cates.cat3 !== undefined ? (
+                  <div className="row">
+                    <h5 className="mb-4 mt-3 col-md-12">{cates && cates.cat3}</h5>
+                    <div className="col-md-12">
+                      <div className="bg-white rounded border shadow-sm mb-4">
+                        {menu &&
+                          menu.docs.map((menuItem) => (
+                            <React.Fragment>
+                              <React.Fragment>
+                                {menuItem.data().category === cates.cat3 ? (
+                                  <div className="gold-members p-3 border-bottom">
+                                    <a
+                                      className="btn btn-outline-secondary btn-sm float-right"
+                                      href="#/"
+                                    >
+                                      ADD
+                                    </a>
+                                    <div className="media">
+                                      <div className="mr-3">
+                                        <i className="icofont-ui-press text-danger food-item"></i>
+                                      </div>
+                                      <div className="media-body">
+                                        <h6 className="mb-1">
+                                          {menuItem.data().name}{" "}
+                                          <span className="badge badge-success">
+                                            BESTSELLER
+                                          </span>
+                                        </h6>
+                                        <p
+                                          className="text-gray mb-0"
+                                          style={{ color: "#747d88" }}
+                                        >
+                                          ₹ 75
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </React.Fragment>
+                            </React.Fragment>
+                          ))}
+                        <hr />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                ) */}
               </div>
             </div>
           </div>

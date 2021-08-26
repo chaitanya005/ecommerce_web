@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Restaurants.module.css";
+import { useCollection } from "react-firebase-hooks/firestore";
+import db from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { storeRestaurants, getStoredRestos } from "../../features/resto";
 
 const PopularBrands = () => {
+  const [restaurants, loading, error] = useCollection(
+    db.collection("restaurants")
+  );
+  const dispatch = useDispatch();
+  const storedRestos = useSelector((state) => state.resto);
+
+  // console.log(storedRestos.restaurants);
+
+  let allRestos = [];
+
+  useEffect(() => {
+    restaurants &&
+      restaurants.docs.map((doc) => {
+        // console.log(doc.data());
+        let id = doc.id;
+        let docu = doc.data();
+
+        allRestos = [...allRestos, { restoId: id, ...docu }];
+
+        dispatch(storeRestaurants({ allRestos }));
+      });
+  }, [restaurants]);
+
   return (
     <section className="bg-light-green white-curve-before curve-before-0 white-curve-after curve-after-40 section-solid">
       <div className="overflow-back bg-vegetables-pattern opacity-10"></div>
@@ -22,9 +49,15 @@ const PopularBrands = () => {
         <div className={styles.mainrow}>
           <div className="">
             <div className={styles.row}>
-              <div className="col-md-4 col-sm-6 mb-4 pb-2">
-                <div
-                  className="
+              {storedRestos.restaurants &&
+                storedRestos.restaurants.map((resto) => (
+                  <div
+                    className="col-md-4 col-sm-6 mb-4 pb-2"
+                    key={resto.restoId}
+                  >
+                    <a href={`/resto-order/${resto.restoId}`}>
+                      <div
+                        className="
                     list-card
                     bg-white
                     rounded
@@ -32,54 +65,57 @@ const PopularBrands = () => {
                     position-relative
                     shadow-sm
                 "
-                >
-                  <div className="list-card-image">
-                    <div
-                      className="star position-absolute"
-                      style={{ right: "8px", bottom: "8px" }}
-                    >
-                      <span className="badge badge-success">
-                        <i className="icofont-star"></i> 3.1 (300+)
-                      </span>
-                    </div>
-                    <div className="favourite-heart text-danger position-absolute">
-                      <a href="detail.html">
-                        {/*                   <i className="icofont-heart"></i> */}
-                      </a>
-                    </div>
-                    {/* <div
+                      >
+                        <div className="list-card-image">
+                          <div
+                            className="star position-absolute"
+                            style={{ right: "8px", bottom: "8px" }}
+                          >
+                            <span className="badge badge-success">
+                              <i className="icofont-star"></i> 3.1 (300+)
+                            </span>
+                          </div>
+                          <div className="favourite-heart text-danger position-absolute">
+                            <a href={`/resto-order?restoId=${resto.restoId}`}>
+                              {/*                   <i className="icofont-heart"></i> */}
+                            </a>
+                          </div>
+                          {/* <div
                       className="member-plan position-absolute"
                       style={{ left: "8px", top: "8px" }}
                     >
                       <span className={styles.badgeDark}>Promoted</span>
                     </div> */}
-                    <a href="detail.html">
-                      <img
-                        src="/img/list/1.png"
-                        className="img-fluid item-img"
-                        alt=""
-                      />
-                    </a>
-                  </div>
-                  <div
-                    className="p-3 position-relative"
-                    style={{ background: "#292830" }}
-                  >
-                    <div className="list-card-body">
-                      <h6 className="mb-1">
-                        <a href="detail.html" className={styles.title}>
-                          World Famous
-                        </a>
-                      </h6>
-                      <p
-                        className="text-gray mb-3"
-                        style={{ color: "#747d88" }}
-                      >
-                        North Indian • American • Pure veg
-                      </p>
-                      <p className="text-gray mb-3 time">
-                        <span
-                          className="
+                          <a href={`/resto-order?restoId=${resto.restoId}`}>
+                            <img
+                              src="/img/list/1.png"
+                              className="img-fluid item-img"
+                              alt=""
+                            />
+                          </a>
+                        </div>
+                        <div
+                          className="p-3 position-relative"
+                          style={{ background: "#292830" }}
+                        >
+                          <div className="list-card-body">
+                            <h6 className="mb-1">
+                              <a
+                                href={`/resto-order?restoId=${resto.restoId}`}
+                                className={styles.title}
+                              >
+                                {resto.name}
+                              </a>
+                            </h6>
+                            <p
+                              className="text-gray mb-3"
+                              style={{ color: "#747d88" }}
+                            >
+                              {resto.specialities}
+                            </p>
+                            <p className="text-gray mb-3 time">
+                              <span
+                                className="
                             bg-light
                             text-dark
                             rounded-sm
@@ -88,369 +124,27 @@ const PopularBrands = () => {
                             pt-1
                             pr-2
                         "
-                          style={{ backgroundColor: "#f8f9fa" }}
-                        >
-                          <i className="icofont-wall-clock"></i> 20–25 min
-                        </span>
-                        <span
-                          className="float-right "
-                          style={{ color: "#fff" }}
-                        >
-                          $250 FOR TWO
-                        </span>
-                      </p>
-                    </div>
-                    <div className="list-card-badge">
-                      <span className="badge badge-success"></span>
-                      <small style={{ color: "#fff" }}></small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-sm-6 mb-4 pb-2">
-                <div
-                  className="
-                    list-card
-                    bg-white
-                    h-100
-                    rounded
-                    overflow-hidden
-                    position-relative
-                    shadow-sm
-                "
-                >
-                  <div className="list-card-image">
-                    <div
-                      className="star position-absolute"
-                      style={{ right: "8px", bottom: "8px" }}
-                    >
-                      <span className="badge badge-success">
-                        <i className="icofont-star"></i> 3.1 (300+)
-                      </span>
-                    </div>
-                    <div className="favourite-heart text-danger position-absolute">
-                      <a href="detail.html">
-                        {/*                   <i className="icofont-heart"></i> */}
-                      </a>
-                    </div>
-                    {/* <div
-                      className="member-plan position-absolute"
-                      style={{ left: "8px", top: "8px" }}
-                    >
-                      <span className={styles.badgeDark}>Promoted</span>
-                    </div> */}
-                    <a href="detail.html">
-                      <img
-                        src="/img/list/1.png"
-                        className="img-fluid item-img"
-                        alt=""
-                      />
+                                style={{ backgroundColor: "#f8f9fa" }}
+                              >
+                                <i className="icofont-wall-clock"></i> 20–25 min
+                              </span>
+                              <span
+                                className="float-right "
+                                style={{ color: "#fff" }}
+                              >
+                                Rs. {resto.average}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="list-card-badge">
+                            <span className="badge badge-success"></span>
+                            <small style={{ color: "#fff" }}></small>
+                          </div>
+                        </div>
+                      </div>
                     </a>
                   </div>
-                  <div
-                    className="p-3 position-relative"
-                    style={{ background: "#292830" }}
-                  >
-                    <div className="list-card-body">
-                      <h6 className="mb-1">
-                        <a href="detail.html" className={styles.title}>
-                          World Famous
-                        </a>
-                      </h6>
-                      <p
-                        className="text-gray mb-3"
-                        style={{ color: "#747d88" }}
-                      >
-                        North Indian • American • Pure veg
-                      </p>
-                      <p className="text-gray mb-3 time">
-                        <span
-                          className="
-                            bg-light
-                            text-dark
-                            rounded-sm
-                            pl-2
-                            pb-1
-                            pt-1
-                            pr-2
-                            "
-                        >
-                          <i className="icofont-wall-clock"></i> 20–25 min
-                        </span>
-                        <span
-                          className="float-right "
-                          style={{ color: "#fff" }}
-                        >
-                          $250 FOR TWO
-                        </span>
-                      </p>
-                    </div>
-                    {/* <div className="list-card-badge">
-                      <span className="badge badge-success">OFFER</span>
-                      <small style={{ color: "#fff" }}>
-                        65% off | Use Coupon OSAHAN50
-                      </small>
-                    </div> */}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-sm-6 mb-4 pb-2">
-                <div
-                  className="
-                    list-card
-                    bg-white
-                    rounded
-                    overflow-hidden
-                    position-relative
-                    shadow-sm
-                    "
-                >
-                  <div className="list-card-image">
-                    <div
-                      className="star position-absolute"
-                      style={{ right: "8px", bottom: "8px" }}
-                    >
-                      <span className="badge badge-success">
-                        <i className="icofont-star"></i> 3.1 (300+)
-                      </span>
-                    </div>
-                    <div className="favourite-heart text-danger position-absolute">
-                      <a href="detail.html">
-                        {/*                   <i className="icofont-heart"></i> */}
-                      </a>
-                    </div>
-                    {/*  <div
-                      className="member-plan position-absolute"
-                      style={{ left: "8px", top: "8px" }}
-                    >
-                      <span className={styles.badgeDark}>Promoted</span>
-                    </div> */}
-                    <a href="detail.html">
-                      <img
-                        src="/img/list/1.png"
-                        className="img-fluid item-img"
-                        alt=""
-                      />
-                    </a>
-                  </div>
-                  <div
-                    className="p-3 position-relative"
-                    style={{ background: "#292830" }}
-                  >
-                    <div className="list-card-body">
-                      <h6 className="mb-1">
-                        <a href="detail.html" className={styles.title}>
-                          World Famous
-                        </a>
-                      </h6>
-                      <p
-                        className="text-gray mb-3"
-                        style={{ color: "#747d88" }}
-                      >
-                        North Indian • American • Pure veg
-                      </p>
-                      <p className="text-gray mb-3 time">
-                        <span
-                          className="
-                            bg-light
-                            text-dark
-                            rounded-sm
-                            pl-2
-                            pb-1
-                            pt-1
-                            pr-2
-                        "
-                        >
-                          <i className="icofont-wall-clock"></i> 20–25 min
-                        </span>
-                        <span
-                          className="float-right "
-                          style={{ color: "#fff " }}
-                        >
-                          $250 FOR TWO
-                        </span>
-                      </p>
-                    </div>
-                    {/* <div className="list-card-badge">
-                      <span className="badge badge-success">OFFER</span>
-                      <small style={{ color: "#fff" }}>
-                        65% off | Use Coupon OSAHAN50
-                      </small>
-                    </div> */}
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-sm-6 mb-4 pb-2">
-                <div
-                  className="
-                  list-card
-                  bg-white
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-              "
-                >
-                  <div className="list-card-image">
-                    <div
-                      className="star position-absolute"
-                      style={{ right: "8px", bottom: "8px" }}
-                    >
-                      <span className="badge badge-success">
-                        <i className="icofont-star"></i> 3.1 (300+)
-                      </span>
-                    </div>
-                    <div className="favourite-heart text-danger position-absolute">
-                      <a href="detail.html">
-                        {/*                   <i className="icofont-heart"></i> */}
-                      </a>
-                    </div>
-                    {/* <div
-                    className="member-plan position-absolute"
-                    style={{ left: "8px", top: "8px" }}
-                  >
-                    <span className={styles.badgeDark}>Promoted</span>
-                  </div> */}
-                    <a href="detail.html">
-                      <img
-                        src="/img/list/1.png"
-                        className="img-fluid item-img"
-                        alt=""
-                      />
-                    </a>
-                  </div>
-                  <div
-                    className="p-3 position-relative"
-                    style={{ background: "#292830" }}
-                  >
-                    <div className="list-card-body">
-                      <h6 className="mb-1">
-                        <a href="detail.html" className={styles.title}>
-                          World Famous
-                        </a>
-                      </h6>
-                      <p
-                        className="text-gray mb-3"
-                        style={{ color: "#747d88" }}
-                      >
-                        North Indian • American • Pure veg
-                      </p>
-                      <p className="text-gray mb-3 time">
-                        <span
-                          className="
-                          bg-light
-                          text-dark
-                          rounded-sm
-                          pl-2
-                          pb-1
-                          pt-1
-                          pr-2
-                      "
-                        >
-                          <i className="icofont-wall-clock"></i> 20–25 min
-                        </span>
-                        <span
-                          className="float-right "
-                          style={{ color: "#fff" }}
-                        >
-                          $250 FOR TWO
-                        </span>
-                      </p>
-                    </div>
-                    <div className="list-card-badge">
-                      <span className="badge badge-success"></span>
-                      <small style={{ color: "#fff" }}></small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-sm-6 mb-4 pb-2">
-                <div
-                  className="
-                  list-card
-                  bg-white
-                  h-100
-                  rounded
-                  overflow-hidden
-                  position-relative
-                  shadow-sm
-              "
-                >
-                  <div className="list-card-image">
-                    <div
-                      className="star position-absolute"
-                      style={{ right: "8px", bottom: "8px" }}
-                    >
-                      <span className="badge badge-success">
-                        <i className="icofont-star"></i> 3.1 (300+)
-                      </span>
-                    </div>
-                    <div className="favourite-heart text-danger position-absolute">
-                      <a href="detail.html">
-                        {/*                   <i className="icofont-heart"></i> */}
-                      </a>
-                    </div>
-                    {/* <div
-                    className="member-plan position-absolute"
-                    style={{ left: "8px", top: "8px" }}
-                  >
-                    <span className={styles.badgeDark}>Promoted</span>
-                  </div> */}
-                    <a href="detail.html">
-                      <img
-                        src="/img/list/1.png"
-                        className="img-fluid item-img"
-                        alt=""
-                      />
-                    </a>
-                  </div>
-                  <div
-                    className="p-3 position-relative"
-                    style={{ background: "#292830" }}
-                  >
-                    <div className="list-card-body">
-                      <h6 className="mb-1">
-                        <a href="detail.html" className={styles.title}>
-                          World Famous
-                        </a>
-                      </h6>
-                      <p
-                        className="text-gray mb-3"
-                        style={{ color: "#747d88" }}
-                      >
-                        North Indian • American • Pure veg
-                      </p>
-                      <p className="text-gray mb-3 time">
-                        <span
-                          className="
-                          bg-light
-                          text-dark
-                          rounded-sm
-                          pl-2
-                          pb-1
-                          pt-1
-                          pr-2
-                          "
-                        >
-                          <i className="icofont-wall-clock"></i> 20–25 min
-                        </span>
-                        <span
-                          className="float-right "
-                          style={{ color: "#fff" }}
-                        >
-                          $250 FOR TWO
-                        </span>
-                      </p>
-                    </div>
-                    {/* <div className="list-card-badge">
-                    <span className="badge badge-success">OFFER</span>
-                    <small style={{ color: "#fff" }}>
-                      65% off | Use Coupon OSAHAN50
-                    </small>
-                  </div> */}
-                  </div>
-                </div>
-              </div>
+                ))}
             </div>
           </div>
         </div>

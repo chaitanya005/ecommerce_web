@@ -56,90 +56,91 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <Switch>
-          {/* <Route exact path="/">
+        <Suspense fallback={"Loading...."}>
+          <Switch>
+            {/* <Route exact path="/">
             <Login />
           </Route> */}
-          <Route exact path="/">
-            <Home />
-          </Route>
-          {/* <Route path="/men-shirts">
+            <Route exact path="/">
+              <Home />
+            </Route>
+            {/* <Route path="/men-shirts">
             <MenShirts />
           </Route>
           <Route path="/product-detail">
             <ProductPage />
           </Route> */}
-          <Route path="/cart">
-            <Cart />
-          </Route>
-          {/* <Route path="/notion">
+            <Route path="/cart">
+              <Cart />
+            </Route>
+            {/* <Route path="/notion">
             <Notion />
           </Route> */}
-          <Route exact path="/veggies">
-            <VeggiesLandingPage />
-          </Route>
-          <Route exact path="/veggies/shop">
-            <Shop />
-          </Route>
-          {/* <Route exact path="/veggies/shop/product">
+            <Route exact path="/veggies">
+              <VeggiesLandingPage />
+            </Route>
+            <Route exact path="/veggies/shop">
+              <Shop />
+            </Route>
+            {/* <Route exact path="/veggies/shop/product">
             <VeggieProduct />
           </Route> */}
-          <Route path="/team">
-            <Team />
-          </Route>
-          <Route path="/checkout">
-            <CheckoutPage />
-          </Route>
-          <Route path="/order/confirm">
-            <OrderConfirmation />
-          </Route>
-          <Route path="/order/failure">
-            <OrderFailure />
-          </Route>
-          <Route path="/user/orders">
-            <UserOrders />
-          </Route>
-          <Route path="/food-delivery">
-            <LandingPage />
-          </Route>
-          <Route path="/resto-name">
-            <Detail />
-          </Route>
-          <Route path="/fruits">
-            <FruitsLand />
-          </Route>
-          <Route path="/dryfruits/cashews">
-            <Cashews />
-          </Route>
-          {/* <Route path="/resto">
+            <Route path="/team">
+              <Team />
+            </Route>
+            <Route path="/checkout">
+              <CheckoutPage />
+            </Route>
+            <Route path="/order/confirm">
+              <OrderConfirmation />
+            </Route>
+            <Route path="/order/failure">
+              <OrderFailure />
+            </Route>
+            <Route path="/user/orders">
+              <UserOrders />
+            </Route>
+            <Route path="/food-delivery">
+              <LandingPage />
+            </Route>
+            <Route path="/resto-order">
+              <Detail />
+            </Route>
+            <Route path="/fruits">
+              <FruitsLand />
+            </Route>
+            <Route path="/dryfruits/cashews">
+              <Cashews />
+            </Route>
+            {/* <Route path="/resto">
             <Restaurants />
           </Route> */}
-          <Route path="/hello">
-            <HomePageTwo />
-          </Route>
-          <Route path="/about-us">
-            <AboutUs />
-          </Route>
-          <Route path="/returnandrefund">
-            <ReturnRefund />
-          </Route>
-          <Route path="/privacy">
-            <Privacy />
-          </Route>
-          <Route path="/cancellation">
-            <Cancellation />
-          </Route>
-          <Route path="/termsandconditions">
-            <TC />
-          </Route>
-          <Route path="/loading">
-            <Loading />
-          </Route>
-          <Route path="*">
-            <PageNotFound />
-          </Route>
-        </Switch>
-
+            <Route path="/hello">
+              <HomePageTwo />
+            </Route>
+            <Route path="/about-us">
+              <AboutUs />
+            </Route>
+            <Route path="/returnandrefund">
+              <ReturnRefund />
+            </Route>
+            <Route path="/privacy">
+              <Privacy />
+            </Route>
+            <Route path="/cancellation">
+              <Cancellation />
+            </Route>
+            <Route path="/termsandconditions">
+              <TC />
+            </Route>
+            <Route path="/loading">
+              <Loading />
+            </Route>
+            <Route path="*">
+              <PageNotFound />
+            </Route>
+          </Switch>
+        </Suspense>
         <Footer />
         {/* <Suspense
           fallback={<div style={{ color: "#000" }}>Loading Footer....</div>}
