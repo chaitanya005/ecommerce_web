@@ -10,9 +10,9 @@ const PopularBrands = () => {
     db.collection("restaurants")
   );
   const dispatch = useDispatch();
-  const storedRestos = useSelector((state) => state.resto);
+  const storedRestos = useSelector(getStoredRestos);
 
-  // console.log(storedRestos.restaurants);
+  console.log(storedRestos.restaurants);
 
   let allRestos = [];
 
