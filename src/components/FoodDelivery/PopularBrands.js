@@ -22,9 +22,8 @@ const PopularBrands = () => {
         let docu = doc.data();
 
         allRestos = [...allRestos, { restoId: id, ...docu }];
-
-        dispatch(storeRestaurants({ allRestos }));
       });
+    dispatch(storeRestaurants({ allRestos }));
   }, [restos]);
 
   return (
@@ -47,12 +46,9 @@ const PopularBrands = () => {
         <div className={styles.mainrow}>
           <div className="">
             <div className={styles.row}>
-              {restos &&
-                restos.docs.map((resto) => (
-                  <div
-                    className="col-md-4 col-sm-6 mb-4 pb-2"
-                    key={resto.data().name}
-                  >
+              {storedRestos.restaurants &&
+                storedRestos.restaurants.map((resto) => (
+                  <div className="col-md-4 col-sm-6 mb-4 pb-2" key={resto.name}>
                     <a href={`/resto-order/${resto.restoId}`}>
                       <div
                         className="
@@ -102,14 +98,14 @@ const PopularBrands = () => {
                                 href={`/resto-order?restoId=${resto.restoId}`}
                                 className={styles.title}
                               >
-                                {resto.data().name}
+                                {resto.name}
                               </a>
                             </h6>
                             <p
                               className="text-gray mb-3"
                               style={{ color: "#747d88" }}
                             >
-                              {resto.data().specialities}
+                              {resto.specialities}
                             </p>
                             <p className="text-gray mb-3 time">
                               <span
@@ -130,7 +126,7 @@ const PopularBrands = () => {
                                 className="float-right "
                                 style={{ color: "#fff" }}
                               >
-                                Rs. {resto.data().average}
+                                Rs. {resto.average}
                               </span>
                             </p>
                           </div>
