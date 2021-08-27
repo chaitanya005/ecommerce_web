@@ -6,13 +6,20 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Helmet } from "react-helmet";
 import { useCollection } from "react-firebase-hooks/firestore";
 import db from "../../firebase";
-import { storeMenuItems, getStoredMenuItems } from "../../features/restomenu";
+// import { storeMenuItems, getStoredMenuItems } from "../../features/restomenu";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
+import { addToCart, storeCart } from "../../features/cart/cart";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const Detail = () => {
   const search = useLocation().search;
-  const id = new URLSearchParams(search).get("restoId");
+  const restoId = new URLSearchParams(search).get("restoId");
   // console.log(id);
 
   const [state, setState] = React.useState({
@@ -22,11 +29,22 @@ const Detail = () => {
   });
 
   const [menu, loading, error] = useCollection(
-    db.collection("restaurants").doc(id).collection("menu")
+    db.collection("restaurants").doc(restoId).collection("menu")
   );
 
   const dispatch = useDispatch();
-  const storedMenuItems = useSelector(getStoredMenuItems);
+  const storedCartItems = useSelector(storeCart);
+  const [isCartItem, setIsCartItem] = useState(false);
+
+  const [toaststate, setToastState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, open } = toaststate;
+
+  // const storedMenuItems = useSelector(getStoredMenuItems);
   // console.log(storedMenuItems.menuItems);
 
   const [cates, setCategory] = useState({});
@@ -44,22 +62,20 @@ const Detail = () => {
 
         restoMenuItems = [...restoMenuItems, { menuItemId: id, ...docu }];
 
-        dispatch(
-          storeMenuItems({
-            restoMenuItems,
-          })
-        );
-
         if (id === "Categories") {
           obj = { ...doc.data() };
           setCategory(obj);
         }
       });
-  }, [menu]);
 
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
+    /* dispatch(
+      storeMenuItems({
+        restoMenuItems,
+      })
+    ); */
+
+    // console.log(restoId);
+  }, [menu]);
 
   const VegSwitch = withStyles({
     switchBase: {
@@ -88,6 +104,57 @@ const Detail = () => {
     checked: {},
     track: {},
   })(Switch);
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  const handleClose = () => {
+    setToastState({ ...toaststate, open: false });
+  };
+
+  const handleAddToCart = (menuItem) => {
+    let inCart = false;
+    let newItem = { ...menuItem.data(), id: menuItem.id };
+    if (storedCartItems.length >= 1) {
+      for (let item of storedCartItems) {
+        if (item.id === menuItem.id) {
+          setIsCartItem(true);
+          setToastState({ ...toaststate, open: true });
+          setTimeout(() => {
+            setToastState({ ...toaststate, open: false });
+          }, 1000);
+          inCart = true;
+          break;
+        }
+      }
+
+      if (inCart === false) {
+        dispatch(
+          addToCart({
+            newItem,
+          })
+        );
+        setIsCartItem(false);
+        setToastState({ ...toaststate, open: true });
+        setTimeout(() => {
+          setToastState({ ...toaststate, open: false });
+        }, 1000);
+      }
+    } else {
+      dispatch(
+        addToCart({
+          newItem,
+        })
+      );
+
+      setIsCartItem(false);
+      setToastState({ ...toaststate, open: true });
+      setTimeout(() => {
+        setToastState({ ...toaststate, open: false });
+      }, 1000);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -202,15 +269,15 @@ const Detail = () => {
 
                 <div className="row">
                   <h5 className="mb-4 mt-3 col-md-12">{cates && cates.cat1}</h5>
-                  {storedMenuItems.menuItems &&
-                    storedMenuItems.menuItems.map((menuItem) => (
+                  {menu &&
+                    menu.docs.map((menuItem) => (
                       <React.Fragment>
                         {cates !== undefined ? (
                           <React.Fragment>
-                            {menuItem.category === cates.cat1 ? (
+                            {menuItem.data().sub_cat === cates.cat1 ? (
                               <div
                                 className="col-md-4 col-sm-6 mb-4"
-                                key={menuItem.menuItemId}
+                                key={menuItem.id}
                               >
                                 <div
                                   className="
@@ -241,7 +308,7 @@ const Detail = () => {
                                           style={{ color: "#000" }}
                                         >
                                           {/* console.log(menuItem.data()) */}
-                                          {menuItem.name}
+                                          {menuItem.data().name}
                                         </a>
                                       </h6>
                                       <p
@@ -255,15 +322,18 @@ const Detail = () => {
                                           className="btn btn-link btn-sm pl-0 text-black pr-0"
                                           href="#/"
                                         >
-                                          ₹ {menuItem.price}
+                                          ₹ {menuItem.data().price}
                                         </a>
                                         <span className="float-right">
-                                          <a
+                                          <div
                                             className="btn btn-outline-secondary btn-sm"
-                                            href="#/"
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                              handleAddToCart(menuItem)
+                                            }
                                           >
                                             ADD
-                                          </a>
+                                          </div>
                                         </span>
                                       </p>
                                     </div>
@@ -297,27 +367,28 @@ const Detail = () => {
                                 className="bg-white rounded border shadow-sm mb-4"
                                 // style={{ margin: "0" }}
                               >
-                                {storedMenuItems.menuItems &&
-                                  storedMenuItems.menuItems.map((menuItem) => (
+                                {menu &&
+                                  menu.docs.map((menuItem) => (
                                     <React.Fragment>
-                                      {menuItem.category === cat[i] ? (
-                                        <React.Fragment
-                                          key={menuItem.menuItemId}
-                                        >
+                                      {menuItem.data().sub_cat === cat[i] ? (
+                                        <React.Fragment key={menuItem.id}>
                                           <div className="gold-members p-3 border-bottom">
-                                            <a
+                                            <div
                                               className="btn btn-outline-secondary btn-sm float-right"
-                                              href="#/"
+                                              style={{ cursor: "pointer" }}
+                                              onClick={() =>
+                                                handleAddToCart(menuItem)
+                                              }
                                             >
                                               ADD
-                                            </a>
+                                            </div>
                                             <div className="media">
                                               <div className="mr-3">
                                                 <i className="icofont-ui-press text-danger food-item"></i>
                                               </div>
                                               <div className="media-body">
                                                 <h6 className="mb-1">
-                                                  {menuItem.name}{" "}
+                                                  {menuItem.data().name}{" "}
                                                   <span className="badge badge-success">
                                                     BESTSELLER
                                                   </span>
@@ -326,7 +397,7 @@ const Detail = () => {
                                                   className="text-gray mb-0"
                                                   style={{ color: "#747d88" }}
                                                 >
-                                                  ₹ {menuItem.price}
+                                                  ₹ {menuItem.data().price}
                                                 </p>
                                               </div>
                                             </div>
@@ -452,6 +523,22 @@ const Detail = () => {
           </div>
         </div>
       </section>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        key={vertical + horizontal}
+      >
+        {isCartItem ? (
+          <Alert severity="error" onClose={handleClose}>
+            Item Already in Cart
+          </Alert>
+        ) : (
+          <Alert severity="success" onClose={handleClose}>
+            Item Added Cart
+          </Alert>
+        )}
+      </Snackbar>
     </React.Fragment>
   );
 };

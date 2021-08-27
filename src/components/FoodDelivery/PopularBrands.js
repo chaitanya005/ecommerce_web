@@ -49,7 +49,7 @@ const PopularBrands = () => {
               {storedRestos.restaurants &&
                 storedRestos.restaurants.map((resto) => (
                   <div className="col-md-4 col-sm-6 mb-4 pb-2" key={resto.name}>
-                    <a href={`/resto-order/${resto.restoId}`}>
+                    <a href={`/resto-order?restoId=${resto.restoId}`}>
                       <div
                         className="
                     list-card

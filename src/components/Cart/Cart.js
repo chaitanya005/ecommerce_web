@@ -14,6 +14,7 @@ import cart, {
   updateCart,
   setCouponName,
   removeDryFruitItem,
+  removeFoodItem,
 } from "../../features/cart/cart";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -2035,16 +2036,22 @@ const CartItems = ({ cartItem }) => {
 
   const handleRemoveItem = (removeeItem) => {
     setRemoveCount(true);
-    console.log("removeItem");
-    if (removeeItem.category !== "dryfruit") {
+    // console.log(removeeItem);
+    if (removeeItem.category === "dryfruit") {
       dispatch(
-        removeItem({
+        removeDryFruitItem({
+          removeeItem,
+        })
+      );
+    } else if (removeeItem.category === "Food") {
+      dispatch(
+        removeFoodItem({
           removeeItem,
         })
       );
     } else {
       dispatch(
-        removeDryFruitItem({
+        removeItem({
           removeeItem,
         })
       );
