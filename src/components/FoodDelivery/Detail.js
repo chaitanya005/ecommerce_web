@@ -4,7 +4,7 @@ import { green, yellow, grey } from "@material-ui/core/colors";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Helmet } from "react-helmet";
-import { useCollection } from "react-firebase-hooks/firestore";
+import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import db from "../../firebase";
 // import { storeMenuItems, getStoredMenuItems } from "../../features/restomenu";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +32,14 @@ const Detail = () => {
     db.collection("restaurants").doc(restoId).collection("menu")
   );
 
+  const [restoInfo] = useDocument(db.collection("restaurants").doc(restoId));
+
+  /* restoInfo &&
+    restoInfo.docs.map((doc) => {
+      console.log(doc.data());
+    }); */
+  // console.log(restoInfo && restoInfo.data());
+
   const dispatch = useDispatch();
   const storedCartItems = useSelector(storeCart);
   const [isCartItem, setIsCartItem] = useState(false);
@@ -48,6 +56,7 @@ const Detail = () => {
   // console.log(storedMenuItems.menuItems);
 
   const [cates, setCategory] = useState({});
+  // console.log(cates);
   let restoMenuItems = [];
 
   useEffect(() => {
@@ -64,6 +73,7 @@ const Detail = () => {
 
         if (id === "Categories") {
           obj = { ...doc.data() };
+          // console.log(doc.data());
           setCategory(obj);
         }
       });
@@ -175,7 +185,22 @@ const Detail = () => {
           href="/assets/animate.css/animate.min.css"
           rel="stylesheet"
           type="text/css"
-          rel="preload"
+          // rel="preload"
+        />
+
+        <link
+          href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap"
+          rel="stylesheet"
+          type="text/css"
+          // rel="preload"
+          as="font"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+          type="text/css"
+          // rel="preload"
+          as="font"
         />
         <link href="vendor/icofont/icofont.min.css" rel="stylesheet" />
       </Helmet>
@@ -209,7 +234,12 @@ const Detail = () => {
         <div className="content-offs-stick my-5 container">
           <div className="section-solid">
             <div className="z-index-4 position-relative">
-              <h1 className="section-title">New Iceberg</h1>
+              <h1 className="section-title">
+                {restoInfo && restoInfo.data().name}
+              </h1>
+              <h4 className="section-title">
+                {restoInfo && restoInfo.data().specialities}
+              </h4>
               <div className="mt-3">
                 <div className="page-breadcrumbs">
                   <a className="content-link" href="/">
@@ -220,10 +250,10 @@ const Detail = () => {
                     Food-Delivery
                   </a>
                   <span className="mx-2">\</span>
-                  <span>New Iceberg</span>
+                  <span>{restoInfo && restoInfo.data().name}</span>
                 </div>
                 <div className="page-breadcrumbs">
-                  Chirala Locality, Chirala
+                  {restoInfo && restoInfo.data().address}
                 </div>
               </div>
             </div>
@@ -352,8 +382,16 @@ const Detail = () => {
                 </div>
 
                 <div>
+                  {/* console.log(cates) */}
                   {Array.from(Array(Object.keys(cates).length), (e, i) => {
-                    const cat = Object.values(cates);
+                    const orderCates = Object.keys(cates)
+                      .sort()
+                      .reduce((obj, key) => {
+                        obj[key] = cates[key];
+                        return obj;
+                      }, {});
+
+                    const cat = Object.values(orderCates);
                     if (cat[i] !== "Recommended") {
                       return (
                         <React.Fragment key={i}>
@@ -370,7 +408,9 @@ const Detail = () => {
                                 {menu &&
                                   menu.docs.map((menuItem) => (
                                     <React.Fragment>
-                                      {menuItem.data().sub_cat === cat[i] ? (
+                                      {menuItem.data().sub_cat !== undefined &&
+                                      menuItem.data().sub_cat.toLowerCase() ===
+                                        cat[i].toLowerCase() ? (
                                         <React.Fragment key={menuItem.id}>
                                           <div className="gold-members p-3 border-bottom">
                                             <div
@@ -398,6 +438,12 @@ const Detail = () => {
                                                   style={{ color: "#747d88" }}
                                                 >
                                                   ₹ {menuItem.data().price}
+                                                </p>
+                                                <p
+                                                  className="text-gray mb-0"
+                                                  style={{ color: "#747d88" }}
+                                                >
+                                                  {menuItem.data().desc}
                                                 </p>
                                               </div>
                                             </div>
