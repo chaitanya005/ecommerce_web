@@ -6,9 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { storeRestaurants, getStoredRestos } from "../../features/resto";
 
 const PopularBrands = () => {
-  const [restaurants, loading, error] = useCollection(
-    db.collection("restaurants")
-  );
+  const [restos, loading, error] = useCollection(db.collection("restaurants"));
   const dispatch = useDispatch();
   const storedRestos = useSelector(getStoredRestos);
 
@@ -17,8 +15,8 @@ const PopularBrands = () => {
   let allRestos = [];
 
   useEffect(() => {
-    restaurants &&
-      restaurants.docs.map((doc) => {
+    restos &&
+      restos.docs.map((doc) => {
         // console.log(doc.data());
         let id = doc.id;
         let docu = doc.data();
@@ -27,7 +25,7 @@ const PopularBrands = () => {
 
         dispatch(storeRestaurants({ allRestos }));
       });
-  }, [restaurants]);
+  }, [restos]);
 
   return (
     <section className="bg-light-green white-curve-before curve-before-0 white-curve-after curve-after-40 section-solid">
@@ -49,11 +47,11 @@ const PopularBrands = () => {
         <div className={styles.mainrow}>
           <div className="">
             <div className={styles.row}>
-              {storedRestos.restaurants &&
-                storedRestos.restaurants.map((resto) => (
+              {restos &&
+                restos.docs.map((resto) => (
                   <div
                     className="col-md-4 col-sm-6 mb-4 pb-2"
-                    key={resto.restoId}
+                    key={resto.data().name}
                   >
                     <a href={`/resto-order/${resto.restoId}`}>
                       <div
@@ -104,14 +102,14 @@ const PopularBrands = () => {
                                 href={`/resto-order?restoId=${resto.restoId}`}
                                 className={styles.title}
                               >
-                                {resto.name}
+                                {resto.data().name}
                               </a>
                             </h6>
                             <p
                               className="text-gray mb-3"
                               style={{ color: "#747d88" }}
                             >
-                              {resto.specialities}
+                              {resto.data().specialities}
                             </p>
                             <p className="text-gray mb-3 time">
                               <span
@@ -132,7 +130,7 @@ const PopularBrands = () => {
                                 className="float-right "
                                 style={{ color: "#fff" }}
                               >
-                                Rs. {resto.average}
+                                Rs. {resto.data().average}
                               </span>
                             </p>
                           </div>
