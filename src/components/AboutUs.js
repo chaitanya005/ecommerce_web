@@ -24,7 +24,7 @@ const AboutUs = () => {
           },
         ]}
       >
-        <title>Spont Store | About Us</title>
+        {/* <title>Spont Store | About Us</title> */}
         <style>
           {`
         :root {
