@@ -25,7 +25,7 @@ app.get("/returnandrefund", (req, res, next) => {
         "<title>Spont Store | Return Refund</title>",
         `<title>Returnn Refundddd</title>`
       )
-      .replace("Spont Store", "Returnn Refundd")
+      .replace("Spont Store", "Returnn Refunddd")
       .replace(
         "Online Store for brand new fashion clothing, fresh veggies, groceries, and also order Your favourite food from your favourite restaurant's",
         "SPont store retun refund __META_OG_DESCRIPTION__"
