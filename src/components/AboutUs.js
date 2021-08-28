@@ -4,7 +4,26 @@ import { Helmet } from "react-helmet";
 const AboutUs = () => {
   return (
     <React.Fragment>
-      <Helmet>
+      <Helmet
+        htmlAttributes={{ lang: "en" }}
+        title={"About us"}
+        meta={[
+          {
+            name: "description",
+            content: "about description",
+          },
+          {
+            name: "keywords",
+            content: "about spontstore, about us",
+          },
+        ]}
+        link={[
+          {
+            rel: "canonical",
+            href: "https://spontstore.com/about-us",
+          },
+        ]}
+      >
         <title>Spont Store | About Us</title>
         <style>
           {`
