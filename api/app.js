@@ -61,6 +61,8 @@ app.use(
   express.static(path.resolve(__dirname, "..", "build"), { maxAge: "30d" })
 );
 
+console.log(__dirname);
+
 app.get("/helo", (req, res) => {
   res.send({ message: "hey! there" });
 });
