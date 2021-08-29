@@ -57,15 +57,28 @@ const path = require("path");
 
 app.use(express.json({ extended: false }));
 
-app.use(
-  express.static(path.resolve(__dirname, "..", "build"), { maxAge: "30d" })
-);
-
-console.log(__dirname);
-
 app.get("/helo", (req, res) => {
   res.send({ message: "hey! there" });
 });
 
+app.use(
+  express.static(path.resolve(__dirname, "..", "build"), { maxAge: "30d" })
+);
+
+app.get("*", function (req, res) {
+  res.sendFile(
+    path.resolve(__dirname, "..", "build/index.html"),
+    function (err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+    }
+  );
+});
+
+console.log(__dirname);
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
+
+module.exports = app;
