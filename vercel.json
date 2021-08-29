@@ -1,12 +1,12 @@
 {
     "version": 2,
-    "functions": {
-        "index.js": {
-            "memory": 3008,
-            "maxDuration": 500
-        }
-    },
-    "builds": [
+    "functions": [
+        {
+            "index.js": {
+                "memory": 3008,
+                "maxDuration": 500
+            }
+        },
         {
             "src": "./index.js",
             "use": "@vercel/node"
