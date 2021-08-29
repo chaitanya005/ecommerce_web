@@ -24,7 +24,7 @@ function BootstrapTooltip(props) {
   return <Tooltip arrow classes={classes} {...props} />;
 } */
 
-const FruitsLand = () => {
+const FruitsLand = (req, res) => {
   const color = "#FFBAB5";
 
   const [state, setState] = React.useState({

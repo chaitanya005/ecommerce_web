@@ -8,16 +8,11 @@
     ],
     "routes": [
         {
-            "src": "/(.*)",
-            "dest": "/"
-        },
-        {
             "handle": "filesystem"
         },
         {
             "src": "/(.*)",
-            "status": 404,
-            "dest": "./src/components/404.js"
+            "dest": "server/index.js"
         }
     ]
 }
