@@ -6,12 +6,12 @@ const fs = require("fs");
 
 app.use(
   express.static(
-    path.resolve(__dirname, ".", "build")
+    path.resolve(__dirname, "..", "build")
     // { maxAge: '30d' },
   )
 );
 
-const indexPath = path.resolve(__dirname, ".", "build", "index.html");
+const indexPath = path.resolve(__dirname, "..", "build", "index.html");
 
 app.get("/returnandrefund", (req, res, next) => {
   fs.readFile(indexPath, "utf8", (err, htmlData) => {
