@@ -13,11 +13,6 @@ app.use(
 
 const indexPath = path.resolve(__dirname, ".", "build", "index.html");
 
-app.get("/", (req, res) => {
-  console.log("sdkjflksdjfdlskj");
-  res.sendFile(path.resolve(__dirname, ".", "build", "index.html"));
-});
-
 app.get("/returnandrefund", (req, res, next) => {
   fs.readFile(indexPath, "utf8", (err, htmlData) => {
     if (err) {
