@@ -1,13 +1,11 @@
 {
     "version": 2,
-    "functions": [
-        {
-            "api/app.js": {
-                "memory": 1024,
-                "maxDuration": 5
-            }
+    "functions": {
+        "api/app.js": {
+            "memory": 1024,
+            "maxDuration": 5
         }
-    ],
+    },
     "routes": [
         {
             "src": "/.*",
