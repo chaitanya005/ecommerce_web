@@ -10,7 +10,7 @@ app.use(
     // { maxAge: '30d' },
   )
 );
-
+/* 
 const indexPath = path.resolve(__dirname, ".", "build", "index.html");
 
 app.get("/returnandrefund", (req, res, next) => {
@@ -37,6 +37,10 @@ app.get("/returnandrefund", (req, res, next) => {
 
     return res.send(htmlData);
   });
+}); */
+
+app.get("/helo", (req, res) => {
+  res.send({ message: "hello world" });
 });
 
 app.listen(PORT, (error) => {
