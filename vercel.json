@@ -17,7 +17,7 @@
         {
             "src": "/(.*)",
             "status": 404,
-            "dest": "/*"
+            "dest": "./src/components/404.js"
         }
     ]
 }
