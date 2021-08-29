@@ -58,10 +58,7 @@ const path = require("path");
 app.use(express.json({ extended: false }));
 
 app.use(
-  express.static(
-    path.resolve(__dirname, "..", "build")
-    // { maxAge: '30d' },
-  )
+  express.static(path.resolve(__dirname, "..", "build"), { maxAge: "30d" })
 );
 
 app.get("/helo", (req, res) => {
