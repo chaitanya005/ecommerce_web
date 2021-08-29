@@ -10,6 +10,14 @@
         {
             "src": "/(.*)",
             "dest": "/"
+        },
+        {
+            "handle": "filesystem"
+        },
+        {
+            "src": "/(.*)",
+            "status": 404,
+            "dest": "/*"
         }
     ]
 }
