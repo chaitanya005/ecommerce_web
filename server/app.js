@@ -1,4 +1,4 @@
-const express = require("express");
+/* const express = require("express");
 const app = express();
 const path = require("path");
 const PORT = process.env.PORT || 5000;
@@ -49,3 +49,24 @@ app.listen(PORT, (error) => {
   }
   console.log("listening on " + PORT + "...");
 });
+ */
+
+const express = require("express");
+const app = express();
+const path = require("path");
+
+app.use(express.json({ extended: false }));
+
+app.use(
+  express.static(
+    path.resolve(__dirname, "..", "build")
+    // { maxAge: '30d' },
+  )
+);
+
+app.get("/helo", (req, res) => {
+  res.send({ message: "hey! there" });
+});
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
