@@ -70,7 +70,7 @@ const Footer = () => {
                           href="/veggies/shop"
                           style={{ color: "#fff" }}
                         >
-                          Veggies
+                          Rythu bazar
                         </a>
                       </li>
                       <li className="nav-item">
