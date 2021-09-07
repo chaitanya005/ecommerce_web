@@ -10,10 +10,8 @@ import HomePage from "./components/Veggies/Homepage";
 import VeggiesLandingPage from "./components/Veggies/VeggiesLandingPage";
 import Footer from "./components/Veggies/Footer";
 import VeggieProduct from "./components/Veggies/ProductPage";
-import PageNotFound from "./components/404";
 // import { getToken } from "./firebase";
 import { useState } from "react";
-import OrderConfirmation from "./components/OrderConfirmation";
 import OrderFailure from "./components/OrderFailure";
 
 /* import Cart from "./components/Cart/Cart";
@@ -22,14 +20,17 @@ import CheckoutPage from "./components/Cart/Checkout";
 import UserOrders from "./components/Veggies/UserOrders";
 import LandingPage from "./components/FoodDelivery/LandingPage"; */
 
+/* import OrderConfirmation from "./components/OrderConfirmation";
+import PageNotFound from "./components/404";
+import TC from "./components/T_C";
+import Privacy from "./components/Privacy";
+import ReturnRefund from "./components/Return_Refund"; */
+
 import Restaurants from "./components/FoodDelivery/Restaurants";
 import HomePageTwo from "./components/FoodDelivery/HomePage";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import AboutUs from "./components/AboutUs";
-import ReturnRefund from "./components/Return_Refund";
-import Privacy from "./components/Privacy";
 import Cancellation from "./components/Cancellation";
-import TC from "./components/T_C";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import React, { Suspense, lazy } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -47,6 +48,12 @@ const CheckoutPage = lazy(() => import("./components/Cart/Checkout"));
 const Shop = lazy(() => import("./components/Veggies/Shop"));
 const UserOrders = lazy(() => import("./components/Veggies/UserOrders"));
 const LandingPage = lazy(() => import("./components/FoodDelivery/LandingPage"));
+
+const OrderConfirmation = lazy(() => import("./components/OrderConfirmation"));
+const PageNotFound = lazy(() => import("./components/404"));
+const TC = lazy(() => import("./components/T_C"));
+const Privacy = lazy(() => import("./components/Privacy"));
+const ReturnRefund = lazy(() => import("./components/Return_Refund"));
 
 function App() {
   /* const [isTokenFound, setTokenFound] = useState(false);

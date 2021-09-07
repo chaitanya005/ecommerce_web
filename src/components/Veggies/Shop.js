@@ -16,7 +16,6 @@ import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useCollection } from "react-firebase-hooks/firestore";
 import DocumentMeta from "react-document-meta";
-import ReactDOMServer from "react-dom";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;

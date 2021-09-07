@@ -1,5 +1,8 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-import firebase from "firebase";
+// import firebase from "firebase/app";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/storage";
 import "firebase/firestore";
 // import "firebase/messaging";
 
@@ -83,3 +86,5 @@ export const createUserDocument = async (user) => {
 export { auth, provider, storage };
 
 export default db;
+
+/*  */
