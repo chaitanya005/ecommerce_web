@@ -1,7 +1,7 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 // import firebase from "firebase/app";
 import firebase from "firebase/app";
-import { getFirestore } from "@firebase/firestore/lite";
+// import { getFirestore } from "@firebase/firestore/lite";
 import "firebase/auth";
 import "firebase/storage";
 import "firebase/firestore";
@@ -19,14 +19,14 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-// const db = firebaseApp.firestore();
-const db = getFirestore(firebaseApp);
+const db = firebaseApp.firestore();
+// const db = getFirestore(firebaseApp);
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 const storage = firebase.storage();
 
-// export const firestore = firebase.firestore();
-export const firestore = getFirestore(firebaseApp);
+export const firestore = firebase.firestore();
+// export const firestore = getFirestore(firebaseApp);
 
 //const messaging = firebase.messaging();
 
