@@ -2,6 +2,8 @@ import React from "react";
 import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import PhoneIcon from "@material-ui/icons/Phone";
 import MailIcon from "@material-ui/icons/Mail";
+import YouTubeIcon from "@material-ui/icons/YouTube";
+import FacebookIcon from "@material-ui/icons/Facebook";
 
 const Footer = () => {
   return (
@@ -140,7 +142,7 @@ const Footer = () => {
               </div>
               <div className="col-md-6 col-lg-3 order-lg-last">
                 <h5 className="footer-title">Contact Us</h5>
-                <p className="footer-text-info">
+                <div className="footer-text-info">
                   <WhatsAppIcon fontSize="small" /> +91 8790462050 <br />
                   <PhoneIcon fontSize="small" /> +91 9030462050 <br />
                   <a href="mailto:updates@spontstore.com">
@@ -150,7 +152,14 @@ const Footer = () => {
                   </a>
                   <p>1/A Rajupalem Street, Swarna Road</p>
                   <p> Chirala-523155</p>
-                </p>
+                  Follow us on{" "}
+                  <a href="https://www.facebook.com/spontstore/">
+                    <FacebookIcon />
+                  </a>{" "}
+                  <a href="https://youtube.com/channel/UCjOYdGM9m9VAjD0Jr7k8Qzg">
+                    <YouTubeIcon />
+                  </a>
+                </div>
               </div>
             </div>
           </nav>
