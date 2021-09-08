@@ -14,7 +14,7 @@ const AboutUs = () => {
           },
           {
             name: "keywords",
-            content: "about spontstore, about us",
+            content: "about spontstore",
           },
         ]}
         link={[
