@@ -6,7 +6,7 @@ const AboutUs = () => {
     <React.Fragment>
       <Helmet
         htmlAttributes={{ lang: "en" }}
-        title={"About us"}
+        title={"About Spont Store"}
         meta={[
           {
             name: "description",
