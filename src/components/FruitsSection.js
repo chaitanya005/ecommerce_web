@@ -93,7 +93,7 @@ const FruitsSection = () => {
     <Container>
       <TwoColumn>
         <ImageColumn>
-          <a href="/fruits">
+          <a href="/dryfruits">
             <Image
               style={{ maxWidth: "100%" }}
               css={Object.assign(tw`bg-cover`, imageCss)}
@@ -114,7 +114,7 @@ const FruitsSection = () => {
         <TextColumn textOnLeft={true}>
           <TextContent>
             <Subheading></Subheading>
-            <a href="/fruits">
+            <a href="/dryfruits">
               <Heading style={{ color: "rgba(36,62,99)" }} onClick={handleOpen}>
                 {heading}
               </Heading>
@@ -125,7 +125,7 @@ const FruitsSection = () => {
             <PrimaryButton
               buttonRounded={true}
               as="a"
-              href="/fruits"
+              href="/dryfruits"
               style={{
                 backgroundColor: "rgba(80,17,204)",
                 padding: "0.75rem 2rem",

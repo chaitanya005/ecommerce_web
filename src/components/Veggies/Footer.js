@@ -69,7 +69,7 @@ const Footer = () => {
                       <li className="nav-item">
                         <a
                           className="nav-link"
-                          href="/fruits"
+                          href="/dryfruits"
                           style={{ color: "#fff" }}
                         >
                           Dry Fruits
