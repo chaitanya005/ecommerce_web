@@ -171,54 +171,55 @@ const Cart = () => {
 
   let flag = 0;
   const handleCheckout = () => {
-    setState({ ...state, open: true });
-    /* if (!uId) {
+    // setState({ ...state, open: true });
+    if (!uId) {
       setState({ ...state, open: true });
       window.scrollTo(0, 0);
-    } else { */
-    // window.location.reload();
-
-    /* let total;
-    if (clicked) {
-      total = billTotal;
-      dispatch(
-        setCouponName({
-          coupon,
-        })
-      );
     } else {
-      total = yourBill + 20;
-      dispatch(
-        setCouponName({
-          coupon,
-        })
-      );
-    }
+      // window.location.reload();
 
-    if (flag === 0) {
-      for (let veggie of storedVeggie.storeVeggies) {
-        for (let cartItems of cartStore) {
-          if (cartItems.name === veggie.name) {
-            if (
-              cartItems.price !== veggie.price ||
-              cartItems.in_stock !== veggie.in_stock
-            ) {
-              window.location.reload();
-              flag = 1;
+      let total;
+      if (clicked) {
+        total = billTotal;
+        dispatch(
+          setCouponName({
+            coupon,
+          })
+        );
+      } else {
+        total = yourBill + 20;
+        dispatch(
+          setCouponName({
+            coupon,
+          })
+        );
+      }
+
+      if (flag === 0) {
+        for (let veggie of storedVeggie.storeVeggies) {
+          for (let cartItems of cartStore) {
+            if (cartItems.name === veggie.name) {
+              if (
+                cartItems.price !== veggie.price ||
+                cartItems.in_stock !== veggie.in_stock
+              ) {
+                window.location.reload();
+                flag = 1;
+              }
             }
           }
         }
+        if (flag === 0) {
+          dispatch(
+            setTotalBill({
+              total,
+            })
+          );
+          history.push("/checkout");
+          window.scrollTo(0, 0);
+        }
       }
-      if (flag === 0) {
-        dispatch(
-          setTotalBill({
-            total,
-          })
-        );
-        history.push("/checkout");
-        window.scrollTo(0, 0);
-      }
-    } */
+    }
   };
 
   const handleCoupon = () => {
@@ -1756,7 +1757,7 @@ a:hover {
                   </button> */}
                 </div>
                 <div className="col-md-4 col-lg-3">
-                  <a href="/veggies/shop" className="btn btn-theme">
+                  <a href="/dryfruits" className="btn btn-theme">
                     Continue Shopping
                   </a>
                 </div>
@@ -1841,7 +1842,7 @@ a:hover {
                     ) : (
                       <li>
                         <span className="list-item-title">Shipping</span>
-                        <span className="list-item-value">Rs.20.00</span>
+                        <span className="list-item-value">Rs.100.00</span>
                       </li>
                     )}
 
@@ -1856,7 +1857,7 @@ a:hover {
                         <span className="list-item-value">Rs.{yourBill}</span>
                       ) : (
                         <span className="list-item-value">
-                          Rs.{yourBill + 20}
+                          Rs.{yourBill + 100}
                         </span>
                       )}
                     </li>
@@ -1893,8 +1894,8 @@ a:hover {
           message=""
           key={vertical + horizontal}
         >
-          <Alert severity="info" onClose={handleClose}>
-            Sorry! Currently, We are not accepting orders
+          <Alert severity="error" onClose={handleClose}>
+            Please Login
           </Alert>
         </Snackbar>
       </section>
@@ -1982,12 +1983,10 @@ const CartItems = ({ cartItem }) => {
         setUpdatePrice(p);
       }
     } else {
-      // console.log("slkdnfkldsf");
       setHalfKilo(true);
       // setPavKilo(false);
       setState({ ...state, open: true });
     }
-    // console.log(halfKilo);
 
     if (
       cartItem.name === "Green Chilli" ||

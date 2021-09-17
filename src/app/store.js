@@ -12,6 +12,7 @@ import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import orderReducer from "../features/order";
 import hardSet from "redux-persist/lib/stateReconciler/hardSet";
+import dryfruitsReducer from "../features/dryfruits";
 
 const reducers = combineReducers({
   user: userReducer,
@@ -22,6 +23,7 @@ const reducers = combineReducers({
   order: orderReducer,
   restomenu: restoMenuReducer,
   resto: restoReducer,
+  dryfruits: dryfruitsReducer,
 });
 
 const persistConfig = {

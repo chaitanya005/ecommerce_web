@@ -113,7 +113,7 @@ function App() {
             <Route path="/resto-order">
               <Detail />
             </Route>
-            <Route path="/fruits">
+            <Route path="/dryfruits">
               <FruitsLand />
             </Route>
             <Route path="/dryfruits/cashews">

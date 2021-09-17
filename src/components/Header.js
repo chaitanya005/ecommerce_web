@@ -382,8 +382,14 @@ const Header = () => {
           </Accordion> */}
 
           <ListItem>
+            <a href="/dryfruits">
+              <ListItemText primary="Dry Fruits" />
+            </a>
+          </ListItem>
+
+          <ListItem>
             <a href="/veggies/shop">
-              <ListItemText primary="Raitu Bazaar" />
+              <ListItemText primary="Rythu Bazaar" />
             </a>
           </ListItem>
 
@@ -483,8 +489,19 @@ const Header = () => {
               // onClick={handleMenPopoverOpen}
               // onMouseOver={handleMenPopoverOpen}
             >
+              <a href="/dryfruits">
+                <span>DRY FRUITS</span>
+              </a>
+            </Typography>
+
+            <Typography
+              // aria-owns={menanchorEl ? "men" : undefined}
+              aria-haspopup="true"
+              // onClick={handleMenPopoverOpen}
+              // onMouseOver={handleMenPopoverOpen}
+            >
               <a href="/veggies/shop">
-                <span>RAITU BAZAAR</span>
+                <span>RYTHU BAZAAR</span>
               </a>
             </Typography>
 

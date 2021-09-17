@@ -53,7 +53,7 @@ const HighlightedText = tw.span`bg-blue-500 text-gray-100 px-4 transform -skew-x
 
 const heading = (
   <React.Fragment>
-    Fresh Fruits <br />
+    Famous Dry Fruits <br />
     <br />
     <HighlightedText
       style={{ backgroundColor: "rgba(100,21,255)", paddingBottom: "0.5rem" }}
@@ -93,42 +93,47 @@ const FruitsSection = () => {
     <Container>
       <TwoColumn>
         <ImageColumn>
-          <Image
-            style={{ maxWidth: "100%" }}
-            css={Object.assign(tw`bg-cover`, imageCss)}
-            src="/images/svg/home_fruits.svg"
-            imageBorder={false}
-            imageShadow={false}
-            imageContainerCss={tw`p-2!`}
-            imageCss={tw`w-20! h-20!`}
-            imageDecoratorBlob={true}
-            imageDecoratorBlobCss={tw`left-1/2 -translate-x-1/2 md:w-32 md:h-32 opacity-25`}
-            onClick={handleOpen}
-          />
-          {/* imageDecoratorBlob && (
+          <a href="/fruits">
+            <Image
+              style={{ maxWidth: "100%" }}
+              css={Object.assign(tw`bg-cover`, imageCss)}
+              src="/images/svg/dryFruitHome.svg"
+              imageBorder={false}
+              imageShadow={false}
+              imageContainerCss={tw`p-2!`}
+              imageCss={tw`w-20! h-20!`}
+              imageDecoratorBlob={true}
+              imageDecoratorBlobCss={tw`left-1/2 -translate-x-1/2 md:w-32 md:h-32 opacity-25`}
+              // onClick={handleOpen}
+            />
+            {/* imageDecoratorBlob && (
               <DecoratorBlob css={imageDecoratorBlobCss} />
             ) */}
+          </a>
         </ImageColumn>
         <TextColumn textOnLeft={true}>
           <TextContent>
             <Subheading></Subheading>
-            <Heading style={{ color: "rgba(36,62,99)" }} onClick={handleOpen}>
-              {heading}
-            </Heading>
+            <a href="/fruits">
+              <Heading style={{ color: "rgba(36,62,99)" }} onClick={handleOpen}>
+                {heading}
+              </Heading>
+            </a>
             <Description style={{ color: "rgba(124,139,161)" }}>
               {description}
             </Description>
             <PrimaryButton
               buttonRounded={true}
               as="a"
-              //   href="/veggies/shop"
+              href="/fruits"
               style={{
                 backgroundColor: "rgba(80,17,204)",
                 padding: "0.75rem 2rem",
+                cursor: "pointer",
               }}
-              onClick={handleOpen}
+              // onClick={handleOpen}
             >
-              Coming Soon!
+              Shop Now
             </PrimaryButton>
           </TextContent>
         </TextColumn>

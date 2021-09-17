@@ -157,82 +157,83 @@ const CheckoutPage = () => {
 
   const handlePlaceOrder = async () => {
     // setState({ ...state, open: true });
-    /*   if (!uId) {
+    if (!uId) {
       setState({ ...state, open: true });
-    } else { */
-    // console.log(cartItems);
-    if (
-      values.name === "" ||
-      values.address === "" ||
-      values.phone === "" ||
-      values.pincode === "" ||
-      values.town === "" ||
-      values.district === ""
-    ) {
-      alert("Please fill all the fields");
-    } else if (values.phone.length < 10) {
-      alert("Please Enter Valid Phone Number");
     } else {
-      orderId =
-        "SS" +
-        new Date().getDate() +
-        new Date().getHours() +
-        new Date().getMinutes();
-      console.log(orderId);
-      if (paymentType.type === undefined) {
-        // console.log(paymentType);
-        setIsPaymentSelected(false);
-        setState({ ...state, open: true });
+      // console.log(cartItems);
+      if (
+        values.name === "" ||
+        values.address === "" ||
+        values.phone === "" ||
+        values.pincode === "" ||
+        values.town === "" ||
+        values.district === ""
+      ) {
+        alert("Please fill all the fields");
+      } else if (values.phone.length < 10) {
+        alert("Please Enter Valid Phone Number");
       } else {
-        if (paymentType.type === "PO") {
-          setLoading(true);
-          setIsPaymentSelected(true);
-          // let totalBill = yourBill + 20;
-          // var amount = totalBill;
-
-          let totalValues = [{ ...values }, yourBill];
-          dispatch(
-            setBillingDetails({
-              values,
-            })
-          );
-
-          var phone_number = values.phone;
-          var email = values.email;
-          orderId = "ORDERID_" + orderId;
-          let params = {
-            orderId: orderId,
-            email: email,
-            amount: yourBill + 20,
-            phone_number: phone_number,
-          };
-
-          // var url = "https://paytm-payment-gateway.herokuapp.com/payment";
-          var url = "https://paytm-payment-gateway.herokuapp.com/payment";
-          var request = {
-            url: url,
-            params: params,
-            method: "get",
-          };
-
-          const response = await axios(request);
-          // console.log(response);
-          const processParams = await response.data;
-          console.log(processParams);
-
-          var details = {
-            // action: "https://securegw-stage.paytm.in/order/process",
-            action: "https://securegw.paytm.in/order/process",
-            params: processParams,
-          };
-
-          post(details);
+        orderId =
+          "SS" +
+          new Date().getDate() +
+          new Date().getHours() +
+          new Date().getMinutes();
+        console.log(orderId);
+        if (paymentType.type === undefined) {
+          // console.log(paymentType);
+          setIsPaymentSelected(false);
+          setState({ ...state, open: true });
         } else {
-          handleSaveOrder();
-        }
-      }
+          if (paymentType.type === "PO") {
+            setLoading(true);
+            setIsPaymentSelected(true);
+            // let totalBill = yourBill + 20;
+            // var amount = totalBill;
 
-      // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
+            let totalValues = [{ ...values }, yourBill];
+            dispatch(
+              setBillingDetails({
+                values,
+              })
+            );
+
+            var phone_number = values.phone;
+            var email = values.email;
+            orderId = "ORDERID_" + orderId;
+            let params = {
+              orderId: orderId,
+              email: email,
+              amount: yourBill + 100,
+              phone_number: phone_number,
+            };
+
+            // var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+            var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+            var request = {
+              url: url,
+              params: params,
+              method: "get",
+            };
+
+            const response = await axios(request);
+            // console.log(response);
+            const processParams = await response.data;
+            console.log(processParams);
+
+            var details = {
+              // action: "https://securegw-stage.paytm.in/order/process",
+              action: "https://securegw.paytm.in/order/process",
+              params: processParams,
+            };
+
+            post(details);
+          } else {
+            handleSaveOrder();
+          }
+        }
+
+        // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
+      }
     }
   };
 
@@ -252,13 +253,13 @@ const CheckoutPage = () => {
         { orderId: orderId },
         { orderItems: [...cartItems] },
         { ...values },
-        { total: yourBill + 20 },
+        { total: yourBill + 100 },
         { appliedCoupon: "" },
       ];
     }
 
     try {
-      /* firestore
+      firestore
         .collection("orders")
         .doc(userDetails.uid)
         .collection("order")
@@ -275,8 +276,8 @@ const CheckoutPage = () => {
           );
           // console.log(res);
           handleNotion();
-        }); */
-      firestore
+        });
+      /* firestore
         .collection("orders")
         .doc(orderId)
         .set({
@@ -291,7 +292,7 @@ const CheckoutPage = () => {
           );
           // console.log(res);
           handleNotion();
-        });
+        }); */
     } catch (error) {
       console.log("Error in placing order", error);
       history.push("/order/failure");
@@ -311,10 +312,10 @@ const CheckoutPage = () => {
       i++;
     }
 
-    let total = yourBill + 20;
-
+    let total = yourBill + 100;
+    //https://notion-crm.herokuapp.com/order
     axios
-      .post("https://notion-crm.herokuapp.com/order", {
+      .post("http://localhost:8000/order", {
         items,
         values,
         i,
@@ -1639,7 +1640,7 @@ textarea.form-control {
                     {cartItems && cartItems.length === 0 ? (
                       <div className="order-line-total">Rs. 0</div>
                     ) : (
-                      <div className="order-line-total">Rs. 20.00</div>
+                      <div className="order-line-total">Rs. 100.00</div>
                     )}
                   </div>
                   <div className="order-subtotal">
@@ -1650,7 +1651,7 @@ textarea.form-control {
 
                   <div className="order-total">
                     <div className="order-line-title">Total</div>
-                    <div className="order-line-total">Rs. {yourBill + 20}</div>
+                    <div className="order-line-total">Rs. {yourBill + 100}</div>
                   </div>
 
                   {coupon ? (

@@ -15,8 +15,10 @@
 }
 
 .cart_float {
-  top: 80%;
+  /* top: 80%; */
   background-color: #ffb524;
+  left: 40px;
+  right: 0px;
 }
 
 .whatsapp-icon {
@@ -33,12 +35,13 @@
   .cart_float {
     width: 45px;
     height: 45px;
-    bottom: 0px;
+    bottom: 15px;
     right: 10px;
     font-size: 23px;
   }
 
   .cart_float {
-    top: 83%;
+    /* top: 83%; */
+    left: 10px;
   }
 }

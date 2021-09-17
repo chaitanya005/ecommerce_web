@@ -69,6 +69,15 @@ const Footer = () => {
                       <li className="nav-item">
                         <a
                           className="nav-link"
+                          href="/fruits"
+                          style={{ color: "#fff" }}
+                        >
+                          Dry Fruits
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a
+                          className="nav-link"
                           href="/veggies/shop"
                           style={{ color: "#fff" }}
                         >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import db from "../../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Loading from "../Loading";
@@ -8,6 +8,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Helmet } from "react-helmet";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import { saveDryFruits, getDryFruits } from "../../features/dryfruits";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -18,6 +19,7 @@ const DryFruits = () => {
   const dispatch = useDispatch();
 
   const storedCartItems = useSelector(storeCart);
+  const reduxDryFruits = useSelector(getDryFruits);
   const [isCartItem, setIsCartItem] = useState(false);
 
   const [state, setState] = React.useState({
@@ -31,6 +33,28 @@ const DryFruits = () => {
   const handleClose = () => {
     setState({ ...state, open: false });
   };
+
+  let inStockItems = [];
+
+  useEffect(() => {
+    dryFruits &&
+      dryFruits.docs.map((dryFruit) => {
+        if (dryFruit.data().in_stock === true) {
+          let docu = dryFruit.data();
+          let id = dryFruit.id;
+
+          inStockItems = [...inStockItems, { dryFruitId: id, ...docu }];
+        }
+      });
+
+    dispatch(
+      saveDryFruits({
+        inStockItems,
+      })
+    );
+  }, [dryFruits]);
+
+  // console.log(reduxDryFruits);
 
   const handleAddToCart = (dryFruit) => {
     let inCart = false;
@@ -98,24 +122,24 @@ const DryFruits = () => {
       {loading ? <Loading /> : ""}
       <div className="container">
         <div className="grid justify-content-center row">
-          {dryFruits &&
-            dryFruits.docs.map((dryFruit) => (
+          {reduxDryFruits &&
+            reduxDryFruits.storeDryFruit.map((dryFruit) => (
               <div
                 // className="col-sm-6 col-md-4 col-lg-3"
                 className="col-12 col-md-6 col-xl-4 d-flex"
-                key={dryFruit.data().img}
+                key={dryFruit.img}
               >
                 {/* bg-white text-center */}
                 <article className="entity-block entity-hover-shadow bg-white text-center">
                   {/* my-3 entity-image */}
                   <div
                     className="entity-preview-show-up entity-preview"
-                    onClick={() => handleAddToCart(dryFruit.data())}
+                    onClick={() => handleAddToCart(dryFruit)}
                   >
                     <span className="embed-responsive embed-responsive-4by3">
                       <img
                         className="embed-responsive-item"
-                        src={dryFruit.data().img}
+                        src={dryFruit.img}
                         style={{ cursor: "pointer" }}
                         // src="/images/indian-yellow-raisin-.png"
                         alt=""
@@ -131,7 +155,7 @@ const DryFruits = () => {
                   <div
                     className="entity-bg"
                     style={{
-                      background: `#${dryFruit.data().bgColor}`,
+                      background: `#${dryFruit.bgColor}`,
                       borderRadius: "0.5rem",
                     }}
                   ></div>
@@ -142,11 +166,11 @@ const DryFruits = () => {
                         style={{ color: "#000", cursor: "pointer" }}
                         onClick={() => handleAddToCart(dryFruit.data())}
                       >
-                        {dryFruit.data().name}
+                        {dryFruit.name}
                       </div>
                     </h4>
                     <p className="entity-title" style={{ color: "#000" }}>
-                      {dryFruit.data().desc}
+                      {dryFruit.desc}
                     </p>
                     <div className="entity-price" style={{ color: "#000" }}>
                       <span
@@ -156,23 +180,23 @@ const DryFruits = () => {
                           textDecoration: "line-through",
                         }}
                       >
-                        Rs. {dryFruit.data().actual_price}
+                        Rs. {dryFruit.actual_price}
                       </span>
                       <span
                         className="price-unit"
                         // style={{ textDecoration: "line-through" }}
                       >
-                        / {dryFruit.data().gms} gms
+                        / {dryFruit.gms} gms
                       </span>
                       <br />
                       <span className="currency">Rs.</span>
-                      {dryFruit.data().price}
+                      {dryFruit.price}
                     </div>
                     <div className="mt-4 entity-action-btns">
                       <button
                         className="btn-wide btn btn-theme"
                         style={{ cursor: "pointer" }}
-                        onClick={() => handleAddToCart(dryFruit.data())}
+                        onClick={() => handleAddToCart(dryFruit)}
                       >
                         Add to cart
                       </button>

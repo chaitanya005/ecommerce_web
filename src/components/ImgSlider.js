@@ -19,9 +19,20 @@ const ImgSlider = () => {
     <React.Fragment>
       <Carousel {...settings}>
         <Wrap>
+          <a href="#" className={styles.myBtnClass}>
+            <img src="/images/svg/fruit_slide.svg" alt="" />
+            <div className={styles.btnOver}>
+              <h4> Click here for Dry Fruits!</h4>
+            </div>
+          </a>
+        </Wrap>
+        <Wrap>
           <a href="/veggies/shop" className={styles.myBtnClass}>
             <img src="/images/svg/vegie_slide.svg" alt="" />
-            <h4 className={styles.btnOver}>Click here for Veggies </h4>
+            <div className={styles.btnOver}>
+              {" "}
+              <h4>Coming Soon!</h4>
+            </div>
           </a>
         </Wrap>
         <Wrap>
@@ -30,12 +41,6 @@ const ImgSlider = () => {
             <div className={styles.btnOver}>
               <h4>Coming Soon!</h4>
             </div>
-          </a>
-        </Wrap>
-        <Wrap>
-          <a href="#" className={styles.myBtnClass}>
-            <img src="/images/svg/fruit_slide.svg" alt="" />
-            <h4 className={styles.btnOver}>Coming Soon!</h4>
           </a>
         </Wrap>
       </Carousel>

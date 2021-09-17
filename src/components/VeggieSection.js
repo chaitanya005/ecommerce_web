@@ -7,6 +7,11 @@ import {
   Subheading as SubheadingBase,
 } from "./misc/Headings.js";
 import { PrimaryButton as PrimaryButtonBase } from "./misc/Buttons.js";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 // import TeamIllustrationSrc from "images/team-illustration-2.svg";
 // import { ReactComponent as SvgDotPattern } from "images/dot-pattern.svg";
 
@@ -63,50 +68,81 @@ const description =
 
 const VeggieSection = () => {
   const imageCss = tw`rounded-3xl`;
+
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  const handleOpen = () => {
+    setState({ ...state, open: true });
+
+    setTimeout(() => {
+      setState({ ...state, open: false });
+    }, 1500);
+  };
+
   return (
     <Container>
       <TwoColumn>
         <ImageColumn>
-          <a href="/veggies/shop">
-            <Image
-              style={{ maxWidth: "100%" }}
-              css={Object.assign(tw`bg-cover`, imageCss)}
-              src="/images/svg/home_vegie.svg"
-              imageBorder={false}
-              imageShadow={false}
-              imageContainerCss={tw`p-2!`}
-              imageCss={tw`w-20! h-20!`}
-              imageDecoratorBlob={true}
-              imageDecoratorBlobCss={tw`left-1/2 -translate-x-1/2 md:w-32 md:h-32 opacity-25`}
-            />
-            {/* imageDecoratorBlob && (
+          <Image
+            style={{ maxWidth: "100%" }}
+            css={Object.assign(tw`bg-cover`, imageCss)}
+            src="/images/svg/home_vegie.svg"
+            imageBorder={false}
+            imageShadow={false}
+            imageContainerCss={tw`p-2!`}
+            imageCss={tw`w-20! h-20!`}
+            imageDecoratorBlob={true}
+            imageDecoratorBlobCss={tw`left-1/2 -translate-x-1/2 md:w-32 md:h-32 opacity-25`}
+            onClick={handleOpen}
+          />
+          {/* imageDecoratorBlob && (
               <DecoratorBlob css={imageDecoratorBlobCss} />
             ) */}
-          </a>
         </ImageColumn>
         <TextColumn textOnLeft={true}>
           <TextContent>
             <Subheading></Subheading>
-            <a href="/veggies/shop">
-              <Heading style={{ color: "rgba(36,62,99)" }}>{heading}</Heading>
-            </a>
+            <Heading style={{ color: "rgba(36,62,99)" }}>{heading}</Heading>
             <Description style={{ color: "rgba(124,139,161)" }}>
               {description}
             </Description>
             <PrimaryButton
               buttonRounded={true}
               as="a"
-              href="/veggies/shop"
+              // href="/veggies/shop"
               style={{
                 backgroundColor: "rgba(80,17,204)",
                 padding: "0.75rem 2rem",
+                cursor: "pointer",
               }}
+              onClick={handleOpen}
             >
-              View more
+              Coming Soon!
             </PrimaryButton>
           </TextContent>
         </TextColumn>
       </TwoColumn>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        message=""
+        key={vertical + horizontal}
+      >
+        <Alert severity="error" onClose={handleClose}>
+          Please hold your urge! Veggies are Coming Soooooon!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

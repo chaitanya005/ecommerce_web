@@ -1370,16 +1370,29 @@ transform: scale(1.05); */
         </section>
 
         <section className="section" style={{ marginTop: "4rem" }} id="section">
-          <Paper component="form" className={classes.root}>
+          {/* <Paper component="form" className={classes.root}>
             <InputBase
               className={classes.input}
               placeholder="Search Veggies"
               inputProps={{ "aria-label": "search google maps" }}
               onChange={(e) => handleSearch(e)}
             />
-          </Paper>
+          </Paper> */}
           <br />
           <br />
+          <div className="container">
+            <h3
+              style={{
+                margin: "auto",
+                color: "white",
+                width: "50%",
+                textAlign: "center",
+              }}
+            >
+              Veggies are not Available Currently!
+            </h3>
+          </div>
+          {/* 
           <div className="container">
             {isLoading ? <Loading /> : ""}
             <br />
@@ -1495,19 +1508,7 @@ transform: scale(1.05); */
                                 </article>
                               </div>
                             )}
-                            {/* i === inStockVeggies.slice(0, visible).length - 1 &&
-                        visible < inStockVeggies.length ? (
-                          <div className="section-footer">
-                            <div
-                              className="btn-theme-white-bordered btn"
-                              onClick={() => handleVisible(veggie)}
-                            >
-                              View More
-                            </div>
-                          </div>
-                        ) : (
-                          ""
-                        ) */}
+                            
                           </React.Fragment>
                         ))}
                       {hasMore ? (
@@ -1639,6 +1640,7 @@ transform: scale(1.05); */
               )}
             </div>
           </div>
+         */}
         </section>
         <Snackbar
           anchorOrigin={{ vertical, horizontal }}
@@ -1672,3 +1674,18 @@ const DImage = styled.div`
 `;
 
 export default Shop;
+
+//view more - 1498
+/* i === inStockVeggies.slice(0, visible).length - 1 &&
+                        visible < inStockVeggies.length ? (
+                          <div className="section-footer">
+                            <div
+                              className="btn-theme-white-bordered btn"
+                              onClick={() => handleVisible(veggie)}
+                            >
+                              View More
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        ) */

@@ -27,6 +27,9 @@ const Home = () => {
   return (
     <React.Fragment>
       <Helmet>
+        <link rel="preload" as="image" href="/images/svg/vegie_slide.svg" />
+        <link rel="preload" as="image" href="/images/svg/dryFruitHome.svg" />
+        <link rel="preload" as="image" href="/images/svg/home_food.svg" />
         <style>
           {`:root {
             --blue: #007bff;
@@ -585,9 +588,9 @@ const Home = () => {
         {/* state ? <Loading /> : "" */}
         <Suspense fallback={<Loading />}>
           <ImgSlider />
-          <VeggieSection />
-          <FoodDeliverySection />
           <FruitsSection />
+          <FoodDeliverySection />
+          <VeggieSection />
           <ClothingSection />
           <br />
         </Suspense>
