@@ -313,9 +313,9 @@ const CheckoutPage = () => {
     }
 
     let total = yourBill + 100;
-    //https://notion-crm.herokuapp.com/order
+
     axios
-      .post("http://localhost:8000/order", {
+      .post("https://notion-crm.herokuapp.com/order", {
         items,
         values,
         i,
@@ -1697,30 +1697,30 @@ textarea.form-control {
                             </label>
                           </div>
                         </div>
-                        <div className="input-view-flat input-gray-shadow form-group">
-                          <div className="form-check">
-                            <label>
-                              <input
-                                // className="form-check-input"
-                                className="form-check-icon"
-                                type="radio"
-                                id="c-o-d"
-                                name="paymentType"
-                                value="COD"
-                                checked={paymentType.type === "COD"}
-                                // onChange={handlePaymentType}
-                                // onChange={console.log("slkdjflksdfjklsfj")}
-                              />
-                              {/* <span className="form-check-icon"></span> */}
-                              <div
-                                className="form-check-label"
-                                for="cash-on-payment"
-                              >
-                                CASH ON DELIVERY (COD)
-                              </div>
-                            </label>
+                        {/* <div className="input-view-flat input-gray-shadow form-group">
+                            <div className="form-check">
+                              <label>
+                                <input
+                                  // className="form-check-input"
+                                  className="form-check-icon"
+                                  type="radio"
+                                  id="c-o-d"
+                                  name="paymentType"
+                                  value="COD"
+                                  checked={paymentType.type === "COD"}
+                                  // onChange={handlePaymentType}
+                                  // onChange={console.log("slkdjflksdfjklsfj")}
+                                />
+                                <div
+                                  className="form-check-label"
+                                  for="cash-on-payment"
+                                >
+                                  CASH ON DELIVERY (COD)
+                                </div>
+                              </label>
+                            </div>
                           </div>
-                        </div>
+                         */}
                       </div>
                     </div>
                     <div className={classes.wrapper}>
