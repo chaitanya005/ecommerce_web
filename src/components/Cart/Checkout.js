@@ -1697,7 +1697,7 @@ textarea.form-control {
                             </label>
                           </div>
                         </div>
-                        {
+                        {/*
                           <div className="input-view-flat input-gray-shadow form-group">
                             <div className="form-check">
                               <label>
@@ -1721,7 +1721,7 @@ textarea.form-control {
                               </label>
                             </div>
                           </div>
-                        }
+                        */}
                       </div>
                     </div>
                     <div className={classes.wrapper}>
