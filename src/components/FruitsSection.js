@@ -54,9 +54,12 @@ const HighlightedText = tw.span`bg-blue-500 text-gray-100 px-4 transform -skew-x
 const heading = (
   <React.Fragment>
     Famous Dry Fruits <br />
-    <br />
     <HighlightedText
-      style={{ backgroundColor: "rgba(100,21,255)", paddingBottom: "0.5rem" }}
+      style={{
+        backgroundColor: "rgba(100,21,255)",
+        paddingBottom: "0.5rem",
+        marginTop: "0.5rem",
+      }}
     >
       {" "}
       Sweet & Delicious
@@ -115,7 +118,7 @@ const FruitsSection = () => {
           <TextContent>
             <Subheading></Subheading>
             <a href="/dryfruits">
-              <Heading style={{ color: "rgba(36,62,99)" }} onClick={handleOpen}>
+              <Heading style={{ color: "rgba(36,62,99)", marginTop: "0" }}>
                 {heading}
               </Heading>
             </a>
@@ -130,6 +133,7 @@ const FruitsSection = () => {
                 backgroundColor: "rgba(80,17,204)",
                 padding: "0.75rem 2rem",
                 cursor: "pointer",
+                marginTop: "0",
               }}
               // onClick={handleOpen}
             >

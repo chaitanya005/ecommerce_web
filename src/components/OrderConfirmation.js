@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
-import { orderId } from "../features/cart/cart";
+import { couponApplied, orderId } from "../features/cart/cart";
 import { useLocation, useParams } from "react-router-dom";
 import {
   removeCart,
@@ -27,6 +27,7 @@ const OrderConfirmation = () => {
   const cartItems = useSelector(storeCart);
   const userDetails = useSelector(getUserDetails);
   const [loading, setLoading] = useState(true);
+  const coupon = useSelector(couponApplied);
   // console.log(billing_Info, cartItems);
 
   useEffect(() => {
@@ -40,22 +41,41 @@ const OrderConfirmation = () => {
   }, [msg]);
 
   const handleFireStore = async () => {
-    let order = [
+    let order;
+    /*  let order = [
       { orderId: id },
       { orderItems: [...cartItems] },
       { ...values },
       { total: amount },
     ];
+ */
+    if (coupon) {
+      order = [
+        { orderId: id },
+        { orderItems: [...cartItems] },
+        { ...values },
+        { total: amount },
+        { appliedCoupon: coupon },
+      ];
+    } else {
+      order = [
+        { orderId: id },
+        { orderItems: [...cartItems] },
+        { ...values },
+        { total: amount + 100 },
+        { appliedCoupon: "" },
+      ];
+    }
 
     const orderRef = firestore.doc(`orders/${userDetails.uid}/order/${id}`);
 
     const snapshot = await orderRef.get();
 
-    console.log(snapshot.data());
+    console.log(order);
 
     if (!snapshot.exists) {
       try {
-        /* firestore
+        firestore
           .collection("orders")
           .doc(userDetails.uid)
           .collection("order")
@@ -63,8 +83,8 @@ const OrderConfirmation = () => {
           .set({
             order,
           })
-          .then(() => handleNotion()); */
-        firestore
+          .then(() => handleNotion());
+        /* firestore
           .collection("orders")
           // .doc(userDetails.uid)
           // .collection("order")
@@ -72,7 +92,7 @@ const OrderConfirmation = () => {
           .set({
             order,
           })
-          .then(() => handleNotion());
+          .then(() => handleNotion()); */
       } catch (error) {
         console.log("Error in placing order", error);
       }
@@ -93,12 +113,13 @@ const OrderConfirmation = () => {
 
     // console.log(typeof total);
     axios
-      .post("https://notion-demo.herokuapp.com/order", {
+      .post("https://notion-crm.herokuapp.com/order", {
         items,
         values,
         i,
         orderId,
         total,
+        coupon,
       })
       .then((res) => {
         // console.log(res);
@@ -719,11 +740,11 @@ a {
         </style>
       </Helmet>
       {loading ? (
-        <div>
+        <div style={{ marginTop: "25%", marginBottom: "25%" }}>
           <Loading />
-          <h6 style={{ textAlign: "center", color: "#fff" }}>
+          <h5 style={{ textAlign: "center", color: "#fff" }}>
             Please wait while loading...
-          </h6>
+          </h5>
           <h3 style={{ textAlign: "center", color: "#fff" }}>
             Please do not refresh or close the window
           </h3>

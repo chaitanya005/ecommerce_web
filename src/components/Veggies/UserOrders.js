@@ -1149,14 +1149,14 @@ a {
           <div className="section-solid with-back">
             <div className="full-block">
               <div className="section-back-text">My Orders</div>
-              <img
+              {/* <img
                 className="d-none-1 d-lg-block z-index-3"
                 src="/images/svg/bread_crumb_img.svg"
                 alt=""
                 data-size="280px"
                 data-at="10%;bottom 35%"
                 style={{ width: "400px" }}
-              />
+              /> */}
             </div>
             <div className="z-index-4 position-relative text-center">
               <h1 className="section-title">Your Orders</h1>
@@ -1220,6 +1220,7 @@ a {
                           <div className="entity-title"></div>
                           <div className="entity-break d-md-none"></div>
                           <div className="entity-total">
+                            {console.log(eachOrder.order[3].total)}
                             Rs.{eachOrder.order[3].total}
                           </div>
                           <div className="entity-status text-success">
@@ -1368,7 +1369,7 @@ a {
                                             Sub Total:
                                           </span>
                                           <span className="entity-list-value">
-                                            Rs. {eachOrder.order[3].total - 20}
+                                            Rs. {eachOrder.order[3].total - 100}
                                           </span>
                                         </li>
                                         <li className="entity-detail-subtotal">
@@ -1376,7 +1377,7 @@ a {
                                             Shipping:
                                           </span>
                                           <span className="entity-list-value">
-                                            Rs. 20.00
+                                            Rs. 100.00
                                           </span>
                                         </li>
                                         <li className="separator-line my-3"></li>
