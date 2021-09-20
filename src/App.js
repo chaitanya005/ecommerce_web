@@ -39,6 +39,7 @@ import Team from "./components/Team";
 import FruitsLand from "./components/Fruits/FruitsLand";
 import Cashews from "./components/Fruits/Cashews";
 import Detail from "./components/FoodDelivery/Detail";
+import { useEffect } from "react";
 
 // import './App.css'
 
@@ -55,9 +56,60 @@ const TC = lazy(() => import("./components/T_C"));
 const Privacy = lazy(() => import("./components/Privacy"));
 const ReturnRefund = lazy(() => import("./components/Return_Refund"));
 
-function App() {
+const App = () => {
   /* const [isTokenFound, setTokenFound] = useState(false);
   getToken(setTokenFound); */
+
+  var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0,
+  };
+
+  const getCoordinates = (pos) => {
+    var crd = pos.coords;
+
+    var lat = crd.latitude.toString();
+    var lng = crd.longitude.toString();
+    var coordinates = [lat, lng];
+    // console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+    getCity(coordinates);
+  };
+
+  const error = (err) => {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  };
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(getCoordinates, error, options);
+  }, []);
+
+  var xhr = new XMLHttpRequest();
+  const getCity = (coordinates) => {
+    // console.log(coordinates);
+    var lat = coordinates[0];
+    var lng = coordinates[1];
+
+    xhr.open(
+      "GET",
+      `https://us1.locationiq.com/v1/reverse.php?key=pk.67ca37b372c05b0b3004029928703945&lat=${lat}&lon=${lng}&format=json`,
+      true
+    );
+    xhr.send();
+    xhr.onreadystatechange = processRequest;
+    xhr.addEventListener("readystatechange", processRequest, false);
+  };
+
+  const processRequest = (e) => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      var response = JSON.parse(xhr.responseText);
+      var city = response.address.municipality;
+      var district = response.address.district;
+      console.log(response.address);
+      console.log(city);
+      return;
+    }
+  };
 
   return (
     <div className="App">
@@ -168,6 +220,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;
