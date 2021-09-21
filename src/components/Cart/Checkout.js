@@ -858,6 +858,10 @@ body {
   margin-top: 6rem;
 }
 
+.bg-theme, .bg-body-main, .bg-back-image, .bg-orange {
+  background-color: #ffb524 !important;
+}
+
 p, ul {
   margin-bottom: 0;
 }
@@ -1437,13 +1441,7 @@ textarea.form-control {
         section-white-text
       "
       >
-        <div className="overflow-back">
-          <BgImage
-            className="overflow-back cover-image mw-100"
-            data-background="assets/images/content/1920x1080/antioxidant-carrot-diet-33307.jpg"
-          ></BgImage>
-          <div className="overflow-back bg-body-back opacity-70"></div>
-        </div>
+        <div className="overflow-back bg-orange"></div>
         <div className="content-offs-stick my-5 container">
           <div className="section-solid">
             <div className="z-index-4 position-relative">

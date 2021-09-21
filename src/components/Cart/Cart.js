@@ -24,6 +24,7 @@ import { saveVeggies, storedVeggies } from "../../features/veggies";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import CloseIcon from "@material-ui/icons/Close";
+import { getDryFruits } from "../../features/dryfruits";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -751,6 +752,10 @@ hr {
     margin-top: -1rem;
     margin-left: -0.5rem;
     margin-right: -0.5rem;
+}
+
+.bg-theme, .bg-body-main, .bg-back-image, .bg-orange {
+  background-color: #ffb524 !important;
 }
 
 .grid-sm > .col, .grid-sm > [class*="col-"] {
@@ -1628,13 +1633,7 @@ a:hover {
         section-white-text
       "
       >
-        <div className="overflow-back">
-          <BgImage
-            className="overflow-back cover-image mw-100"
-            data-background="assets/images/content/1920x1080/antioxidant-carrot-diet-33307.jpg"
-          ></BgImage>
-          <div className="overflow-back bg-body-back opacity-70"></div>
-        </div>
+        <div className="overflow-back bg-orange"></div>
         <div className="content-offs-stick my-5 container">
           <div className="section-solid">
             <div className="z-index-4 position-relative">
@@ -1904,7 +1903,7 @@ a:hover {
 };
 
 const BgImage = styled.div`
-  background-image: url("assets/images/content/1920x1080/antioxidant-carrot-diet-33307.jpg");
+  background-image: url("/assets/images/content/1920x1080/antioxidant-carrot-diet-33307.jpg");
 `;
 
 const CartItems = ({ cartItem }) => {
@@ -1912,6 +1911,7 @@ const CartItems = ({ cartItem }) => {
 
   // console.log(cartStore.length);
   const storedVeggie = useSelector(storedVeggies);
+  const storedDryFruits = useSelector(getDryFruits);
 
   const [count, setCounter] = useState(1);
   const [updatePrice, setUpdatePrice] = useState(cartItem.price);
@@ -1931,6 +1931,8 @@ const CartItems = ({ cartItem }) => {
     setState({ ...state, open: false });
   };
 
+  const [currItem, setCurrItem] = useState(null);
+
   useEffect(() => {
     for (let veggie of storedVeggie.storeVeggies) {
       if (cartItem.name === veggie.name) {
@@ -1943,7 +1945,19 @@ const CartItems = ({ cartItem }) => {
         }
       }
     }
-  }, []);
+
+    for (let dryfruit of storedDryFruits.storeDryFruit) {
+      if (cartItem.name === dryfruit.name) {
+        if (
+          cartItem.price !== dryfruit.price ||
+          cartItem.in_stock !== dryfruit.in_stock
+        ) {
+          setUpdatePrice(dryfruit);
+          handleRemoveItem(cartItem);
+        }
+      }
+    }
+  }, [storedDryFruits.storeDryFruit]);
 
   const handleIncrement = () => {
     if (count < 5) {
