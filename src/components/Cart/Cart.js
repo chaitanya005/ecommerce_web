@@ -226,13 +226,14 @@ const Cart = () => {
   const handleCoupon = () => {
     // console.log(coupon);
 
-    if (coupon === "SSMGC10" || coupon === "SSRES10") {
+    if (coupon === "SSMGC10" || coupon === "SSRES10" || coupon === "SPONT") {
       setInValidCoupon(false);
       let total = yourBill + 20;
       let discount = 0;
       discount = (10 / 100) * total;
       // console.log(discount);
-      let discountBilll = total - Math.ceil(discount);
+      // let discountBilll = total - Math.ceil(discount);
+      let discountBilll = 5;
       setBillTotal(discountBilll);
 
       // setCoupon("");

@@ -200,12 +200,29 @@ const CheckoutPage = () => {
             var phone_number = values.phone;
             var email = values.email;
             orderId = "ORDERID_" + orderId;
-            let params = {
+            /* let params = {
               orderId: orderId,
               email: email,
               amount: yourBill + 100,
               phone_number: phone_number,
-            };
+            }; */
+
+            let params = [];
+            if (coupon) {
+              params = {
+                orderId: orderId,
+                email: email,
+                amount: totalBill,
+                phone_number: phone_number,
+              };
+            } else {
+              params = {
+                orderId: orderId,
+                email: email,
+                amount: yourBill + 100,
+                phone_number: phone_number,
+              };
+            }
 
             // var url = "https://paytm-payment-gateway.herokuapp.com/payment";
             var url = "https://paytm-payment-gateway.herokuapp.com/payment";
