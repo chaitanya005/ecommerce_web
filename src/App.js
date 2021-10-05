@@ -4,7 +4,7 @@ import Login from "./components/Login";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import MenShirts from "./components/Men/Men_shirts";
-import ProductPage from "./components/Men/Product_page";
+// import ProductPage from "./components/Men/Product_page";
 import Notion from "./notion";
 import HomePage from "./components/Veggies/Homepage";
 import VeggiesLandingPage from "./components/Veggies/VeggiesLandingPage";
@@ -40,6 +40,9 @@ import FruitsLand from "./components/Fruits/FruitsLand";
 import Cashews from "./components/Fruits/Cashews";
 import Detail from "./components/FoodDelivery/Detail";
 import { useEffect } from "react";
+import ClothShop from "./components/Clothing/Shop";
+import ProductPage from "./components/Clothing/ProductPage";
+import Productpage from "./components/Men/Product_page";
 
 // import './App.css'
 
@@ -192,8 +195,17 @@ const App = () => {
             <Route path="/termsandconditions">
               <TC />
             </Route>
+            <Route path="/shop">
+              <ClothShop />
+            </Route>
+            <Route path="/product">
+              <ProductPage />
+            </Route>
             <Route path="/loading">
               <Loading />
+            </Route>
+            <Route path="/men">
+              <Productpage />
             </Route>
             <Route path="*">
               <PageNotFound />

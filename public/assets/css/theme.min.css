@@ -958,6 +958,35 @@ a.disabled {
   top: 0;
   background-position: 70% 100%;
 }
+
+.actualwhite-curve-before,
+.actualwhite-curve-after {
+  position: relative;
+}
+.actualwhite-curve-before:before,
+.actualwhite-curve-after:after {
+  content: "";
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 55px;
+  background-image: url("../images/parts/curve.png");
+  background-repeat: repeat-x;
+}
+.actualwhite-curve-after:after {
+  bottom: 0;
+  background-position: 70% 0;
+}
+@media (min-width: 992px) {
+  .actualwhite-curve-after.section-solid-map {
+    padding-bottom: 4rem;
+  }
+}
+.actualwhite-curve-before:before {
+  top: 0;
+  background-position: 70% 100%;
+}
 .curve-before-0:before {
   background-position: 0% 100%;
 }
