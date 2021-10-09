@@ -15,6 +15,7 @@ import cart, {
   setCouponName,
   removeDryFruitItem,
   removeFoodItem,
+  removeClothItem,
 } from "../../features/cart/cart";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -1989,7 +1990,8 @@ const CartItems = ({ cartItem }) => {
       cartItem.name !== "Bottle Gourd" &&
       cartItem.name !== "Drum Sticks" &&
       cartItem.name !== "Cabbage" &&
-      cartItem.category !== "dryfruit"
+      cartItem.category !== "dryfruit" &&
+      cartItem.category !== "clothing"
     ) {
       // console.log(cartItem.name);
       if (count === 1) {
@@ -2063,6 +2065,12 @@ const CartItems = ({ cartItem }) => {
           removeeItem,
         })
       );
+    } else if (removeeItem.category === "clothing") {
+      dispatch(
+        removeClothItem({
+          removeeItem,
+        })
+      );
     } else {
       dispatch(
         removeItem({
@@ -2080,14 +2088,14 @@ const CartItems = ({ cartItem }) => {
     }
   }, [removeCount]);
 
-  // console.log(cartItem);
+  console.log(cartItem);
   // let updatedPrice = cartItem.newPrice;
 
   return (
     <>
       <div className="cart-item-entity">
         <div className="cart-item-image">
-          <a className="entity-preview-show-up entity-preview" href="#">
+          <a className="entity-preview-show-up entity-preview" href="#/">
             <span className="embed-responsive embed-responsive-4by3">
               <img
                 className="embed-responsive-item"
@@ -2104,14 +2112,24 @@ const CartItems = ({ cartItem }) => {
           </a>
         </div>
         <div className="cart-item-title">
-          {cartItem.category !== "dryfruit" ? (
-            <a className="content-link" href="#" style={{ margin: "2%" }}>
+          {cartItem.category !== "dryfruit" &&
+          cartItem.category !== "clothing" ? (
+            <a className="content-link" href="#/" style={{ margin: "2%" }}>
               {cartItem.name} / {cartItem.tel_name}
             </a>
           ) : (
-            <a className="content-link" href="#" style={{ margin: "2%" }}>
-              {cartItem.name}
-            </a>
+            <React.Fragment>
+              <a className="content-link" href="#/" style={{ margin: "2%" }}>
+                {cartItem.name}
+              </a>
+              <p
+                className="content-link"
+                style={{ fontSize: "14px", margin: "2%" }}
+              >
+                {" "}
+                Size: {cartItem.sizeSelect}
+              </p>
+            </React.Fragment>
           )}
         </div>
         {cartItem.category === "dryfruit" ? (
@@ -2120,14 +2138,16 @@ const CartItems = ({ cartItem }) => {
           </div>
         ) : (
           <React.Fragment>
-            {cartItem.name !== "Bottle Gourd" &&
+            {/* cartItem.name !== "Bottle Gourd" &&
             cartItem.name !== "Drum Sticks" ? (
               <div className="cart-item-price">Rs. {cartItem.price} /kg</div>
             ) : (
               <div className="cart-item-price">
                 Rs. {cartItem.price} / {cartItem.piece} piece
               </div>
-            )}
+            ) */}
+
+            <div className="cart-item-price">Rs. {cartItem.price} </div>
           </React.Fragment>
         )}
 

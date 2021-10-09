@@ -63,7 +63,7 @@ const App = () => {
   /* const [isTokenFound, setTokenFound] = useState(false);
   getToken(setTokenFound); */
 
-  var options = {
+  /* var options = {
     enableHighAccuracy: true,
     timeout: 5000,
     maximumAge: 0,
@@ -81,13 +81,13 @@ const App = () => {
 
   const error = (err) => {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-  };
+  }; */
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(getCoordinates, error, options);
+    // navigator.geolocation.getCurrentPosition(getCoordinates, error, options);
   }, []);
 
-  var xhr = new XMLHttpRequest();
+  /* var xhr = new XMLHttpRequest();
   const getCity = (coordinates) => {
     // console.log(coordinates);
     var lat = coordinates[0];
@@ -112,7 +112,7 @@ const App = () => {
       console.log(city);
       return;
     }
-  };
+  }; */
 
   return (
     <div className="App">

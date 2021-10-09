@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 // import ReactImageMagnify from "react-image-magnify";
 // import SimpleImageSlider from "react-simple-image-slider";
@@ -10,13 +10,102 @@ import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useCollection, useDocument } from "react-firebase-hooks/firestore";
+import db from "../../firebase";
+import { useLocation } from "react-router-dom";
+import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, storeCart } from "../../features/cart/cart";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const ProductPage = () => {
-  const images = [
-    { url: "images/product-1-big.jpg" },
-    { url: "images/product-4-big.jpg" },
-    { url: "images/product-2-big.jpg" },
-  ];
+  const search = useLocation().search;
+  const id = new URLSearchParams(search).get("id");
+  const [product, loading, error] = useDocument(
+    db.collection("men-wear").doc(id)
+  );
+  const dispatch = useDispatch();
+  const storedCartItems = useSelector(storeCart);
+  const [isCartItem, setIsCartItem] = useState(false);
+
+  const [availsizes, setAvailSizes] = useState([]);
+  const [prodImages, setProdImages] = useState([]);
+  const [sizeSelect, setSizeSelect] = useState();
+  const [shakeSizes, setShakeSizes] = useState(false);
+  // const [isSelected, setstate] = useState(initialState)
+
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  useEffect(() => {
+    product && setAvailSizes(product.data().avail_sizes);
+    product && setProdImages(product.data().images);
+  }, [product]);
+
+  const handleAddToCart = (productItem) => {
+    let inCart = false;
+    // console.log(newItem);
+    // console.log(sizeSelect);
+    if (sizeSelect !== undefined) {
+      let newItem = { ...productItem, id, sizeSelect };
+      if (storedCartItems.length >= 1) {
+        for (let item of storedCartItems) {
+          if (item.id === newItem.id) {
+            setIsCartItem(true);
+            setState({ ...state, open: true });
+            setTimeout(() => {
+              setState({ ...state, open: false });
+            }, 1000);
+            inCart = true;
+            break;
+          }
+        }
+
+        if (inCart === false) {
+          dispatch(
+            addToCart({
+              newItem,
+            })
+          );
+          setIsCartItem(false);
+          setState({ ...state, open: true });
+          setTimeout(() => {
+            setState({ ...state, open: false });
+          }, 1000);
+        }
+      } else {
+        dispatch(
+          addToCart({
+            newItem,
+          })
+        );
+
+        setIsCartItem(false);
+        setState({ ...state, open: true });
+
+        setTimeout(() => {
+          setState({ ...state, open: false });
+        }, 1000);
+      }
+      setShakeSizes(false);
+    } else {
+      setShakeSizes(true);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -24,6 +113,24 @@ const ProductPage = () => {
         <style>{`
         body {
           background-color: #fff;
+        }
+
+        .sizeicons {
+          animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+          0% { transform: translate(1px, 1px) rotate(0deg); }
+          10% { transform: translate(-1px, -2px) rotate(-1deg); }
+          20% { transform: translate(-3px, 0px) rotate(1deg); }
+          30% { transform: translate(3px, 2px) rotate(0deg); }
+          40% { transform: translate(1px, -1px) rotate(1deg); }
+          50% { transform: translate(-1px, 2px) rotate(-1deg); }
+          60% { transform: translate(-3px, 1px) rotate(0deg); }
+          70% { transform: translate(3px, 1px) rotate(-1deg); }
+          80% { transform: translate(-1px, -1px) rotate(1deg); }
+          90% { transform: translate(1px, 2px) rotate(0deg); }
+          100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
       `}</style>
         <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -61,14 +168,22 @@ const ProductPage = () => {
                             autoplay={false}
                             prevArrow={
                               <div
-                                style={{ width: "30px", marginRight: "-30px" }}
+                                style={{
+                                  width: "30px",
+                                  marginRight: "-30px",
+                                  cursor: "pointer",
+                                }}
                               >
                                 <KeyboardArrowLeftIcon />
                               </div>
                             }
                             nextArrow={
                               <div
-                                style={{ width: "30px", marginLeft: "-30px" }}
+                                style={{
+                                  width: "30px",
+                                  marginLeft: "-30px",
+                                  cursor: "pointer",
+                                }}
                               >
                                 <KeyboardArrowRightIcon />
                               </div>
@@ -76,15 +191,15 @@ const ProductPage = () => {
                             // indicators={true}
                             transitionDuration={500}
                           >
-                            {images.map((slideImage, index) => (
+                            {prodImages.map((slideImage, index) => (
                               <div
                                 className="each-slide"
                                 key={index}
                                 // style={{ width: "400px", height: "400px" }}
                               >
                                 <InnerImageZoom
-                                  src={slideImage.url}
-                                  zoomSrc={slideImage.url}
+                                  src={slideImage}
+                                  zoomSrc={slideImage}
                                   fullscreenOnMobile={true}
                                 />
                               </div>
@@ -95,81 +210,125 @@ const ProductPage = () => {
                     </div>
                   </div>
                   <div className="col-lg-5 col-md-6 product-single-details">
-                    <h1 className="product-title">Product Long Name</h1>
+                    <h1 className="product-title">
+                      {product && product.data().name}
+                    </h1>
                     <hr className="divider" />
                     <div className="price-box">
-                      <span className="old-price">$81.00</span>
-                      <span className="product-price">$101.00</span>
+                      <span className="old-price">
+                        Rs.{product && product.data().actual_price}
+                      </span>
+                      <span className="product-price">
+                        Rs. {product && product.data().price}
+                      </span>
                     </div>
                     <div className="product-desc">
-                      <p>
-                        Duis aute irure dolor in reprehenderit in voluptate
-                        velit esse cillum dolore eu fugiat nulla pariatur.
-                        Excepteur sint occaecat cupidatat non.
-                      </p>
+                      <p>{product && product.data().info}</p>
                     </div>
                     <div className="product-filters-container">
                       <div className="product-single-filter">
                         <label>Colors:</label>
                         <ul className="config-swatch-list">
                           <li className="active">
-                            <a
-                              href="#/"
-                              style={{ backgroundColor: "#0188cc" }}
-                            ></a>
+                            <a href="#/" style={{ backgroundColor: "#0188cc" }}>
+                              {" "}
+                            </a>
                           </li>
                           <li>
-                            <a
-                              href="#/"
-                              style={{ backgroundColor: "#ab6e6e" }}
-                            ></a>
+                            <a href="#/" style={{ backgroundColor: "#ab6e6e" }}>
+                              {" "}
+                            </a>
                           </li>
                           <li>
-                            <a
-                              href="#/"
-                              style={{ backgroundColor: "#ddb577" }}
-                            ></a>
+                            <a href="#/" style={{ backgroundColor: "#ddb577" }}>
+                              {" "}
+                            </a>
                           </li>
                           <li>
-                            <a
-                              href="#/"
-                              style={{ backgroundColor: "#6085a5" }}
-                            ></a>
+                            <a href="#/" style={{ backgroundColor: "#6085a5" }}>
+                              {" "}
+                            </a>
                           </li>
                         </ul>
                       </div>
                       <div className="product-single-filter">
                         <label>Sizes:</label>
-                        <ul className="config-size-list">
-                          <li className="active">
-                            <a href="#">S</a>
-                          </li>
-                          <li>
-                            <a href="#">M</a>
-                          </li>
-                          <li>
-                            <a href="#">L</a>
-                          </li>
-                          <li>
-                            <a href="#">XL</a>
-                          </li>
-                        </ul>
+                        {shakeSizes && sizeSelect === undefined ? (
+                          <div>
+                            <ul className="config-size-list sizeicons">
+                              {availsizes.map((i) => (
+                                <li>
+                                  <Button
+                                    onClick={() => setSizeSelect(i)}
+                                    variant="outlined"
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {i}
+                                  </Button>
+                                </li>
+                              ))}
+                            </ul>
+                            <p
+                              style={{
+                                color: "red",
+                                fontSize: "14px",
+                                margin: "0",
+                              }}
+                            >
+                              Please select size
+                            </p>
+                          </div>
+                        ) : (
+                          <ul className="config-size-list">
+                            {availsizes.map((i) => (
+                              <li>
+                                {i === sizeSelect ? (
+                                  <Button
+                                    variant="contained"
+                                    style={{ fontSize: "14px", margin: "3px" }}
+                                    onClick={() => setSizeSelect(i)}
+                                  >
+                                    {i}
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    variant="outlined"
+                                    // size="small"
+                                    style={{ fontSize: "14px", margin: "3px" }}
+                                    onClick={() => setSizeSelect(i)}
+                                  >
+                                    {i}
+                                  </Button>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     </div>
 
                     <hr className="divider" />
 
                     <div className="product-action">
-                      <a
-                        href="#cart.html"
+                      <Button
+                        variant="contained"
+                        className="btn btn-dark add-cart"
+                        style={{ height: "4.5rem", marginRight: "1px" }}
+                        startIcon={<ShoppingCartIcon />}
+                        onClick={() => handleAddToCart(product.data())}
+                      >
+                        Add To Cart
+                      </Button>
+                      {/* <a
+                        href="#/"
                         className="btn btn-dark add-cart"
                         title="Add to Cart"
                         style={{ height: "4.5rem", marginRight: "1px" }}
                       >
                         <ShoppingCartIcon />
                         Add to Cart
-                      </a>
-                      <a
+                      </a> */}
+                      {/* <a
                         href="#cart.html"
                         className="btn btn-dark add-cart"
                         title="Add to Wishlist"
@@ -177,7 +336,7 @@ const ProductPage = () => {
                       >
                         <FavoriteBorderIcon />
                         Add to wishlist
-                      </a>
+                      </a> */}
                     </div>
                   </div>
                 </div>
@@ -222,16 +381,8 @@ const ProductPage = () => {
                 aria-labelledby="product-tab-desc"
               >
                 <div class="product-desc-content">
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat.
-                  </p>
-                  <ul>
+                  <p>{product && product.data().description}</p>
+                  {/* <ul>
                     <li>
                       <i class="fa fa-check-circle"></i>Any Product types that
                       You want - Simple, Configurable
@@ -244,18 +395,30 @@ const ProductPage = () => {
                       <i class="fa fa-check-circle"></i>Inventory Management
                       with Backordered items
                     </li>
-                  </ul>
-                  <p>
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, <br />
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo consequat.
-                  </p>
+                  </ul> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={open}
+          onClose={handleClose}
+          // message="Please  Login"
+          key={vertical + horizontal}
+          // style={{ background: "#fff", color: "#000" }}
+        >
+          {isCartItem ? (
+            <Alert severity="error" onClose={handleClose}>
+              Item Already in Cart
+            </Alert>
+          ) : (
+            <Alert severity="success" onClose={handleClose}>
+              Item Added Cart
+            </Alert>
+          )}
+        </Snackbar>
       </main>
     </React.Fragment>
   );

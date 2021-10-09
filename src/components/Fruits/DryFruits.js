@@ -221,7 +221,7 @@ const DryFruits = () => {
           </Alert>
         ) : (
           <Alert severity="success" onClose={handleClose}>
-            Item Added Cart
+            Item Added to Cart
           </Alert>
         )}
       </Snackbar>

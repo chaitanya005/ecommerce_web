@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
@@ -12,23 +12,117 @@ import TuneIcon from "@mui/icons-material/Tune";
 import Paper from "@mui/material/Paper";
 import Backdrop from "@mui/material/Backdrop";
 import CloseIcon from "@mui/icons-material/Close";
-import Button from "@mui/material/Button";
+import {
+  saveMenShirts,
+  getMenShirts,
+} from "../../features/men-shirts/menShirt";
+import db from "../../firebase";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { useDispatch, useSelector } from "react-redux";
+// import Button from "@mui/material/Button";
+// import { addToCart, storeCart } from "../../features/cart/cart";
+// import MuiAlert from "@material-ui/lab/Alert";
+// import Snackbar from "@material-ui/core/Snackbar";
+
+/* function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+} */
 
 const Shop = () => {
   const [expanded, setExpanded] = useState("categories");
+  const [menprod, loading, error] = useCollection(db.collection("men-wear"));
+  const menShirts = useSelector(getMenShirts);
+  const dispatch = useDispatch();
+  // const [isCartItem, setIsCartItem] = useState(false);
 
-  const [open, setOpen] = useState(false);
+  const [backDropOpen, setBackDropOpen] = useState(false);
+  // const storedCartItems = useSelector(storeCart);
+
+  // const [state, setState] = React.useState({
+  //   open: false,
+  //   vertical: "top",
+  //   horizontal: "center",
+  // });
+
+  // const { vertical, horizontal, open } = state;
 
   const handleClose = () => {
-    setOpen(false);
+    setBackDropOpen(false);
   };
   const handleToggle = () => {
-    setOpen(!open);
+    setBackDropOpen(!backDropOpen);
   };
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(panel);
   };
+
+  let documents = [];
+
+  useEffect(() => {
+    menprod &&
+      menprod.docs.map((prod) => {
+        // console.log(prod.data());
+        let docu = prod.data();
+        let id = prod.id;
+        documents = [...documents, { clothingId: id, ...docu }];
+      });
+    // console.log(documents);
+
+    dispatch(
+      saveMenShirts({
+        documents,
+      })
+    );
+  }, [menprod]);
+
+  // console.log(menShirts);
+
+  /* const handleAddToCart = (shirt) => {
+    let inCart = false;
+    let newItem = shirt;
+    // console.log(shirt);
+
+    if (storedCartItems.length >= 1) {
+      for (let item of storedCartItems) {
+        if (item.name === shirt.name) {
+          setIsCartItem(true);
+          setState({ ...state, open: true });
+          setTimeout(() => {
+            setState({ ...state, open: false });
+          }, 1000);
+          inCart = true;
+          break;
+        }
+      }
+
+      if (inCart === false) {
+        dispatch(
+          addToCart({
+            newItem,
+          })
+        );
+        setIsCartItem(false);
+        setState({ ...state, open: true });
+        setTimeout(() => {
+          setState({ ...state, open: false });
+        }, 1000);
+      }
+    } else {
+      dispatch(
+        addToCart({
+          newItem,
+        })
+      );
+
+      setIsCartItem(false);
+      setState({ ...state, open: true });
+
+      setTimeout(() => {
+        setState({ ...state, open: false });
+      }, 1000);
+    }
+  }; */
 
   return (
     <React.Fragment>
@@ -215,7 +309,7 @@ const Shop = () => {
 
             <Backdrop
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-              open={open}
+              open={backDropOpen}
               // onClick={handleClose}
             >
               <Paper style={{ width: "50%" }}>
@@ -233,6 +327,7 @@ const Shop = () => {
                       onClick={handleClose}
                     />
                   </div>
+
                   <Accordion
                     expanded={expanded === "categories"}
                     onChange={handleChange("categories")}
@@ -262,7 +357,7 @@ const Shop = () => {
                               <a href="#/">LEHNAGAS</a>
                             </li>
                             <li>
-                              <a href="#/">GOWNS</a>
+                              <a href="#/">HALF SAREES</a>
                             </li>
                             <li>
                               <a href="#/">KURITS &amp; MUCH MORE...</a>
@@ -304,7 +399,7 @@ const Shop = () => {
                               <Slider
                                 size="small"
                                 defaultValue={[700, 1500]}
-                                aria-label="Default"
+                                // aria-label="Default"
                                 valueLabelDisplay="auto"
                                 min={500}
                                 max={3000}
@@ -482,274 +577,111 @@ const Shop = () => {
             </Backdrop>
 
             <div className="row">
-              <div className="col-6 col-sm-4">
-                <div className="product-default inner-quickview inner-icon">
-                  <figure>
-                    <a href="#/">
-                      <img src="/images/product-1.jpg" alt="" />
-                    </a>
-                    <div className="label-group">
-                      <div
-                        className="product-label label-hot"
-                        // style={{ backgroundColor: "#62b959" }}
-                      >
-                        HOT
-                      </div>
-                      <div
-                        className="product-label label-sale"
-                        // style={{ backgroundColor: "#e27c7c" }}
-                      >
-                        -20%
-                      </div>
-                    </div>
-                    <div className="btn-icon-group">
-                      <button
-                        className="btn-icon btn-add-cart"
-                        data-toggle="modal"
-                        data-target="#addCartModal"
-                      >
-                        {/* <i className="icon-shopping-cart"></i> */}
-                        <LocalMallIcon />
-                      </button>
-                    </div>
-                    <a href="#/" className="btn-quickview" title="Quick View">
-                      Quick View
-                    </a>
-                  </figure>
-                  <div className="product-details">
-                    <div className="category-wrap">
-                      <div className="category-list">
-                        <a href="category.html" className="product-category">
-                          category
+              {menShirts &&
+                menShirts.menshirts.map((shirt) => (
+                  <div
+                    className="col-6 col-sm-4"
+                    key={shirt.name}
+                    // href={`/product?id=${shirt.clothingId}`}
+                  >
+                    <div className="product-default inner-quickview inner-icon">
+                      <figure>
+                        <a href={`/product?id=${shirt.clothingId}`}>
+                          <img
+                            src={shirt.img}
+                            alt=""
+                            style={{ borderRadius: "5px" }}
+                          />
                         </a>
-                      </div>
-                      <a href="#/" className="btn-icon-wish">
-                        {/* <i className="icon-heart"></i> */}
-                        <FavoriteBorderIcon />
-                      </a>
-                    </div>
-                    <h2 className="product-title">
-                      <a href="#/">Fleece Jacket</a>
-                    </h2>
-                    {/* <div className="ratings-container">
+                        <div className="label-group">
+                          <div
+                            className="product-label label-hot"
+                            // style={{ backgroundColor: "#62b959" }}
+                          >
+                            -20%
+                          </div>
+                          {/* <div
+                            className="product-label label-sale"
+                            // style={{ backgroundColor: "#e27c7c" }}
+                          >
+                            -20%
+                          </div> */}
+                        </div>
+                        {/* <div className="btn-icon-group">
+                          <button
+                            className="btn-icon btn-add-cart"
+                            data-toggle="modal"
+                            data-target="#addCartModal"
+                            onClick={() => handleAddToCart(shirt)}
+                          >
+                            <LocalMallIcon />
+                          </button>
+                        </div> */}
+                        <a
+                          href={`/product?id=${shirt.clothingId}`}
+                          className="btn-quickview"
+                          title="Quick View"
+                          style={{ borderRadius: "0px 0px 5px 5px" }}
+                        >
+                          Quick View
+                        </a>
+                      </figure>
+                      <div className="product-details">
+                        <div className="category-wrap">
+                          <div className="category-list">
+                            <a href="#/" className="product-category">
+                              {shirt.categoryType}
+                            </a>
+                          </div>
+                          <a href="#/" className="btn-icon-wish">
+                            {/* <i className="icon-heart"></i> */}
+                            <FavoriteBorderIcon />
+                          </a>
+                        </div>
+                        <h2 className="product-title">
+                          <a href={`/product?id=${shirt.clothingId}`}>
+                            {shirt.name}
+                          </a>
+                        </h2>
+                        {/* <div className="ratings-container">
                       <div className="product-ratings">
                         <span className="ratings" style={{ width: "100%" }}></span>
                         <span className="tooltiptext tooltip-top"></span>
                       </div>
                     </div> */}
-                    <div className="price-box">
-                      <span className="old-price">$90.00</span>
-                      <span
-                        className="product-price"
-                        style={{ fontWeight: "800", fontSize: "1.5rem" }}
-                      >
-                        $70.00
-                      </span>
+                        <div className="price-box">
+                          <span className="old-price">
+                            Rs.{shirt.actual_price}
+                          </span>
+                          <span
+                            className="product-price"
+                            style={{ fontWeight: "800", fontSize: "1.5rem" }}
+                          >
+                            Rs.{shirt.price}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="col-6 col-sm-4">
-                <div className="product-default inner-quickview inner-icon">
-                  <figure>
-                    <a href="#/">
-                      <img src="/images/product-1.jpg" alt="" />
-                    </a>
-                    <div className="label-group">
-                      <div
-                        className="product-label label-hot"
-                        // style={{ backgroundColor: "#62b959" }}
-                      >
-                        HOT
-                      </div>
-                      <div
-                        className="product-label label-sale"
-                        // style={{ backgroundColor: "#e27c7c" }}
-                      >
-                        -20%
-                      </div>
-                    </div>
-                    <div className="btn-icon-group">
-                      <button
-                        className="btn-icon btn-add-cart"
-                        data-toggle="modal"
-                        data-target="#addCartModal"
-                      >
-                        {/* <i className="icon-shopping-cart"></i> */}
-                        <LocalMallIcon />
-                      </button>
-                    </div>
-                    <a href="#/" className="btn-quickview" title="Quick View">
-                      Quick View
-                    </a>
-                  </figure>
-                  <div className="product-details">
-                    <div className="category-wrap">
-                      <div className="category-list">
-                        <a href="category.html" className="product-category">
-                          category
-                        </a>
-                      </div>
-                      <a href="#/" className="btn-icon-wish">
-                        {/* <i className="icon-heart"></i> */}
-                        <FavoriteBorderIcon />
-                      </a>
-                    </div>
-                    <h2 className="product-title">
-                      <a href="#/">Fleece Jacket</a>
-                    </h2>
-                    {/* <div className="ratings-container">
-                      <div className="product-ratings">
-                        <span className="ratings" style={{ width: "100%" }}></span>
-                        <span className="tooltiptext tooltip-top"></span>
-                      </div>
-                    </div> */}
-                    <div className="price-box">
-                      <span className="old-price">$90.00</span>
-                      <span
-                        className="product-price"
-                        style={{ fontWeight: "800", fontSize: "1.5rem" }}
-                      >
-                        $70.00
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-6 col-sm-4">
-                <div className="product-default inner-quickview inner-icon">
-                  <figure>
-                    <a href="#/">
-                      <img src="/images/product-1.jpg" alt="" />
-                    </a>
-                    <div className="label-group">
-                      <div
-                        className="product-label label-hot"
-                        // style={{ backgroundColor: "#62b959" }}
-                      >
-                        HOT
-                      </div>
-                      <div
-                        className="product-label label-sale"
-                        // style={{ backgroundColor: "#e27c7c" }}
-                      >
-                        -20%
-                      </div>
-                    </div>
-                    <div className="btn-icon-group">
-                      <button
-                        className="btn-icon btn-add-cart"
-                        data-toggle="modal"
-                        data-target="#addCartModal"
-                      >
-                        {/* <i className="icon-shopping-cart"></i> */}
-                        <LocalMallIcon />
-                      </button>
-                    </div>
-                    <a href="#/" className="btn-quickview" title="Quick View">
-                      Quick View
-                    </a>
-                  </figure>
-                  <div className="product-details">
-                    <div className="category-wrap">
-                      <div className="category-list">
-                        <a href="category.html" className="product-category">
-                          category
-                        </a>
-                      </div>
-                      <a href="#/" className="btn-icon-wish">
-                        {/* <i className="icon-heart"></i> */}
-                        <FavoriteBorderIcon />
-                      </a>
-                    </div>
-                    <h2 className="product-title">
-                      <a href="#/">Fleece Jacket</a>
-                    </h2>
-                    {/* <div className="ratings-container">
-                      <div className="product-ratings">
-                        <span className="ratings" style={{ width: "100%" }}></span>
-                        <span className="tooltiptext tooltip-top"></span>
-                      </div>
-                    </div> */}
-                    <div className="price-box">
-                      <span className="old-price">$90.00</span>
-                      <span
-                        className="product-price"
-                        style={{ fontWeight: "800", fontSize: "1.5rem" }}
-                      >
-                        $70.00
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-6 col-sm-4">
-                <div className="product-default inner-quickview inner-icon">
-                  <figure>
-                    <a href="#/">
-                      <img src="/images/product-1.jpg" alt="" />
-                    </a>
-                    <div className="label-group">
-                      <div
-                        className="product-label label-hot"
-                        // style={{ backgroundColor: "#62b959" }}
-                      >
-                        HOT
-                      </div>
-                      <div
-                        className="product-label label-sale"
-                        // style={{ backgroundColor: "#e27c7c" }}
-                      >
-                        -20%
-                      </div>
-                    </div>
-                    <div className="btn-icon-group">
-                      <button
-                        className="btn-icon btn-add-cart"
-                        data-toggle="modal"
-                        data-target="#addCartModal"
-                      >
-                        {/* <i className="icon-shopping-cart"></i> */}
-                        <LocalMallIcon />
-                      </button>
-                    </div>
-                    <a href="#/" className="btn-quickview" title="Quick View">
-                      Quick View
-                    </a>
-                  </figure>
-                  <div className="product-details">
-                    <div className="category-wrap">
-                      <div className="category-list">
-                        <a href="category.html" className="product-category">
-                          category
-                        </a>
-                      </div>
-                      <a href="#/" className="btn-icon-wish">
-                        {/* <i className="icon-heart"></i> */}
-                        <FavoriteBorderIcon />
-                      </a>
-                    </div>
-                    <h2 className="product-title">
-                      <a href="#/">Fleece Jacket</a>
-                    </h2>
-                    {/* <div className="ratings-container">
-                      <div className="product-ratings">
-                        <span className="ratings" style={{ width: "100%" }}></span>
-                        <span className="tooltiptext tooltip-top"></span>
-                      </div>
-                    </div> */}
-                    <div className="price-box">
-                      <span className="old-price">$90.00</span>
-                      <span
-                        className="product-price"
-                        style={{ fontWeight: "800", fontSize: "1.5rem" }}
-                      >
-                        $70.00
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                ))}
+              {/* <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                onClose={handleClose}
+                // message="Please  Login"
+                key={vertical + horizontal}
+                // style={{ background: "#fff", color: "#000" }}
+              >
+                {isCartItem ? (
+                  <Alert severity="error" onClose={handleClose}>
+                    Item Already in Cart
+                  </Alert>
+                ) : (
+                  <Alert severity="success" onClose={handleClose}>
+                    Item Added to Cart
+                  </Alert>
+                )}
+              </Snackbar> */}
             </div>
           </div>
           <aside className="sidebar-shop col-lg-3 order-lg-first mobile-sidebar filter-sidebar">
@@ -776,7 +708,7 @@ const Shop = () => {
                         <a href="#/">LEHNAGAS</a>
                       </li>
                       <li>
-                        <a href="#/">GOWNS</a>
+                        <a href="#/">HALF SAREES</a>
                       </li>
                       <li>
                         <a href="#/">KURITS &amp; MUCH MORE...</a>
@@ -812,7 +744,7 @@ const Shop = () => {
                         <Slider
                           // size="small"
                           defaultValue={[700, 1500]}
-                          aria-label="Default"
+                          // aria-label="Default"
                           valueLabelDisplay="auto"
                           min={500}
                           max={3000}

@@ -56,6 +56,12 @@ const cart = createSlice({
       );
     },
 
+    removeClothItem: (state, action) => {
+      state.cartItem = state.cartItem.filter(
+        (item) => item.id !== action.payload.removeeItem.id
+      );
+    },
+
     setOrderId: (state, action) => {
       state.orderId = action.payload.orderId;
     },
@@ -89,6 +95,7 @@ export const {
   setCouponName,
   removeDryFruitItem,
   removeFoodItem,
+  removeClothItem,
 } = cart.actions;
 
 export const storeCart = (state) => state.cart.cartItem;
