@@ -94,19 +94,21 @@ const ClothingSection = () => {
     <Container>
       <TwoColumn>
         <ImageColumn>
-          <Image
-            style={{ maxWidth: "100%" }}
-            css={Object.assign(tw`bg-cover`, imageCss)}
-            src="/images/svg/home_cloth.svg"
-            // src="/img/5.jpg"
-            imageBorder={false}
-            imageShadow={false}
-            imageContainerCss={tw`p-2!`}
-            imageCss={tw`w-20! h-20!`}
-            imageDecoratorBlob={true}
-            imageDecoratorBlobCss={tw`left-1/2 -translate-x-1/2 md:w-32 md:h-32 opacity-25`}
-            onClick={handleOpen}
-          />
+          <a href="/shop/sarees">
+            <Image
+              style={{ maxWidth: "100%" }}
+              css={Object.assign(tw`bg-cover`, imageCss)}
+              src="/images/svg/home_cloth.svg"
+              // src="/img/5.jpg"
+              imageBorder={false}
+              imageShadow={false}
+              imageContainerCss={tw`p-2!`}
+              imageCss={tw`w-20! h-20!`}
+              imageDecoratorBlob={true}
+              imageDecoratorBlobCss={tw`left-1/2 -translate-x-1/2 md:w-32 md:h-32 opacity-25`}
+              // onClick={handleOpen}
+            />
+          </a>
           {/* imageDecoratorBlob && (
               <DecoratorBlob css={imageDecoratorBlobCss} />
             ) */}
@@ -114,25 +116,27 @@ const ClothingSection = () => {
         <TextColumn textOnLeft={false} className="text">
           <TextContent>
             <Subheading></Subheading>
-            <Heading style={{ color: "rgba(36,62,99)" }} onClick={handleOpen}>
-              {heading}
-            </Heading>
+            <a href="/shop/sarees">
+              <Heading style={{ color: "rgba(36,62,99)" }}>{heading}</Heading>
+            </a>
             <Description style={{ color: "rgba(124,139,161)" }}>
               {description}
             </Description>
-            <PrimaryButton
-              buttonRounded={true}
-              as="a"
-              // href={"#"}
-              style={{
-                backgroundColor: "rgba(80,17,204)",
-                padding: "0.75rem 2rem",
-                cursor: "pointer",
-              }}
-              onClick={handleOpen}
-            >
-              Coming Soon!
-            </PrimaryButton>
+            <a href="/shop/sarees">
+              <PrimaryButton
+                buttonRounded={true}
+                as="a"
+                // href={"#"}
+                style={{
+                  backgroundColor: "rgba(80,17,204)",
+                  padding: "0.75rem 2rem",
+                  cursor: "pointer",
+                }}
+                // onClick={handleOpen}
+              >
+                Shop Now
+              </PrimaryButton>
+            </a>
           </TextContent>
         </TextColumn>
       </TwoColumn>

@@ -8,10 +8,7 @@ const Loading = () => {
         <CircularProgress
           style={{
             display: "block",
-            // marginRight: "auto",
-            // marginLeft: "auto",
             margin: "auto",
-            // color: "red",
           }}
         />
       </div>

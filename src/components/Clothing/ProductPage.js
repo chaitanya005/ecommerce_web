@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart, storeCart } from "../../features/cart/cart";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import Loading from "../Loading";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -54,57 +55,60 @@ const ProductPage = () => {
   useEffect(() => {
     product && setAvailSizes(product.data().avail_sizes);
     product && setProdImages(product.data().images);
+    /* setProdImages(
+      ["/images/201001.jpg"],
+      ["/images/product-2-big.jpg"],
+      ["/images/product-2-big.jpg"]
+    ); */
   }, [product]);
 
   const handleAddToCart = (productItem) => {
     let inCart = false;
-    // console.log(newItem);
+    // console.log(productItem);
     // console.log(sizeSelect);
-    if (sizeSelect !== undefined) {
-      let newItem = { ...productItem, id, sizeSelect };
-      if (storedCartItems.length >= 1) {
-        for (let item of storedCartItems) {
-          if (item.id === newItem.id) {
-            setIsCartItem(true);
-            setState({ ...state, open: true });
-            setTimeout(() => {
-              setState({ ...state, open: false });
-            }, 1000);
-            inCart = true;
-            break;
-          }
-        }
 
-        if (inCart === false) {
-          dispatch(
-            addToCart({
-              newItem,
-            })
-          );
-          setIsCartItem(false);
+    let newItem = { ...productItem, id, sizeSelect };
+    console.log(newItem);
+    if (storedCartItems.length >= 1) {
+      for (let item of storedCartItems) {
+        if (item.id === newItem.id) {
+          setIsCartItem(true);
           setState({ ...state, open: true });
           setTimeout(() => {
             setState({ ...state, open: false });
           }, 1000);
+          inCart = true;
+          break;
         }
-      } else {
+      }
+
+      if (inCart === false) {
         dispatch(
           addToCart({
             newItem,
           })
         );
-
         setIsCartItem(false);
         setState({ ...state, open: true });
-
         setTimeout(() => {
           setState({ ...state, open: false });
         }, 1000);
       }
-      setShakeSizes(false);
     } else {
-      setShakeSizes(true);
+      dispatch(
+        addToCart({
+          newItem,
+        })
+      );
+
+      setIsCartItem(false);
+      setState({ ...state, open: true });
+
+      setTimeout(() => {
+        setState({ ...state, open: false });
+      }, 1000);
     }
+    setShakeSizes(false);
   };
 
   return (
@@ -132,6 +136,10 @@ const ProductPage = () => {
           90% { transform: translate(1px, 2px) rotate(0deg); }
           100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
+
+        .slide-image {
+          border-radius: 5px
+        }
       `}</style>
         <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
         <link href="/assets/css/theme.min.css" rel="stylesheet" />
@@ -139,23 +147,24 @@ const ProductPage = () => {
         <link rel="stylesheet" href="/assets/style.css" />
       </Helmet>
       <main className="main" style={{ marginTop: "2%" }}>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-9 main-content">
-              <div className="product-single-container product-single-default">
-                <div className="row">
-                  <div className="col-lg-7 col-md-6 product-single-gallery">
-                    <div className="product-slider-container">
-                      <div class="product-single-carousel owl-carousel owl-theme owl-loaded owl-drag">
-                        <div className="product-item">
-                          {/* <img
+        {!loading ? (
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-9 main-content">
+                <div className="product-single-container product-single-default">
+                  <div className="row">
+                    <div className="col-lg-7 col-md-6 product-single-gallery">
+                      <div className="product-slider-container">
+                        <div class="product-single-carousel owl-carousel owl-theme owl-loaded owl-drag">
+                          <div className="product-item">
+                            {/* <img
                             className="product-single-image"
                             src="images/product-1-big.jpg"
                             data-zoom-image="assets/images/products/zoom/product-1-big.jpg"
                             alt=""
                           /> */}
 
-                          {/* 
+                            {/* 
                             <SimpleImageSlider
                               className="product-single-image"
                               width={400}
@@ -163,163 +172,198 @@ const ProductPage = () => {
                               images={images}
                             />
                            */}
-                          <Slide
-                            infinite={true}
-                            autoplay={false}
-                            prevArrow={
-                              <div
-                                style={{
-                                  width: "30px",
-                                  marginRight: "-30px",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                <KeyboardArrowLeftIcon />
-                              </div>
-                            }
-                            nextArrow={
-                              <div
-                                style={{
-                                  width: "30px",
-                                  marginLeft: "-30px",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                <KeyboardArrowRightIcon />
-                              </div>
-                            }
-                            // indicators={true}
-                            transitionDuration={500}
-                          >
-                            {prodImages.map((slideImage, index) => (
-                              <div
-                                className="each-slide"
-                                key={index}
-                                // style={{ width: "400px", height: "400px" }}
-                              >
-                                <InnerImageZoom
-                                  src={slideImage}
-                                  zoomSrc={slideImage}
-                                  fullscreenOnMobile={true}
-                                />
-                              </div>
-                            ))}
-                          </Slide>
+                            <Slide
+                              infinite={true}
+                              autoplay={false}
+                              prevArrow={
+                                <div
+                                  style={{
+                                    width: "30px",
+                                    marginRight: "-30px",
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  <KeyboardArrowLeftIcon />
+                                </div>
+                              }
+                              nextArrow={
+                                <div
+                                  style={{
+                                    width: "30px",
+                                    marginLeft: "-30px",
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  <KeyboardArrowRightIcon />
+                                </div>
+                              }
+                              // indicators={true}
+                              transitionDuration={500}
+                            >
+                              {prodImages.map((slideImage, index) => (
+                                <div
+                                  className="each-slide"
+                                  key={index}
+                                  // style={{ width: "400px", height: "400px" }}
+                                >
+                                  <InnerImageZoom
+                                    src={slideImage}
+                                    zoomSrc={slideImage}
+                                    fullscreenOnMobile={true}
+                                  />
+                                </div>
+                              ))}
+                            </Slide>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-lg-5 col-md-6 product-single-details">
-                    <h1 className="product-title">
-                      {product && product.data().name}
-                    </h1>
-                    <hr className="divider" />
-                    <div className="price-box">
-                      <span className="old-price">
-                        Rs.{product && product.data().actual_price}
-                      </span>
-                      <span className="product-price">
-                        Rs. {product && product.data().price}
-                      </span>
-                    </div>
-                    <div className="product-desc">
-                      <p>{product && product.data().info}</p>
-                    </div>
-                    <div className="product-filters-container">
-                      <div className="product-single-filter">
-                        <label>Colors:</label>
-                        <ul className="config-swatch-list">
-                          <li className="active">
-                            <a href="#/" style={{ backgroundColor: "#0188cc" }}>
-                              {" "}
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#/" style={{ backgroundColor: "#ab6e6e" }}>
-                              {" "}
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#/" style={{ backgroundColor: "#ddb577" }}>
-                              {" "}
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#/" style={{ backgroundColor: "#6085a5" }}>
-                              {" "}
-                            </a>
-                          </li>
-                        </ul>
+                    <div className="col-lg-5 col-md-6 product-single-details">
+                      <h1 className="product-title">
+                        {product && product.data().name}
+                      </h1>
+                      <hr className="divider" />
+                      <div className="price-box">
+                        <span className="old-price">
+                          Rs.{product && product.data().actual_price}
+                        </span>
+                        <span className="product-price">
+                          Rs. {product && product.data().price}
+                        </span>
                       </div>
-                      <div className="product-single-filter">
-                        <label>Sizes:</label>
-                        {shakeSizes && sizeSelect === undefined ? (
-                          <div>
-                            <ul className="config-size-list sizeicons">
+                      <div className="product-desc">
+                        <p>{product && product.data().info}</p>
+                      </div>
+                      <div className="product-filters-container">
+                        {/* <div className="product-single-filter">
+                          <label>Colors:</label>
+                          <ul className="config-swatch-list">
+                            <li className="active">
+                              <a
+                                href="#/"
+                                style={{ backgroundColor: "#0188cc" }}
+                              >
+                                {" "}
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#/"
+                                style={{ backgroundColor: "#ab6e6e" }}
+                              >
+                                {" "}
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#/"
+                                style={{ backgroundColor: "#ddb577" }}
+                              >
+                                {" "}
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#/"
+                                style={{ backgroundColor: "#6085a5" }}
+                              >
+                                {" "}
+                              </a>
+                            </li>
+                          </ul>
+                        </div> */}
+                        {/* <div className="product-single-filter">
+                          <label>Sizes:</label>
+                          {shakeSizes && sizeSelect === undefined ? (
+                            <div>
+                              <ul className="config-size-list sizeicons">
+                                {availsizes.map((i) => (
+                                  <li>
+                                    <Button
+                                      onClick={() => setSizeSelect(i)}
+                                      variant="outlined"
+                                      style={{ fontSize: "14px" }}
+                                    >
+                                      {i}
+                                    </Button>
+                                  </li>
+                                ))}
+                              </ul>
+                              <p
+                                style={{
+                                  color: "red",
+                                  fontSize: "14px",
+                                  margin: "0",
+                                }}
+                              >
+                                Please select size
+                              </p>
+                            </div>
+                          ) : (
+                            <ul className="config-size-list">
                               {availsizes.map((i) => (
                                 <li>
-                                  <Button
-                                    onClick={() => setSizeSelect(i)}
-                                    variant="outlined"
-                                    style={{ fontSize: "14px" }}
-                                  >
-                                    {i}
-                                  </Button>
+                                  {i === sizeSelect ? (
+                                    <Button
+                                      variant="contained"
+                                      style={{
+                                        fontSize: "14px",
+                                        margin: "3px",
+                                      }}
+                                      onClick={() => setSizeSelect(i)}
+                                    >
+                                      {i}
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      variant="outlined"
+                                      // size="small"
+                                      style={{
+                                        fontSize: "14px",
+                                        margin: "3px",
+                                      }}
+                                      onClick={() => setSizeSelect(i)}
+                                    >
+                                      {i}
+                                    </Button>
+                                  )}
                                 </li>
                               ))}
                             </ul>
-                            <p
-                              style={{
-                                color: "red",
-                                fontSize: "14px",
-                                margin: "0",
-                              }}
-                            >
-                              Please select size
-                            </p>
+                          )}
+                        </div> */}
+                      </div>
+
+                      <hr className="divider" />
+
+                      <div className="product-action">
+                        {product.data().in_stock ? (
+                          <div
+                            className="btn btn-dark add-cart"
+                            style={{
+                              height: "4.5rem",
+                              marginRight: "1px",
+                              borderRadius: "5px",
+                            }}
+                            startIcon={<ShoppingCartIcon />}
+                            onClick={() => handleAddToCart(product.data())}
+                          >
+                            Add To Cart
                           </div>
                         ) : (
-                          <ul className="config-size-list">
-                            {availsizes.map((i) => (
-                              <li>
-                                {i === sizeSelect ? (
-                                  <Button
-                                    variant="contained"
-                                    style={{ fontSize: "14px", margin: "3px" }}
-                                    onClick={() => setSizeSelect(i)}
-                                  >
-                                    {i}
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    variant="outlined"
-                                    // size="small"
-                                    style={{ fontSize: "14px", margin: "3px" }}
-                                    onClick={() => setSizeSelect(i)}
-                                  >
-                                    {i}
-                                  </Button>
-                                )}
-                              </li>
-                            ))}
-                          </ul>
+                          <div
+                            className="btn  add-cart"
+                            style={{
+                              height: "4.5rem",
+                              marginRight: "1px",
+                              borderRadius: "5px",
+                              color: "red",
+                            }}
+                          >
+                            OUT OF STOCK
+                          </div>
                         )}
-                      </div>
-                    </div>
-
-                    <hr className="divider" />
-
-                    <div className="product-action">
-                      <Button
-                        variant="contained"
-                        className="btn btn-dark add-cart"
-                        style={{ height: "4.5rem", marginRight: "1px" }}
-                        startIcon={<ShoppingCartIcon />}
-                        onClick={() => handleAddToCart(product.data())}
-                      >
-                        Add To Cart
-                      </Button>
-                      {/* <a
+                        {/* <a
                         href="#/"
                         className="btn btn-dark add-cart"
                         title="Add to Cart"
@@ -328,7 +372,7 @@ const ProductPage = () => {
                         <ShoppingCartIcon />
                         Add to Cart
                       </a> */}
-                      {/* <a
+                        {/* <a
                         href="#cart.html"
                         className="btn btn-dark add-cart"
                         title="Add to Wishlist"
@@ -337,29 +381,29 @@ const ProductPage = () => {
                         <FavoriteBorderIcon />
                         Add to wishlist
                       </a> */}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="product-single-tabs">
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  id="product-tab-desc"
-                  data-toggle="tab"
-                  href="#product-desc-content"
-                  role="tab"
-                  aria-controls="product-desc-content"
-                  aria-selected="true"
-                >
-                  Description
-                </a>
-              </li>
-              {/* <li class="nav-item">
+            <div class="product-single-tabs">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    id="product-tab-desc"
+                    data-toggle="tab"
+                    href="#product-desc-content"
+                    role="tab"
+                    aria-controls="product-desc-content"
+                    aria-selected="true"
+                  >
+                    {""}
+                  </a>
+                </li>
+                {/* <li class="nav-item">
                 <a
                   class="nav-link"
                   id="product-tab-more-info"
@@ -372,17 +416,17 @@ const ProductPage = () => {
                   More Info
                 </a>
               </li> */}
-            </ul>
-            <div class="tab-content">
-              <div
-                class="tab-pane fade show active"
-                id="product-desc-content"
-                role="tabpanel"
-                aria-labelledby="product-tab-desc"
-              >
-                <div class="product-desc-content">
-                  <p>{product && product.data().description}</p>
-                  {/* <ul>
+              </ul>
+              <div class="tab-content">
+                <div
+                  class="tab-pane fade show active"
+                  id="product-desc-content"
+                  role="tabpanel"
+                  aria-labelledby="product-tab-desc"
+                >
+                  <div class="product-desc-content">
+                    <p>{/* product && product.data().description */}</p>
+                    {/* <ul>
                     <li>
                       <i class="fa fa-check-circle"></i>Any Product types that
                       You want - Simple, Configurable
@@ -396,11 +440,14 @@ const ProductPage = () => {
                       with Backordered items
                     </li>
                   </ul> */}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <Loading />
+        )}
         <Snackbar
           anchorOrigin={{ vertical, horizontal }}
           open={open}

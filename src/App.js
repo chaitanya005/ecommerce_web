@@ -13,6 +13,7 @@ import VeggieProduct from "./components/Veggies/ProductPage";
 // import { getToken } from "./firebase";
 import { useState } from "react";
 import OrderFailure from "./components/OrderFailure";
+import InfiniteScroll from "./components/InfiniteScroll";
 
 /* import Cart from "./components/Cart/Cart";
 import Shop from "./components/Veggies/Shop";
@@ -43,6 +44,7 @@ import { useEffect } from "react";
 import ClothShop from "./components/Clothing/Shop";
 import ProductPage from "./components/Clothing/ProductPage";
 import Productpage from "./components/Men/Product_page";
+import OtpLogin from "./OtpLogin";
 
 // import './App.css'
 
@@ -195,17 +197,29 @@ const App = () => {
             <Route path="/termsandconditions">
               <TC />
             </Route>
-            <Route path="/shop">
+            <Route path="/shop/sarees">
               <ClothShop />
             </Route>
-            <Route path="/product">
+            <Route path="/saree">
               <ProductPage />
             </Route>
-            <Route path="/loading">
+            {/* <Route path="/loading">
               <Loading />
-            </Route>
+            </Route> */}
             <Route path="/men">
               <Productpage />
+            </Route>
+            <Route path="/otp">
+              <OtpLogin />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/scroll">
+              <InfiniteScroll />
+            </Route>
+            <Route path="/footer">
+              <Footer />
             </Route>
             <Route path="*">
               <PageNotFound />

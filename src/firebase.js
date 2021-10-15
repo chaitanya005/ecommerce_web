@@ -26,6 +26,7 @@ const provider = new firebase.auth.GoogleAuthProvider();
 const storage = firebase.storage();
 
 export const firestore = firebase.firestore();
+export { firebase };
 // export const firestore = getFirestore(firebaseApp);
 
 //const messaging = firebase.messaging();
@@ -37,13 +38,14 @@ export const createUserDocument = async (user) => {
 
   const snapshot = await userRef.get();
 
-  console.log(user.email);
+  // console.log(user.email);
 
   if (!snapshot.exists) {
     const email = user.email;
     const name = user.displayName;
     const photo = user.photoURL;
     const uid = user.uid;
+    const phoneNumber = user.phoneNumber;
 
     try {
       userRef.set({
@@ -51,6 +53,7 @@ export const createUserDocument = async (user) => {
         name,
         photo,
         uid,
+        phoneNumber,
         createdAt: new Date(),
       });
       console.log("User Successfully Saved!");

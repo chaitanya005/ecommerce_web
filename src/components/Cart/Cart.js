@@ -176,6 +176,7 @@ const Cart = () => {
     // setState({ ...state, open: true });
     if (!uId) {
       setState({ ...state, open: true });
+      // history.push("/login");
       window.scrollTo(0, 0);
     } else {
       // window.location.reload();
@@ -1842,8 +1843,8 @@ a:hover {
                       ""
                     ) : (
                       <li>
-                        <span className="list-item-title">Shipping</span>
-                        <span className="list-item-value">Rs.100.00</span>
+                        {/*    <span className="list-item-title">Shipping</span>
+                        <span className="list-item-value">Rs.100.00</span> */}
                       </li>
                     )}
 
@@ -1857,9 +1858,7 @@ a:hover {
                       {cartStore.length === 0 ? (
                         <span className="list-item-value">Rs.{yourBill}</span>
                       ) : (
-                        <span className="list-item-value">
-                          Rs.{yourBill + 100}
-                        </span>
+                        <span className="list-item-value">Rs.{yourBill}</span>
                       )}
                     </li>
                     {clicked ? (
@@ -2088,7 +2087,7 @@ const CartItems = ({ cartItem }) => {
     }
   }, [removeCount]);
 
-  console.log(cartItem);
+  // console.log(cartItem);
   // let updatedPrice = cartItem.newPrice;
 
   return (
@@ -2122,13 +2121,13 @@ const CartItems = ({ cartItem }) => {
               <a className="content-link" href="#/" style={{ margin: "2%" }}>
                 {cartItem.name}
               </a>
-              <p
+              {/* <p
                 className="content-link"
                 style={{ fontSize: "14px", margin: "2%" }}
               >
                 {" "}
                 Size: {cartItem.sizeSelect}
-              </p>
+              </p> */}
             </React.Fragment>
           )}
         </div>
@@ -2148,6 +2147,7 @@ const CartItems = ({ cartItem }) => {
             ) */}
 
             <div className="cart-item-price">Rs. {cartItem.price} </div>
+            <div className="cart-item-price">Rs. {cartItem.actual_price} </div>
           </React.Fragment>
         )}
 

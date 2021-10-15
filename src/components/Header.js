@@ -133,6 +133,7 @@ const Header = () => {
             .then(async (res) => {
               saveUser(res.user);
               await createUserDocument(res.user);
+              history.push("/checkout");
             })
             .catch((err) => console.log(err));
         })
@@ -158,6 +159,7 @@ const Header = () => {
         email: user.email,
         photo: user.photoURL,
         uid: user.uid,
+        phoneNumber: "",
       })
     );
   };

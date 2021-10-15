@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
@@ -19,7 +19,12 @@ import {
 import db from "../../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useDispatch, useSelector } from "react-redux";
-// import Button from "@mui/material/Button";
+import Button from "@mui/material/Button";
+// import CircularProgress from "@mui/material/CircularProgress";
+import Loading from "../Loading";
+import Listing from "./Listing";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 // import { addToCart, storeCart } from "../../features/cart/cart";
 // import MuiAlert from "@material-ui/lab/Alert";
 // import Snackbar from "@material-ui/core/Snackbar";
@@ -36,6 +41,16 @@ const Shop = () => {
   // const [isCartItem, setIsCartItem] = useState(false);
 
   const [backDropOpen, setBackDropOpen] = useState(false);
+
+  const [minValue, setMinValue] = useState(300);
+  const [maxValue, setMaxValue] = useState(20000);
+  const [priceFilterProds, setPriceFilterProds] = useState([]);
+  const [size, setSize] = useState();
+  const [category, setCategory] = useState();
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  let [displayProds, setDisplayProds] = useState([]);
+  const [items, setItems] = useState([]);
   // const storedCartItems = useSelector(storeCart);
 
   // const [state, setState] = React.useState({
@@ -76,6 +91,13 @@ const Shop = () => {
     );
   }, [menprod]);
 
+  useEffect(() => {
+    menShirts && setDisplayProds(menShirts.menshirts);
+    menShirts &&
+      setItems(menShirts.menshirts.concat(Array.from({ length: 2 })));
+  }, [menShirts]);
+
+  // console.log(displayProds && displayProds);
   // console.log(menShirts);
 
   /* const handleAddToCart = (shirt) => {
@@ -85,7 +107,7 @@ const Shop = () => {
 
     if (storedCartItems.length >= 1) {
       for (let item of storedCartItems) {
-        if (item.name === shirt.name) {
+        if (item.name === name) {
           setIsCartItem(true);
           setState({ ...state, open: true });
           setTimeout(() => {
@@ -124,12 +146,101 @@ const Shop = () => {
     }
   }; */
 
+  const handlePriceFilter = () => {
+    let priceFilter = [...menShirts.menshirts];
+    priceFilter = priceFilter.filter(
+      (shirt) => shirt.price >= minValue && shirt.price <= maxValue
+    );
+    if (size) {
+      priceFilter = priceFilter.filter((prod) =>
+        prod.avail_sizes.includes(size)
+      );
+    }
+
+    if (category) {
+      priceFilter = priceFilter.filter(
+        (prod) => prod.categoryType === category
+      );
+    }
+
+    if (priceFilter.length === 0) {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+
+    setPriceFilterProds(priceFilter);
+    setDisplayProds(priceFilter);
+  };
+
+  const handleSizeFilter = (size) => {
+    setSize(size);
+    let sizeFilter = [...menShirts.menshirts];
+    if (minValue !== 400 || maxValue !== 3000) {
+      sizeFilter = sizeFilter.filter((prod) => prod.avail_sizes.includes(size));
+      sizeFilter = sizeFilter.filter(
+        (prod) => prod.price >= minValue && prod.price <= maxValue
+      );
+    } else {
+      sizeFilter = [...menShirts.menshirts];
+      sizeFilter = sizeFilter.filter((prod) => prod.avail_sizes.includes(size));
+    }
+
+    if (category) {
+      sizeFilter = sizeFilter.filter((prod) => prod.categoryType === category);
+    }
+
+    if (sizeFilter.length === 0) {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+
+    setDisplayProds(sizeFilter);
+  };
+
+  const handleCategoryFilter = (categoryType) => {
+    setCategory(categoryType);
+    let categoryFilter = [...menShirts.menshirts];
+    categoryFilter = categoryFilter.filter(
+      (prod) => prod.categoryType === categoryType
+    );
+
+    if (size) {
+      categoryFilter = categoryFilter.filter((prod) =>
+        prod.avail_sizes.includes(size)
+      );
+    }
+
+    if (minValue !== 400 || maxValue !== 3000) {
+      categoryFilter = categoryFilter.filter(
+        (prod) => prod.price >= minValue && prod.price <= maxValue
+      );
+    }
+
+    if (categoryFilter.length === 0) {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+
+    setDisplayProds(categoryFilter);
+  };
+
+  const fetchMoreData = () => {
+    setTimeout(() => {
+      setItems(menShirts.menshirts.concat(Array.from({ length: 1 })));
+      // setItems(prev => [...prev, ])
+    }, 1500);
+  };
+  // console.log(items);
+
   return (
     <React.Fragment>
       <Helmet>
         <style>{`
         body {
-          background-color: #fff;
+          background-color: #fff !important;
         }
 
         @media (max-width: 992px) {
@@ -138,11 +249,1265 @@ const Shop = () => {
           }
         }
       `}</style>
-
-        <link rel="stylesheet" href="/assets/porto.css" />
-        <link rel="stylesheet" href="/assets/style.css" />
         <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
         <link href="/assets/css/theme.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/assets/porto.css" />
+        <link rel="stylesheet" href="/assets/style.css" />
+        {/*  <style>{`
+        .banner-content {
+          position: relative;
+        }
+        .banner-layer-left {
+          right: auto;
+        }
+      .banner-layer-right {
+          left: auto;
+      }
+      .btn {
+        transition: all 0.3s;
+        text-transform: uppercase;
+        padding: 1.85rem 4.2rem;
+        border-radius: 0;
+        font-size: 1.4rem;
+        font-weight: 700;
+        font-family: Poppins, sans-serif;
+        line-height: 1.429;
+    }
+
+    .btn-primary {
+      border-color: #08c;
+      background-color: #08c;
+      color: #fff;
+      box-shadow: none;
+  }
+
+  form {
+    margin-bottom: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  form, .form-footer {
+      margin-bottom: 4rem;
+  }
+
+  form h2 {
+      margin-top: 4.4rem;
+  }
+}
+
+@media (min-width: 992px) {
+  form, .form-footer {
+      margin-bottom: 5rem;
+  }
+}
+
+.product-default {
+  color: #999;
+  margin-bottom: 2rem;
+}
+
+.product-default a {
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-default a:hover {
+  color: #08c;
+  text-decoration: none;
+}
+
+.product-default figure {
+  margin-bottom: 1.6rem;
+  position: relative;
+}
+
+.product-default figure img {
+  transition: opacity 0.3s;
+  height: auto;
+  width: 100%;
+}
+
+.product-default figure img:last-child {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.product-default figure img:first-child {
+  opacity: 1;
+  position: relative;
+}
+
+.product-default .label-group {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+}
+
+.product-default .product-label {
+  display: block;
+  text-align: center;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  padding: 5px 9px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1;
+  border-radius: 20px;
+}
+
+.product-default .product-label.label-hot {
+  background-color: #62b959;
+}
+
+.product-default .product-details {
+  display: flex;
+  display: -ms-flexbox;
+  flex-direction: column;
+  -ms-flex-direction: column;
+  align-items: center;
+  -ms-flex-align: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+}
+
+.product-default .category-list {
+  font-weight: 400;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.7;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+.product-default .product-category {
+  color: #999;
+}
+
+.product-default .product-title {
+  max-width: 100%;
+  font-weight: 400;
+  font-size: 1.5rem;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.35;
+  letter-spacing: 0.005em;
+  margin-bottom: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.product-default .btn-icon-wish {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 0 2px;
+  width: 36px;
+  height: 36px;
+  font-size: 1.6rem;
+  line-height: 3.6rem;
+  text-align: center;
+  opacity: 0;
+  transition: 0.65s;
+  transform: translateX(200%);
+  color: #777;
+}
+
+
+.product-default .btn-quickview {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 0 2px;
+  width: 36px;
+  height: 36px;
+  font-size: 1.4rem;
+  line-height: 3.6rem;
+  text-align: center;
+  opacity: 0;
+  transition: 0.65s;
+  transform: translateX(-200%);
+}
+
+.product-default:hover {
+  z-index: 2;
+}
+
+.product-default:hover figure {
+  box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.1);
+}
+
+.product-default:hover figure img:first-child {
+  opacity: 0;
+}
+
+.product-default:hover figure img:last-child {
+  opacity: 1;
+}
+
+.old-price {
+  text-decoration: line-through;
+  font-size: 1.4rem;
+  letter-spacing: 0.005em;
+  color: #999;
+  margin-right: 3px;
+  font-family: Open Sans, sans-serif;
+  line-height: 1.5;
+}
+
+.product-price {
+  color: #222529;
+  font-size: 1.125em;
+  line-height: 0.8;
+  font-family: Open Sans, sans-serif;
+}
+
+.price-box {
+  margin-bottom: 0;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  line-height: 1;
+}
+
+.config-swatch-list {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  font-size: 0;
+  list-style: none;
+}
+
+.config-swatch-list li a {
+  position: relative;
+  display: block;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin: 3px 6px 3px 0;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.config-swatch-list li span:last-child {
+  cursor: pointer;
+}
+
+.config-swatch-list li.active a:before {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #fff;
+  font-family: "porto";
+  font-size: 1.1rem;
+  line-height: 1;
+  content: "\e84e";
+}
+
+.inner-quickview figure {
+  position: relative;
+}
+
+.inner-quickview figure .btn-quickview {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  padding: 0.5rem;
+  color: #fff;
+  background-color: #08c;
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  font-family: Poppins, sans-serif;
+  text-transform: uppercase;
+  visibility: hidden;
+  opacity: 0;
+  transform: none;
+  margin: 0;
+  border: none;
+  transition: 0.25s;
+}
+
+.inner-quickview .product-details {
+  align-items: flex-start;
+  -ms-flex-align: start;
+}
+
+.inner-quickview .category-wrap {
+  display: flex;
+  display: -ms-flexbox;
+  justify-content: space-between;
+  -ms-flex-pack: justify;
+  align-items: center;
+  -ms-flex-align: center;
+  width: 100%;
+}
+
+.inner-quickview .category-wrap .btn-icon-wish {
+  transform: none;
+  opacity: 1;
+  width: auto;
+  height: auto;
+  border: none;
+  overflow: visible;
+  font-size: 1.5rem;
+  line-height: 0;
+}
+
+.inner-quickview:hover .btn-quickview {
+  visibility: visible;
+  opacity: 0.85;
+}
+
+.inner-icon figure {
+  position: relative;
+}
+.product-category {
+  color: #1d2127;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+html {
+  overflow-x: hidden;
+  font-size: 62.5%;
+  font-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  color: #777;
+  background: #fff;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.4;
+  font-family: "Poppins", sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: #08c;
+  color: #fff;
+}
+
+p {
+  margin-bottom: 1.5rem;
+}
+
+ul, ol {
+  margin: 0 0 2.25rem;
+  padding: 0;
+  list-style: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  margin-bottom: 1.8rem;
+  color: #222529;
+  font-weight: 700;
+  line-height: 1.1;
+  font-family: Poppins, sans-serif;
+}
+
+h2, .h2 {
+  font-size: 3rem;
+  line-height: 1.5;
+}
+
+h3, .h3 {
+  font-size: 2.5rem;
+  line-height: 1.28;
+}
+
+h4, .h4 {
+  font-size: 2rem;
+  line-height: 1.35;
+}
+
+h5, .h5 {
+  font-size: 1.4rem;
+  line-height: 1.429;
+}
+
+a {
+  transition: all 0.3s;
+  color: #08c;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: #08c;
+  text-decoration: none;
+}
+.font3 {
+  font-family: "Segoe Script", "Savoye LET" !important;
+}
+
+@media (min-width: 768px) {
+  h2, .h2 {
+    font-size: 2.5rem;
+  }
+}
+@media (min-width: 992px) {
+  h2, .h2 {
+    font-size: 3rem;
+  }
+}
+.row {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.row [class*="col-"] {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 1220px) {
+  .container {
+      max-width: 1200px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+      padding-left: 10px;
+      padding-right: 10px;
+  }
+}
+
+@media (max-width: 991px) {
+  .container {
+      max-width: none;
+  }
+}
+footer {
+  font-size: 1.3rem;
+  color: #777;
+  background: #e6e5e2;
+  link-active-color: #fff;
+  line-height: 2.4rem;
+  padding-top: 1px;
+  font-size: 1.3rem;
+}
+
+footer .container {
+  position: relative;
+}
+
+footer p {
+  color: inherit;
+}
+
+footer a {
+  color: inherit;
+}
+.sidebar-shop {
+  font-size: 1.3rem;
+}
+.sidebar-shop .widget-title {
+  margin: 0;
+  color: #313131;
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: Poppins, sans-serif;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.sidebar-shop .widget-body {
+  padding: 1.5rem 0;
+}
+.cat-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cat-list li {
+  margin-bottom: 1.4rem;
+}
+
+.cat-list li:last-child {
+  margin-bottom: 0;
+}
+
+.price-slider-wrapper {
+  padding-top: 2rem;
+}
+
+.filter-price-action {
+  margin-top: 2.5rem;
+  padding-bottom: 0.4rem;
+}
+
+.filter-price-action .btn {
+  padding: 3px 0.7em;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.filter-price-action .filter-price-text {
+  font-size: 1.2rem;
+  line-height: 2;
+}
+
+@media (min-width: 992px) {
+  .sidebar-toggle {
+    display: none;
+  }
+}
+@media (max-width: 991px) {
+    .mobile-sidebar {
+        display: block;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 260px;
+        padding: 2rem;
+        margin: 0;
+        transform: translate(-260px);
+        transition: transform 0.2s ease-in-out 0s;
+        background-color: #fff;
+        z-index: 9999;
+        overflow-y: auto;
+    }
+}
+.widget-title {
+  margin: 0.5rem 0 1.3rem;
+  color: #000;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+body {
+  line-height: 2.4rem;
+}
+.category-banner img, .category-banner-boxed img {
+  min-height: 34rem;
+  object-fit: cover;
+}
+
+.category-banner .container, .category-banner-boxed .container {
+  max-width: 64%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0.7rem 1.9rem 0 1.4rem;
+}
+
+.category-banner .container h2, .category-banner-boxed .container h2 {
+  padding-left: 5px;
+  font-size: 2.375em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.category-banner .container h3, .category-banner-boxed .container h3 {
+  font-size: 8.75em;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.category-banner .banner-layer-right, .category-banner-boxed .banner-layer-right {
+  margin-top: 0.6rem;
+}
+
+.category-banner .banner-layer-right h4, .category-banner-boxed .banner-layer-right h4 {
+  margin-left: 0.5rem;
+  font-size: 1.25em;
+  letter-spacing: 0.18em;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.category-banner .banner-layer-right h3, .category-banner-boxed .banner-layer-right h3 {
+  font-size: 9.4425em;
+}
+
+.category-banner .banner-layer-right small, .category-banner-boxed .banner-layer-right small {
+  width: 1em;
+  font-weight: 700;
+  word-break: break-all;
+  font-size: 27%;
+}
+@media (max-width: 1400px) {
+  .category-banner .container {
+      max-width: 85%;
+      font-size: 1.2rem;
+  }
+}
+`}</style>
+        <style>{`
+:root {
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
+  display: block;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  background-color: #fff;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+dl, ol, ul {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+small {
+  font-size: 80%;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+a:not([href]):not([tabindex]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+figure {
+  margin: 0 0 1rem;
+}
+
+img {
+  vertical-align: middle;
+  border-style: none;
+}
+
+svg {
+  overflow: hidden;
+  vertical-align: middle;
+}
+button {
+  border-radius: 0;
+}
+
+button, input, optgroup, select, textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button, input {
+  overflow: visible;
+}
+
+button, select {
+  text-transform: none;
+}
+[type="button"], [type="reset"], [type="submit"], button {
+  -webkit-appearance: button;
+}
+
+[type="button"]:not(:disabled), [type="reset"]:not(:disabled), [type="submit"]:not(:disabled), button:not(:disabled) {
+  cursor: pointer;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.h2, h2 {
+  font-size: 2rem;
+}
+
+.h3, h3 {
+  font-size: 1.75rem;
+}
+
+.h4, h4 {
+  font-size: 1.5rem;
+}
+
+.h5, h5 {
+  font-size: 1.25rem;
+}
+.small, small {
+  font-size: 80%;
+  font-weight: 400;
+}
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container {
+      max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+      max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+      max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+      max-width: 1140px;
+  }
+}
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col-6 {
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+@media (min-width: 576px) {
+  .col-sm-4 {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+@media (min-width: 768px) {
+  .col-md-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .col-md-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .order-md-last {
+    -ms-flex-order: 13;
+    order: 13;
+  }
+}
+@media (min-width: 992px) {
+  .col-lg-3 {
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  .col-lg-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .col-lg-9 {
+    -ms-flex: 0 0 75%;
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
+  .order-lg-first {
+    -ms-flex-order: -1;
+    order: -1;
+}
+
+.order-lg-last {
+    -ms-flex-order: 13;
+    order: 13;
+}
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.nav {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+}
+.navbar-brand {
+  display: inline-block;
+  padding-top: 0.3125rem;
+  padding-bottom: 0.3125rem;
+  margin-right: 1rem;
+  font-size: 1.25rem;
+  line-height: inherit;
+  white-space: nowrap;
+}
+.d-inline-block {
+  display: inline-block !important;
+}
+.d-flex {
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+.flex-wrap {
+  -ms-flex-wrap: wrap !important;
+  flex-wrap: wrap !important;
+}
+.justify-content-between {
+  -ms-flex-pack: justify !important;
+  justify-content: space-between !important;
+}
+.align-items-center {
+  -ms-flex-align: center !important;
+  align-items: center !important;
+}
+.mb-0, .my-0 {
+  margin-bottom: 0 !important;
+}
+.mb-3, .my-3 {
+  margin-bottom: 1rem !important;
+}
+.pl-2, .px-2 {
+  padding-left: 0.5rem !important;
+}
+.text-left {
+  text-align: left !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+.font-weight-light {
+  font-weight: 300 !important;
+}
+.font-weight-normal {
+  font-weight: 400 !important;
+}
+.text-white {
+  color: #fff !important;
+}
+
+
+
+
+
+`}</style>
+        <style>{`
+:root {
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -ms-overflow-style: scrollbar;
+  -webkit-tap-highlight-color: transparent;
+}
+article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
+  display: block;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  background-color: #fff;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+dl, ol, ul {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+small {
+  font-size: 80%;
+}
+a {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+a:not([href]):not([tabindex]) {
+  color: inherit;
+  text-decoration: none;
+}
+figure {
+  margin: 0 0 1rem;
+}
+
+img {
+  vertical-align: middle;
+  border-style: none;
+}
+
+svg {
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+button {
+  border-radius: 0;
+}
+button, input, optgroup, select, textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button, input {
+  overflow: visible;
+}
+
+button, select {
+  text-transform: none;
+}
+
+[type="reset"], [type="submit"], button, html [type="button"] {
+  -webkit-appearance: button;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  color: inherit;
+}
+.h2, h2 {
+  font-size: 2rem;
+}
+
+.h3, h3 {
+  font-size: 1.75rem;
+}
+
+.h4, h4 {
+  font-size: 1.5rem;
+}
+
+.h5, h5 {
+  font-size: 1.25rem;
+}
+.small, small {
+  font-size: 80%;
+  font-weight: 400;
+}
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container {
+      max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+      max-width: 720px;
+  }
+}
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.col-6 {
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+@media (min-width: 576px) {
+  .col-sm-4 {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+@media (min-width: 768px) {
+  .col-md-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .col-md-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+.order-md-last {
+  -ms-flex-order: 13;
+  order: 13;
+}
+}
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.nav {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+}
+.navbar-brand {
+  display: inline-block;
+  padding-top: 0.3125rem;
+  padding-bottom: 0.3125rem;
+  margin-right: 1rem;
+  font-size: 1.25rem;
+  line-height: inherit;
+  white-space: nowrap;
+}
+.d-inline-block {
+  display: inline-block !important;
+}
+.d-flex {
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+.flex-wrap {
+  -ms-flex-wrap: wrap !important;
+  flex-wrap: wrap !important;
+}
+.justify-content-between {
+  -ms-flex-pack: justify !important;
+  justify-content: space-between !important;
+}
+.align-items-center {
+  -ms-flex-align: center !important;
+  align-items: center !important;
+}
+.position-relative {
+  position: relative !important;
+}
+
+.position-absolute {
+  position: absolute !important;
+}
+.mb-0, .my-0 {
+  margin-bottom: 0 !important;
+}
+.mb-3, .my-3 {
+  margin-bottom: 1rem !important;
+}
+.pl-2, .px-2 {
+  padding-left: 0.5rem !important;
+}
+.text-left {
+  text-align: left !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+.font-weight-light {
+  font-weight: 300 !important;
+}
+
+.font-weight-normal {
+  font-weight: 400 !important;
+}
+.text-white {
+  color: #fff !important;
+}
+
+`}</style> */}
       </Helmet>
 
       {/*<section
@@ -210,10 +1575,8 @@ const Shop = () => {
               data-animation-duration="1200"
               data-animation-delay="200"
             >
-              <h2 className="text-white font3 font-weight-normal">
-                Summer Trends
-              </h2>
-              <h3 className="text-white mb-0 text-left text-uppercase">sale</h3>
+              <h2 className="text-white font3 font-weight-normal">DUSHEERA</h2>
+              <h3 className="text-white mb-0 text-left text-uppercase">SALE</h3>
             </div>
 
             <div
@@ -230,8 +1593,9 @@ const Shop = () => {
                   mb-0
                   text-left text-uppercase
                 "
+                style={{ fontSize: "16px" }}
               >
-                prices up to
+                BUY 1
               </h4>
               <h3
                 className="
@@ -242,7 +1606,7 @@ const Shop = () => {
                   text-left text-uppercase
                 "
               >
-                90%<small className="d-inline-block text-center">OFF</small>
+                GET 1<small className="d-inline-block text-center"></small>
               </h3>
             </div>
           </div>
@@ -351,16 +1715,99 @@ const Shop = () => {
                         <div className="widget-body">
                           <ul className="cat-list">
                             <li>
-                              <a href="#/">SAREES</a>
+                              <div
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  handleCategoryFilter("cottonsaree")
+                                }
+                              >
+                                COTTON SAREES
+                              </div>
                             </li>
                             <li>
-                              <a href="#/">LEHNAGAS</a>
+                              <div
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  handleCategoryFilter("silksaree")
+                                }
+                              >
+                                SILK SAREES
+                              </div>
                             </li>
                             <li>
-                              <a href="#/">HALF SAREES</a>
+                              <div
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  handleCategoryFilter("halfsaree")
+                                }
+                              >
+                                HALF SAREES
+                              </div>
                             </li>
                             <li>
-                              <a href="#/">KURITS &amp; MUCH MORE...</a>
+                              <div
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  handleCategoryFilter("pattusaree")
+                                }
+                              >
+                                PATTU SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  handleCategoryFilter("crepesaree")
+                                }
+                              >
+                                CREPE SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  handleCategoryFilter("georgettesaree")
+                                }
+                              >
+                                GEORGETTE SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div style={{ cursor: "pointer" }}>
+                                CHIFFON SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div style={{ cursor: "pointer" }}>
+                                WEDDING SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div style={{ cursor: "pointer" }}>
+                                BANDHANI SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div style={{ cursor: "pointer" }}>
+                                DESIGNER SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div style={{ cursor: "pointer" }}>
+                                CATALOGUE SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div style={{ cursor: "pointer" }}>
+                                HEAVY WORK SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div style={{ cursor: "pointer" }}>
+                                FANCY SAREES{" "}
+                              </div>
                             </li>
                           </ul>
                         </div>
@@ -380,7 +1827,7 @@ const Shop = () => {
                     >
                       <Typography
                         className="widget-title"
-                        style={{ margin: "0px" }}
+                        style={{ margin: "0px", fontSize: "1.3rem" }}
                       >
                         PRICE
                       </Typography>
@@ -398,13 +1845,17 @@ const Shop = () => {
                       ></div> */}
                               <Slider
                                 size="small"
-                                defaultValue={[700, 1500]}
+                                defaultValue={[minValue, maxValue]}
                                 // aria-label="Default"
                                 valueLabelDisplay="auto"
-                                min={500}
-                                max={3000}
+                                min={300}
+                                max={20000}
                                 step={200}
                                 style={{ padding: "0" }}
+                                onChange={(e, value) => {
+                                  setMinValue(value[0]);
+                                  setMaxValue(value[1]);
+                                }}
                               />
                             </div>
 
@@ -417,15 +1868,21 @@ const Shop = () => {
                               flex-wrap
                             "
                             >
-                              <button type="submit" className="btn btn-primary">
+                              <Button
+                                // type="submit"
+                                variant="contained"
+                                style={{ borderRadius: "3px" }}
+                                className="btn btn-primary"
+                                onClick={handlePriceFilter}
+                              >
                                 Filter
-                              </button>
+                              </Button>
 
                               <div className="filter-price-text">
                                 Price:
                                 <span id="filter-price-range">
                                   {" "}
-                                  $200 - $400
+                                  Rs.{minValue} - Rs.{maxValue}
                                 </span>
                               </div>
                             </div>
@@ -434,7 +1891,7 @@ const Shop = () => {
                       </div>
                     </AccordionDetails>
                   </Accordion>
-                  <Accordion
+                  {/*  <Accordion
                     expanded={expanded === "size"}
                     onChange={handleChange("size")}
                     style={{ margin: "0px" }}
@@ -443,11 +1900,11 @@ const Shop = () => {
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"
                       id="panel1a-header"
-                      style={{ margin: "0px", fontSize: "1.3rem" }}
+                      style={{ margin: "0px" }}
                     >
                       <Typography
                         className="widget-title"
-                        style={{ margin: "0px" }}
+                        style={{ margin: "0px", fontSize: "1.3rem" }}
                       >
                         SIZE
                       </Typography>
@@ -457,16 +1914,44 @@ const Shop = () => {
                         <div className="widget-body">
                           <ul className="cat-list">
                             <li>
-                              <a href="#/">Small</a>
+                              <div
+                                onClick={() => handleSizeFilter("S")}
+                                // style={{ cursor: "pointer" }}
+                              >
+                                Small
+                              </div>
                             </li>
                             <li>
-                              <a href="#/">Medium</a>
+                              <div
+                                onClick={() => handleSizeFilter("M")}
+                                // style={{ cursor: "pointer" }}
+                              >
+                                Medium
+                              </div>
                             </li>
                             <li>
-                              <a href="#/">Large</a>
+                              <div
+                                onClick={() => handleSizeFilter("L")}
+                                // style={{ cursor: "pointer" }}
+                              >
+                                Large
+                              </div>
                             </li>
                             <li>
-                              <a href="#/">Extra Large</a>
+                              <div
+                                onClick={() => handleSizeFilter("XL")}
+                                // style={{ cursor: "pointer" }}
+                              >
+                                Extra Large
+                              </div>
+                            </li>
+                            <li>
+                              <div
+                                onClick={() => handleSizeFilter("XXL")}
+                                // style={{ cursor: "pointer" }}
+                              >
+                                Double Extra Large
+                              </div>
                             </li>
                           </ul>
                         </div>
@@ -486,7 +1971,7 @@ const Shop = () => {
                     >
                       <Typography
                         className="widget-title"
-                        style={{ margin: "0px" }}
+                        style={{ margin: "0px", fontSize: "1.3rem" }}
                       >
                         COLOR
                       </Typography>
@@ -571,100 +2056,186 @@ const Shop = () => {
                         </div>
                       </div>
                     </AccordionDetails>
-                  </Accordion>
+                  </Accordion> */}
                 </div>
               </Paper>
             </Backdrop>
 
-            <div className="row">
-              {menShirts &&
-                menShirts.menshirts.map((shirt) => (
-                  <div
+            {!loading ? (
+              <div className="row" id="scrollableDiv">
+                {isEmpty ? (
+                  <h3 style={{ textAlign: "center", width: "100%" }}>
+                    Sorry! No Items for selected Filter{" "}
+                  </h3>
+                ) : (
+                  ""
+                )}
+                {/* displayProds &&
+                  displayProds.map((shirt) => <Listing shirt={shirt} />) */}
+                {/* <Cards items={items} fetchMoreData={fetchMoreData} /> */}
+                {/*
+                  <InfiniteScroll
+                    dataLength={items.length}
+                    next={fetchMoreData}
+                    hasMore={true}
+                    loader={<h4>Loading ... </h4>}
                     className="col-6 col-sm-4"
-                    key={shirt.name}
-                    // href={`/product?id=${shirt.clothingId}`}
+                    // endMessage={<h3>HTank you</h3>}
                   >
-                    <div className="product-default inner-quickview inner-icon">
-                      <figure>
-                        <a href={`/product?id=${shirt.clothingId}`}>
-                          <img
-                            src={shirt.img}
-                            alt=""
-                            style={{ borderRadius: "5px" }}
-                          />
-                        </a>
-                        <div className="label-group">
-                          <div
-                            className="product-label label-hot"
-                            // style={{ backgroundColor: "#62b959" }}
-                          >
-                            -20%
-                          </div>
-                          {/* <div
-                            className="product-label label-sale"
-                            // style={{ backgroundColor: "#e27c7c" }}
-                          >
-                            -20%
-                          </div> */}
-                        </div>
-                        {/* <div className="btn-icon-group">
-                          <button
-                            className="btn-icon btn-add-cart"
-                            data-toggle="modal"
-                            data-target="#addCartModal"
-                            onClick={() => handleAddToCart(shirt)}
-                          >
-                            <LocalMallIcon />
-                          </button>
-                        </div> */}
-                        <a
-                          href={`/product?id=${shirt.clothingId}`}
-                          className="btn-quickview"
-                          title="Quick View"
-                          style={{ borderRadius: "0px 0px 5px 5px" }}
+                  </InfiniteScroll>
+                */}
+                {/* <div
+                  className="col-6 col-sm-4"
+                  // href={`/product?id=${clothingId}`}
+                >
+                  <div className="product-default inner-quickview inner-icon">
+                    <figure>
+                      <a href={`/product?id=${"clothingId"}`}>
+                        <img
+                          src="/images/201001.jpg"
+                          alt=""
+                          style={{ borderRadius: "5px" }}
+                        />
+                      </a>
+
+                      <div className="label-group">
+                        <div
+                          className="product-label label-hot"
+                          // style={{ backgroundColor: "#62b959" }}
                         >
-                          Quick View
-                        </a>
-                      </figure>
-                      <div className="product-details">
-                        <div className="category-wrap">
-                          <div className="category-list">
-                            <a href="#/" className="product-category">
-                              {shirt.categoryType}
-                            </a>
-                          </div>
-                          <a href="#/" className="btn-icon-wish">
-                            {/* <i className="icon-heart"></i> */}
-                            <FavoriteBorderIcon />
-                          </a>
+                          -20%
                         </div>
-                        <h2 className="product-title">
-                          <a href={`/product?id=${shirt.clothingId}`}>
-                            {shirt.name}
-                          </a>
-                        </h2>
-                        {/* <div className="ratings-container">
-                      <div className="product-ratings">
-                        <span className="ratings" style={{ width: "100%" }}></span>
-                        <span className="tooltiptext tooltip-top"></span>
                       </div>
-                    </div> */}
-                        <div className="price-box">
-                          <span className="old-price">
-                            Rs.{shirt.actual_price}
-                          </span>
-                          <span
-                            className="product-price"
-                            style={{ fontWeight: "800", fontSize: "1.5rem" }}
-                          >
-                            Rs.{shirt.price}
-                          </span>
+                      <a
+                        href={`/product?id=${"clothingId"}`}
+                        className="btn-quickview"
+                        title="Quick View"
+                        style={{ borderRadius: "0px 0px 5px 5px" }}
+                      >
+                        Quick View
+                      </a>
+                    </figure>
+                    <div className="product-details">
+                      <div className="category-wrap">
+                        <div className="category-list">
+                          <a href="#/" className="product-category">
+                            {"categoryType"}
+                          </a>
                         </div>
+                        <a href="#/" className="btn-icon-wish">
+                          <FavoriteBorderIcon />
+                        </a>
+                      </div>
+                      <h2 className="product-title">
+                        <a href={`/product?id=${"clothingId"}`}>{"name"}</a>
+                      </h2>
+                      <div className="price-box">
+                        <span className="old-price">Rs.{500}</span>
+                        <span
+                          className="product-price"
+                          style={{
+                            fontWeight: "800",
+                            fontSize: "1.5rem",
+                          }}
+                        >
+                          Rs.100
+                        </span>
                       </div>
                     </div>
                   </div>
-                ))}
-              {/* <Snackbar
+                </div> */}
+
+                {displayProds &&
+                  displayProds.map((shirt) => (
+                    <div
+                      className="col-6 col-sm-4"
+                      key={shirt.clothingId}
+                      // href={`/product?id=${clothingId}`}
+                    >
+                      <div className="product-default inner-quickview inner-icon">
+                        <figure>
+                          {shirt.in_stock ? (
+                            <a href={`/saree?id=${shirt.clothingId}`}>
+                              <img
+                                src={shirt.img}
+                                alt=""
+                                style={{ borderRadius: "5px" }}
+                              />
+                            </a>
+                          ) : (
+                            <div>
+                              <img
+                                src={shirt.img}
+                                alt=""
+                                style={{ borderRadius: "5px" }}
+                              />
+                            </div>
+                          )}
+                          <div className="label-group">
+                            <div
+                              className="product-label label-hot"
+                              // style={{ backgroundColor: "#62b959" }}
+                            >
+                              -20%
+                            </div>
+                          </div>
+                          {shirt.in_stock ? (
+                            <a
+                              href={`/product?id=${shirt.clothingId}`}
+                              className="btn-quickview"
+                              title="Quick View"
+                              style={{ borderRadius: "0px 0px 5px 5px" }}
+                            >
+                              Quick View
+                            </a>
+                          ) : (
+                            <div
+                              className="btn-quickview"
+                              title="Quick View"
+                              style={{
+                                borderRadius: "0px 0px 5px 5px",
+                                background: "red",
+                              }}
+                            >
+                              OUT OF STOCK
+                            </div>
+                          )}
+                        </figure>
+                        <div className="product-details">
+                          <div className="category-wrap">
+                            <div className="category-list">
+                              <a href="#/" className="product-category">
+                                {shirt.categoryType}
+                              </a>
+                            </div>
+                            <a href="#/" className="btn-icon-wish">
+                              <FavoriteBorderIcon />
+                            </a>
+                          </div>
+                          <h2 className="product-title">
+                            <a href={`/product?id=${shirt.clothingId}`}>
+                              {shirt.name}
+                            </a>
+                          </h2>
+                          <div className="price-box">
+                            <span className="old-price">
+                              Rs.{shirt.actual_price}
+                            </span>
+                            <span
+                              className="product-price"
+                              style={{
+                                fontWeight: "800",
+                                fontSize: "1.5rem",
+                              }}
+                            >
+                              Rs.{shirt.price}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                {/* <Snackbar
                 anchorOrigin={{ vertical, horizontal }}
                 open={open}
                 onClose={handleClose}
@@ -682,7 +2253,10 @@ const Shop = () => {
                   </Alert>
                 )}
               </Snackbar> */}
-            </div>
+              </div>
+            ) : (
+              <Loading />
+            )}
           </div>
           <aside className="sidebar-shop col-lg-3 order-lg-first mobile-sidebar filter-sidebar">
             <Accordion
@@ -695,23 +2269,84 @@ const Shop = () => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography className="widget-title">Categories</Typography>
+                <Typography className="widget-title">SAREES</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <div className="collapse show" id="widget-body-2">
                   <div className="widget-body">
                     <ul className="cat-list">
                       <li>
-                        <a href="#/">SAREES</a>
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleCategoryFilter("cottonsaree")}
+                        >
+                          COTTON SAREES
+                        </div>
                       </li>
                       <li>
-                        <a href="#/">LEHNAGAS</a>
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleCategoryFilter("silksaree")}
+                        >
+                          SILK SAREES
+                        </div>
                       </li>
                       <li>
-                        <a href="#/">HALF SAREES</a>
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleCategoryFilter("halfsaree")}
+                        >
+                          HALF SAREES
+                        </div>
                       </li>
                       <li>
-                        <a href="#/">KURITS &amp; MUCH MORE...</a>
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleCategoryFilter("pattusaree")}
+                        >
+                          PATTU SAREES
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleCategoryFilter("crepesaree")}
+                        >
+                          CREPE SAREES
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleCategoryFilter("georgettesaree")}
+                        >
+                          GEORGETTE SAREES
+                        </div>
+                      </li>
+                      <li>
+                        <div style={{ cursor: "pointer" }}>CHIFFON SAREES</div>
+                      </li>
+                      <li>
+                        <div style={{ cursor: "pointer" }}>WEDDING SAREES</div>
+                      </li>
+                      <li>
+                        <div style={{ cursor: "pointer" }}>BANDHANI SAREES</div>
+                      </li>
+                      <li>
+                        <div style={{ cursor: "pointer" }}>DESIGNER SAREES</div>
+                      </li>
+                      <li>
+                        <div style={{ cursor: "pointer" }}>
+                          CATALOGUE SAREES
+                        </div>
+                      </li>
+                      <li>
+                        <div style={{ cursor: "pointer" }}>
+                          HEAVY WORK SAREES
+                        </div>
+                      </li>
+                      <li>
+                        <div style={{ cursor: "pointer" }}>FANCY SAREES </div>
                       </li>
                     </ul>
                   </div>
@@ -743,12 +2378,16 @@ const Shop = () => {
                     ></div> */}
                         <Slider
                           // size="small"
-                          defaultValue={[700, 1500]}
+                          defaultValue={[minValue, maxValue]}
                           // aria-label="Default"
                           valueLabelDisplay="auto"
-                          min={500}
+                          min={400}
                           max={3000}
                           step={200}
+                          onChange={(e, value) => {
+                            setMinValue(value[0]);
+                            setMaxValue(value[1]);
+                          }}
                         />
                       </div>
 
@@ -761,13 +2400,22 @@ const Shop = () => {
                         flex-wrap
                       "
                       >
-                        <button type="submit" className="btn btn-primary">
+                        <Button
+                          // type="submit"
+                          variant="contained"
+                          style={{ borderRadius: "3px" }}
+                          className="btn btn-primary"
+                          onClick={handlePriceFilter}
+                        >
                           Filter
-                        </button>
+                        </Button>
 
                         <div className="filter-price-text">
                           Price:
-                          <span id="filter-price-range"> $200 - $400</span>
+                          <span id="filter-price-range">
+                            {" "}
+                            Rs.{minValue} - Rs.{maxValue}
+                          </span>
                         </div>
                       </div>
                     </form>
@@ -775,7 +2423,68 @@ const Shop = () => {
                 </div>
               </AccordionDetails>
             </Accordion>
-            <Accordion
+            {/*  <Accordion
+              expanded={expanded === "size"}
+              onChange={handleChange("size")}
+              style={{ margin: "0px" }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography className="widget-title">DRESSES</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <div className="collapse show" id="widget-body-4">
+                  <div className="widget-body">
+                    <ul className="cat-list">
+                      <li>
+                        <div
+                          // onClick={() => handleSizeFilter("S")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          CHUDIHARS
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          // onClick={() => handleSizeFilter("M")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Medium
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          // onClick={() => handleSizeFilter("L")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Large
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          // onClick={() => handleSizeFilter("XL")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Extra Large
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          // onClick={() => handleSizeFilter("XXL")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Double Extra Large
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </AccordionDetails>
+            </Accordion> */}
+            {/* <Accordion
               expanded={expanded === "size"}
               onChange={handleChange("size")}
               style={{ margin: "0px" }}
@@ -792,16 +2501,44 @@ const Shop = () => {
                   <div className="widget-body">
                     <ul className="cat-list">
                       <li>
-                        <a href="#/">Small</a>
+                        <div
+                          onClick={() => handleSizeFilter("S")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Small
+                        </div>
                       </li>
                       <li>
-                        <a href="#/">Medium</a>
+                        <div
+                          onClick={() => handleSizeFilter("M")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Medium
+                        </div>
                       </li>
                       <li>
-                        <a href="#/">Large</a>
+                        <div
+                          onClick={() => handleSizeFilter("L")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Large
+                        </div>
                       </li>
                       <li>
-                        <a href="#/">Extra Large</a>
+                        <div
+                          onClick={() => handleSizeFilter("XL")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Extra Large
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          onClick={() => handleSizeFilter("XXL")}
+                          style={{ cursor: "pointer" }}
+                        >
+                          Double Extra Large
+                        </div>
                       </li>
                     </ul>
                   </div>
@@ -879,12 +2616,117 @@ const Shop = () => {
                   </div>
                 </div>
               </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
           </aside>
         </div>
       </div>
     </React.Fragment>
   );
 };
+
+function Cards({ items, fetchMoreData }) {
+  return (
+    <InfiniteScroll
+      dataLength={items.length}
+      next={fetchMoreData}
+      hasMore={true}
+      loader={<h4>Loading...</h4>}
+      scrollableTarget="scrollableDiv"
+    >
+      {items &&
+        items.map((shirt) => (
+          <React.Fragment>
+            {shirt && (
+              <div
+                className="col-6 col-sm-4"
+                key={shirt.clothingId}
+                // href={`/product?id=${clothingId}`}
+              >
+                <div className="product-default inner-quickview inner-icon">
+                  <figure>
+                    {shirt.in_stock ? (
+                      <a href={`/product?id=${shirt.clothingId}`}>
+                        <img
+                          src={shirt.img}
+                          alt=""
+                          style={{ borderRadius: "5px" }}
+                        />
+                      </a>
+                    ) : (
+                      <div>
+                        <img
+                          src={shirt.img}
+                          alt=""
+                          style={{ borderRadius: "5px" }}
+                        />
+                      </div>
+                    )}
+                    <div className="label-group">
+                      <div
+                        className="product-label label-hot"
+                        // style={{ backgroundColor: "#62b959" }}
+                      >
+                        -20%
+                      </div>
+                    </div>
+                    {shirt.in_stock ? (
+                      <a
+                        href={`/product?id=${shirt.clothingId}`}
+                        className="btn-quickview"
+                        title="Quick View"
+                        style={{ borderRadius: "0px 0px 5px 5px" }}
+                      >
+                        Quick View
+                      </a>
+                    ) : (
+                      <div
+                        className="btn-quickview"
+                        title="Quick View"
+                        style={{
+                          borderRadius: "0px 0px 5px 5px",
+                          background: "red",
+                        }}
+                      >
+                        OUT OF STOCK
+                      </div>
+                    )}
+                  </figure>
+                  <div className="product-details">
+                    <div className="category-wrap">
+                      <div className="category-list">
+                        <a href="#/" className="product-category">
+                          {shirt.categoryType}
+                        </a>
+                      </div>
+                      <a href="#/" className="btn-icon-wish">
+                        <FavoriteBorderIcon />
+                      </a>
+                    </div>
+                    <h2 className="product-title">
+                      <a href={`/product?id=${shirt.clothingId}`}>
+                        {shirt.name}
+                      </a>
+                    </h2>
+                    <div className="price-box">
+                      <span className="old-price">Rs.{shirt.actual_price}</span>
+                      <span
+                        className="product-price"
+                        style={{
+                          fontWeight: "800",
+                          fontSize: "1.5rem",
+                        }}
+                      >
+                        Rs.{shirt.price}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+    </InfiniteScroll>
+  );
+}
 
 export default Shop;

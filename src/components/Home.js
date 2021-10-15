@@ -588,10 +588,10 @@ const Home = () => {
         {/* state ? <Loading /> : "" */}
         <Suspense fallback={<Loading />}>
           {/* <ImgSlider /> */}
+          <ClothingSection />
           <FruitsSection />
           {/* <FoodDeliverySection /> */}
           {/* <VeggieSection /> */}
-          <ClothingSection />
           <br />
         </Suspense>
       </Container>

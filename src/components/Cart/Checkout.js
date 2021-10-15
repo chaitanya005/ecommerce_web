@@ -219,7 +219,7 @@ const CheckoutPage = () => {
               params = {
                 orderId: orderId,
                 email: email,
-                amount: yourBill + 100,
+                amount: yourBill,
                 phone_number: phone_number,
               };
             }
@@ -270,7 +270,7 @@ const CheckoutPage = () => {
         { orderId: orderId },
         { orderItems: [...cartItems] },
         { ...values },
-        { total: yourBill + 100 },
+        { total: yourBill },
         { appliedCoupon: "" },
       ];
     }
@@ -329,7 +329,7 @@ const CheckoutPage = () => {
       i++;
     }
 
-    let total = yourBill + 100;
+    let total = yourBill;
 
     axios
       .post("https://notion-crm.herokuapp.com/order", {
@@ -1650,14 +1650,14 @@ textarea.form-control {
                     <div className="order-line-title">Your Bill</div>
                     <div className="order-line-total">Rs. {yourBill}</div>
                   </div>
-                  <div className="order-subtotal">
+                  {/*                   <div className="order-subtotal">
                     <div className="order-line-title">Shipping</div>
                     {cartItems && cartItems.length === 0 ? (
                       <div className="order-line-total">Rs. 0</div>
                     ) : (
                       <div className="order-line-total">Rs. 100.00</div>
                     )}
-                  </div>
+                  </div> */}
                   <div className="order-subtotal">
                     <div className="order-line-title">You Save</div>
                     <div className="order-line-total">Rs. {saveTotal}</div>
@@ -1666,7 +1666,7 @@ textarea.form-control {
 
                   <div className="order-total">
                     <div className="order-line-title">Total</div>
-                    <div className="order-line-total">Rs. {yourBill + 100}</div>
+                    <div className="order-line-total">Rs. {yourBill}</div>
                   </div>
 
                   {coupon ? (
