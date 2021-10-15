@@ -2171,14 +2171,14 @@ button, select {
                               />
                             </div>
                           )}
-                          <div className="label-group">
+                          {/* <div className="label-group">
                             <div
                               className="product-label label-hot"
                               // style={{ backgroundColor: "#62b959" }}
                             >
                               -20%
                             </div>
-                          </div>
+                          </div> */}
                           {shirt.in_stock ? (
                             <a
                               href={`/product?id=${shirt.clothingId}`}
