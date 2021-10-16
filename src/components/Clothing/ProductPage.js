@@ -181,9 +181,10 @@ const ProductPage = () => {
                                     width: "30px",
                                     marginRight: "-30px",
                                     cursor: "pointer",
+                                    color: "#000",
                                   }}
                                 >
-                                  <KeyboardArrowLeftIcon />
+                                  <KeyboardArrowLeftIcon fontSize="large" />
                                 </div>
                               }
                               nextArrow={
@@ -192,9 +193,10 @@ const ProductPage = () => {
                                     width: "30px",
                                     marginLeft: "-30px",
                                     cursor: "pointer",
+                                    color: "#000",
                                   }}
                                 >
-                                  <KeyboardArrowRightIcon />
+                                  <KeyboardArrowRightIcon fontSize="large" />
                                 </div>
                               }
                               // indicators={true}
@@ -206,11 +208,12 @@ const ProductPage = () => {
                                   key={index}
                                   // style={{ width: "400px", height: "400px" }}
                                 >
-                                  <InnerImageZoom
+                                  {/* <InnerImageZoom
                                     src={slideImage}
                                     zoomSrc={slideImage}
                                     fullscreenOnMobile={true}
-                                  />
+                                  /> */}
+                                  <img src={slideImage} alt="" />
                                 </div>
                               ))}
                             </Slide>

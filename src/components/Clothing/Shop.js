@@ -24,6 +24,10 @@ import Button from "@mui/material/Button";
 import Loading from "../Loading";
 import Listing from "./Listing";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Slide } from "react-slideshow-image";
+import "react-slideshow-image/dist/styles.css";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 // import { addToCart, storeCart } from "../../features/cart/cart";
 // import MuiAlert from "@material-ui/lab/Alert";
@@ -234,6 +238,8 @@ const Shop = () => {
     }, 1500);
   };
   // console.log(items);
+
+  // const [autoplay, setAutoplay] = useState(false);
 
   return (
     <React.Fragment>
@@ -2155,13 +2161,45 @@ button, select {
                       <div className="product-default inner-quickview inner-icon">
                         <figure>
                           {shirt.in_stock ? (
-                            <a href={`/saree?id=${shirt.clothingId}`}>
-                              <img
-                                src={shirt.img}
-                                alt=""
-                                style={{ borderRadius: "5px" }}
-                              />
-                            </a>
+                            <Slide
+                              autoplay={true}
+                              transitionDuration={300}
+                              arrows={true}
+                              prevArrow={
+                                <div
+                                  style={{
+                                    width: "30px",
+                                    marginRight: "-30px",
+                                    cursor: "pointer",
+                                    color: "#000",
+                                  }}
+                                >
+                                  <KeyboardArrowLeftIcon fontSize="medium" />
+                                </div>
+                              }
+                              nextArrow={
+                                <div
+                                  style={{
+                                    width: "30px",
+                                    marginLeft: "-30px",
+                                    cursor: "pointer",
+                                    color: "#000",
+                                  }}
+                                >
+                                  <KeyboardArrowRightIcon fontSize="medium" />
+                                </div>
+                              }
+                            >
+                              {shirt.images.map((img) => (
+                                <a href={`/saree?id=${shirt.clothingId}`}>
+                                  <img
+                                    src={img}
+                                    alt=""
+                                    style={{ borderRadius: "5px" }}
+                                  />
+                                </a>
+                              ))}
+                            </Slide>
                           ) : (
                             <div>
                               <img
@@ -2171,17 +2209,17 @@ button, select {
                               />
                             </div>
                           )}
-                          {/* <div className="label-group">
+                          <div className="label-group">
                             <div
                               className="product-label label-hot"
                               // style={{ backgroundColor: "#62b959" }}
                             >
-                              -20%
+                              BUY 1 GET 1
                             </div>
-                          </div> */}
+                          </div>
                           {shirt.in_stock ? (
                             <a
-                              href={`/product?id=${shirt.clothingId}`}
+                              href={`/saree?id=${shirt.clothingId}`}
                               className="btn-quickview"
                               title="Quick View"
                               style={{ borderRadius: "0px 0px 5px 5px" }}
