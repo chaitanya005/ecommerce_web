@@ -175,8 +175,8 @@ const Cart = () => {
   const handleCheckout = () => {
     // setState({ ...state, open: true });
     if (!uId) {
-      setState({ ...state, open: true });
-      // history.push("/login");
+      // setState({ ...state, open: true });
+      history.push("/login");
       window.scrollTo(0, 0);
     } else {
       // window.location.reload();

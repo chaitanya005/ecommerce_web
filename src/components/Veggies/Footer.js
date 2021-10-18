@@ -530,8 +530,16 @@ a {
                     </ul>
                   </div> */}
                     <div className="col-md-6">
-                      {/* <h5 className="footer-title">Policies</h5> */}
                       <ul className="nav">
+                        <li className="nav-item">
+                          <a
+                            className="nav-link"
+                            href="/shop/sarees"
+                            style={{ color: "#fff" }}
+                          >
+                            Sarees
+                          </a>
+                        </li>
                         <li className="nav-item">
                           <a
                             className="nav-link"
@@ -541,15 +549,11 @@ a {
                             Dry Fruits
                           </a>
                         </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link"
-                            href="/veggies/shop"
-                            style={{ color: "#fff" }}
-                          >
-                            Rythu bazar
-                          </a>
-                        </li>
+                      </ul>
+                    </div>
+                    <div className="col-md-6">
+                      {/* <h5 className="footer-title">Policies</h5> */}
+                      <ul className="nav">
                         <li className="nav-item">
                           <a
                             className="nav-link"

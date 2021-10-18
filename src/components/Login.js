@@ -16,6 +16,7 @@ const Login = () => {
   const [codeSent, setCodeSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const uId = useSelector(getUserUid);
+  const [err, setErr] = useState("");
 
   const configureCaptcha = () => {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha");
@@ -43,6 +44,8 @@ const Login = () => {
         })
         .catch((err) => {
           console.log(err);
+          // console.log(err.message);
+          setErr(err.message);
         });
     } else {
       alert("Already Logged In");
@@ -65,10 +68,11 @@ const Login = () => {
           })
         );
         await createUserDocument(result.user);
-        history.push("/cart");
+        history.push("/checkout");
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
+        setErr();
       });
   };
 
@@ -90,7 +94,7 @@ const Login = () => {
                 })
               );
               await createUserDocument(res.user);
-              history.push("/cart");
+              history.push("/checkout");
             })
             .catch((err) => console.log(err));
         })
@@ -117,28 +121,28 @@ const Login = () => {
         <link href="/assets/mollabstrap.css" rel="stylesheet" />
       </Helmet>
       <div
-        class="modal fade"
+        className="modal fade"
         id="signin-modal"
         tabindex="-1"
         role="dialog"
         aria-hidden="true"
       >
         <div
-          class="modal-dialog modal-dialog-centered"
+          className="modal-dialog modal-dialog-centered"
           role="document"
           style={{ margin: "10px auto", justifyContent: "center" }}
         >
-          <div class="modal-content">
-            <div class="modal-body">
+          <div className="modal-content">
+            <div className="modal-body">
               <div
-                class="form-box"
+                className="form-box"
                 // style={{ margin: "auto", justifyContent: "center" }}
               >
-                <div class="form-tab">
-                  <ul class="nav nav-pills nav-fill" role="tablist">
-                    <li class="nav-item">
+                <div className="form-tab">
+                  <ul className="nav nav-pills nav-fill" role="tablist">
+                    <li className="nav-item">
                       <div
-                        class="nav-link active"
+                        className="nav-link active"
                         // id="signin-tab"
                         // data-toggle="tab"
                         // role="tab"
@@ -149,9 +153,9 @@ const Login = () => {
                         Sign In
                       </div>
                     </li>
-                    {/*  <li class="nav-item">
+                    {/*  <li className="nav-item">
                       <a
-                        class="nav-link"
+                        className="nav-link"
                         id="register-tab"
                         data-toggle="tab"
                         href="#register"
@@ -163,20 +167,20 @@ const Login = () => {
                       </a>
                     </li> */}
                   </ul>
-                  <div class="tab-content" id="tab-content-5">
+                  <div className="tab-content" id="tab-content-5">
                     <div
-                      class="tab-pane fade show active"
+                      className="tab-pane fade show active"
                       id="signin"
                       role="tabpanel"
                       aria-labelledby="signin-tab"
                     >
                       {!codeSent ? (
-                        <div class="form-group">
+                        <div className="form-group">
                           <form onSubmit={handleNumber}>
                             <label for="singin-email">Phone Number *</label>
                             <input
                               type="text"
-                              class="form-control"
+                              className="form-control"
                               id="singin-email"
                               name="singin-email"
                               style={{ display: "block", width: "100%" }}
@@ -190,7 +194,7 @@ const Login = () => {
                       {isLoading ? <Loading /> : ""}
                       {!codeSent ? <div id="recaptcha"></div> : ""}
                       {!codeSent ? (
-                        <div class="form-footer">
+                        <div className="form-footer">
                           <button
                             type="submit"
                             style={{
@@ -199,12 +203,21 @@ const Login = () => {
                               backgroundColor: "#08c",
                               borderRadius: "5px",
                             }}
-                            class="btn btn-outline-primary-2"
+                            className="btn btn-outline-primary-2"
                             onClick={handleNumber}
                           >
                             <span>Send OTP</span>
-                            {/* <i class="icon-long-arrow-right"></i> */}
+                            {/* <i className="icon-long-arrow-right"></i> */}
                           </button>
+                          <p
+                            style={{
+                              color: "red",
+                              textAlign: "center",
+                              margin: "auto",
+                            }}
+                          >
+                            {err}
+                          </p>
                         </div>
                       ) : (
                         ""
@@ -212,14 +225,14 @@ const Login = () => {
 
                       {codeSent ? (
                         <React.Fragment>
-                          <div class="form-group">
+                          <div className="form-group">
                             <form onSubmit={onSubmitOTP}>
                               <label for="singin-password">
                                 Enter One Time Password (OTP)
                               </label>
                               <input
                                 type="text"
-                                class="form-control"
+                                className="form-control"
                                 id="singin-password"
                                 name="singin-password"
                                 required
@@ -229,7 +242,7 @@ const Login = () => {
                             </form>
                           </div>
 
-                          <div class="form-footer">
+                          <div className="form-footer">
                             <button
                               type="submit"
                               style={{
@@ -238,11 +251,11 @@ const Login = () => {
                                 backgroundColor: "#08c",
                                 borderRadius: "5px",
                               }}
-                              class="btn btn-outline-primary-2"
+                              className="btn btn-outline-primary-2"
                               onClick={onSubmitOTP}
                             >
                               <span>Submit OTP</span>
-                              {/* <i class="icon-long-arrow-right"></i> */}
+                              {/* <i className="icon-long-arrow-right"></i> */}
                             </button>
                           </div>
                         </React.Fragment>
@@ -250,14 +263,17 @@ const Login = () => {
                         ""
                       )}
 
-                      <div class="form-choice">
-                        <p class="text-center" style={{ textAlign: "center" }}>
+                      <div className="form-choice">
+                        <p
+                          className="text-center"
+                          style={{ textAlign: "center" }}
+                        >
                           or sign in with
                         </p>
-                        <div class="row">
-                          <div class="col-sm-6">
+                        <div className="row">
+                          <div className="col-sm-6">
                             <div
-                              class="btn btn-login btn-g"
+                              className="btn btn-login btn-g"
                               style={{ cursor: "pointer", fontWeight: "400" }}
                               onClick={handleGoogleLogin}
                             >

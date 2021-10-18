@@ -36,6 +36,7 @@ export const getUserName = (state) => state.user.name;
 export const getUserEmail = (state) => state.user.email;
 export const getUserPhoto = (state) => state.user.photo;
 export const getUserUid = (state) => state.user.uid;
+export const getUserNumber = (state) => state.user.phoneNumber;
 
 export const getUserDetails = (state) => state.user;
 

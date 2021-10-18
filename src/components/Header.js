@@ -6,6 +6,8 @@ import {
   setSignOut,
   getUserName,
   getUserPhoto,
+  getUserUid,
+  getUserNumber,
 } from "../features/user/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -36,6 +38,7 @@ import {
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { removeOrders } from "../features/order";
+import { Helmet } from "react-helmet";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -86,6 +89,8 @@ const Header = () => {
   const history = useHistory();
   const userName = useSelector(getUserName);
   const userPhoto = useSelector(getUserPhoto);
+  const uId = useSelector(getUserUid);
+  const userNumber = useSelector(getUserNumber);
 
   const [menanchorEl, setMenAnchorEl] = React.useState(null);
   const [womenanchorEl, setWomenAnchorEl] = React.useState(null);
@@ -124,7 +129,8 @@ const Header = () => {
 
   const handleAuth = () => {
     if (!userName) {
-      auth
+      history.push("/login");
+      /* auth
         .signInWithPopup(provider)
         .then((res) => {
           // console.log(res);
@@ -137,7 +143,7 @@ const Header = () => {
             })
             .catch((err) => console.log(err));
         })
-        .catch((err) => {});
+        .catch((err) => {}); */
     } else {
       auth
         .signOut()
@@ -150,6 +156,19 @@ const Header = () => {
         })
         .catch((err) => console.log(err));
     }
+  };
+
+  const signOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        dispatch(setSignOut());
+        dispatch(removeOrders());
+        // dispatch(removeCart());
+        // history.push("/");
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
   };
 
   const saveUser = (user) => {
@@ -214,6 +233,18 @@ const Header = () => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <style>{`
+        .signout{ 
+          display: flex
+        }
+        @media (max-width: 768px) {
+          .signout {
+            display: none;
+          }
+        }
+      `}</style>
+      </Helmet>
       {/* ------------------------------------- Mobile Bar ------------------------------------ */}
       <Drawer
         className={classes.drawer}
@@ -382,16 +413,15 @@ const Header = () => {
               </Typography>
             </AccordionDetails>
           </Accordion> */}
-
           <ListItem>
-            <a href="/dryfruits">
-              <ListItemText primary="Dry Fruits" />
+            <a href="/shop/sarees">
+              <ListItemText primary="Sarees" />
             </a>
           </ListItem>
 
           <ListItem>
-            <a href="/veggies/shop">
-              <ListItemText primary="Rythu Bazaar" />
+            <a href="/dryfruits">
+              <ListItemText primary="Dry Fruits" />
             </a>
           </ListItem>
 
@@ -427,12 +457,24 @@ const Header = () => {
             </a>
           </ListItem>
 
+          <Divider />
           <ListItem>
             <a href="/user/orders">
               <ListItemText primary="Your Orders" />
             </a>
           </ListItem>
-          <Divider />
+
+          <ListItem>
+            {!uId ? (
+              <a href="/login">
+                <ListItemText primary="Login" />
+              </a>
+            ) : (
+              <div onClick={signOut}>
+                <ListItemText primary="Sign Out" />
+              </div>
+            )}
+          </ListItem>
         </List>
         <Snackbar
           anchorOrigin={{ vertical, horizontal }}
@@ -491,8 +533,8 @@ const Header = () => {
               // onClick={handleMenPopoverOpen}
               // onMouseOver={handleMenPopoverOpen}
             >
-              <a href="/dryfruits">
-                <span>DRY FRUITS</span>
+              <a href="/shop/sarees">
+                <span>SAREES</span>
               </a>
             </Typography>
 
@@ -502,8 +544,8 @@ const Header = () => {
               // onClick={handleMenPopoverOpen}
               // onMouseOver={handleMenPopoverOpen}
             >
-              <a href="/veggies/shop">
-                <span>RYTHU BAZAAR</span>
+              <a href="/dryfruits">
+                <span>DRY FRUITS</span>
               </a>
             </Typography>
 
@@ -694,21 +736,68 @@ const Header = () => {
               <ShoppingCartIcon />
             </a>
           </CartIcon>
-          {!userName ? (
+          {!uId ? (
             <Login onClick={handleAuth} style={{ color: "#fff" }}>
               Login
             </Login>
           ) : (
             <React.Fragment>
-              <SignOut>
-                <UserImg src={userPhoto} alt={userName} />
-                <DropDown>
-                  <a href="/user/orders">Your Orders</a> <br />
-                  <span onClick={handleAuth} style={{ color: "#fff" }}>
-                    Sign out
-                  </span>
-                </DropDown>
-              </SignOut>
+              {/* console.log(uId) */}
+              {userName ? (
+                <SignOut>
+                  <UserImg src={userPhoto} alt={userName} />
+                  <DropDown>
+                    <a href="/user/orders">Your Orders</a> <br />
+                    <span onClick={handleAuth} style={{ color: "#fff" }}>
+                      Sign out
+                    </span>
+                  </DropDown>
+                </SignOut>
+              ) : (
+                <SignOut style={{ width: "auto" }}>
+                  <div
+                    className="signout"
+                    style={{
+                      color: "#fff",
+                      letterSpacing: "normal",
+                      textTransform: "uppercase",
+                      // marginLeft: "5px",
+                      // width: "100px",
+                    }}
+                  >
+                    Hello, {userNumber}
+                  </div>
+                  <DropDown>
+                    <a href="/user/orders">Your Orders</a> <br />
+                    <span onClick={signOut} style={{ color: "#fff" }}>
+                      Sign out
+                    </span>
+                  </DropDown>
+                </SignOut>
+              )}
+              {/* <div className="signout">
+                <div
+                  style={{
+                    color: "#fff",
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    marginRight: "5px",
+                  }}
+                >
+                  <a href="/user/orders">Your Orders</a>{" "}
+                </div>{" "}
+                <div
+                  style={{
+                    color: "#fff",
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                  }}
+                  onClick={signOut}
+                >
+                  Sign Out
+                </div>
+              </div> */}
             </React.Fragment>
           )}
         </>

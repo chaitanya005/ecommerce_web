@@ -1220,12 +1220,25 @@ a {
                           <div className="entity-title"></div>
                           <div className="entity-break d-md-none"></div>
                           <div className="entity-total">
-                            {console.log(eachOrder.order[3].total)}
+                            {/* console.log(eachOrder.order[3].total) */}
                             Rs.{eachOrder.order[3].total}
                           </div>
-                          <div className="entity-status text-success">
-                            Order Placed
-                          </div>
+                          {eachOrder.paymentStatus &&
+                          eachOrder.paymentStatus === "Success" ? (
+                            <div className="entity-status text-success">
+                              Order Placed
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                          {eachOrder.paymentStatus &&
+                          eachOrder.paymentStatus === "Not Yet Done" ? (
+                            <div className="entity-status text-success">
+                              Order Not Placed
+                            </div>
+                          ) : (
+                            ""
+                          )}
                         </div>
                       </AccordionSummary>
                       {/* entity-expanded-content */}
