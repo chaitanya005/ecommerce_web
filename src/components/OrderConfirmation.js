@@ -41,8 +41,9 @@ const OrderConfirmation = () => {
   }, [msg]);
 
   const handleFireStore = async () => {
+    // console.log("hanlde fire soter");
     let order;
-    /*  let order = [
+    /*let order = [
       { orderId: id },
       { orderItems: [...cartItems] },
       { ...values },
@@ -56,6 +57,7 @@ const OrderConfirmation = () => {
         { ...values },
         { total: amount },
         { appliedCoupon: coupon },
+        { paymentStatus: "Success" },
       ];
     } else {
       order = [
@@ -64,6 +66,7 @@ const OrderConfirmation = () => {
         { ...values },
         { total: amount + 100 },
         { appliedCoupon: "" },
+        { paymentStatus: "Success" },
       ];
     }
 
@@ -96,6 +99,27 @@ const OrderConfirmation = () => {
       } catch (error) {
         console.log("Error in placing order", error);
       }
+    } else {
+      try {
+        firestore
+          .collection("orders")
+          .doc(userDetails.uid)
+          .collection("order")
+          .doc(id)
+          .set({ order })
+          .then(() => handleNotion());
+        /* firestore
+          .collection("orders")
+          // .doc(userDetails.uid)
+          // .collection("order")
+          .doc(id)
+          .set({
+            order,
+          })
+          .then(() => handleNotion()); */
+      } catch (error) {
+        console.log("Error in placing order", error);
+      }
     }
   };
 
@@ -111,7 +135,7 @@ const OrderConfirmation = () => {
     let total = parseInt(amount);
     let orderId = id;
 
-    // console.log(typeof total);
+    // console.log(items);
     axios
       .post("https://notion-crm.herokuapp.com/order", {
         items,

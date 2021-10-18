@@ -190,60 +190,51 @@ const CheckoutPage = () => {
             // let totalBill = yourBill + 20;
             // var amount = totalBill;
 
-            let totalValues = [{ ...values }, yourBill];
-            dispatch(
-              setBillingDetails({
-                values,
-              })
-            );
-
-            var phone_number = values.phone;
-            var email = values.email;
-            orderId = "ORDERID_" + orderId;
-            /* let params = {
-              orderId: orderId,
-              email: email,
-              amount: yourBill + 100,
-              phone_number: phone_number,
-            }; */
-
-            let params = [];
+            let order = [];
             if (coupon) {
-              params = {
-                orderId: orderId,
-                email: email,
-                amount: totalBill,
-                phone_number: phone_number,
-              };
+              order = [
+                { orderId: orderId },
+                { orderItems: [...cartItems] },
+                { ...values },
+                { total: totalBill },
+                { appliedCoupon: coupon },
+                { paymentStatus: "Not Yet Done" },
+              ];
             } else {
-              params = {
-                orderId: orderId,
-                email: email,
-                amount: yourBill,
-                phone_number: phone_number,
-              };
+              order = [
+                { orderId: orderId },
+                { orderItems: [...cartItems] },
+                { ...values },
+                { total: yourBill },
+                { appliedCoupon: "" },
+                { paymentStatus: "Not Yet Done" },
+              ];
             }
 
-            // var url = "https://paytm-payment-gateway.herokuapp.com/payment";
-            var url = "https://paytm-payment-gateway.herokuapp.com/payment";
-            var request = {
-              url: url,
-              params: params,
-              method: "get",
-            };
-
-            const response = await axios(request);
-            // console.log(response);
-            const processParams = await response.data;
-            console.log(processParams);
-
-            var details = {
-              // action: "https://securegw-stage.paytm.in/order/process",
-              action: "https://securegw.paytm.in/order/process",
-              params: processParams,
-            };
-
-            post(details);
+            try {
+              firestore
+                .collection("orders")
+                .doc(userDetails.uid)
+                .collection("order")
+                .doc(orderId)
+                .set({
+                  order,
+                })
+                .then(() => {
+                  // history.push("/veggies/shop");
+                  dispatch(
+                    setOrderId({
+                      orderId,
+                    })
+                  );
+                  // console.log(res);
+                  // handleNotion();
+                  paymentGateway();
+                });
+            } catch (error) {
+              console.log("Error in placing order", error);
+              history.push("/order/failure");
+            }
           } else {
             handleSaveOrder();
           }
@@ -252,6 +243,63 @@ const CheckoutPage = () => {
         // const orderRef = firestore.collection(`orders`).doc(userDetails.uId);
       }
     }
+  };
+
+  const paymentGateway = async () => {
+    let totalValues = [{ ...values }, yourBill];
+    dispatch(
+      setBillingDetails({
+        values,
+      })
+    );
+
+    var phone_number = values.phone;
+    var email = values.email;
+    orderId = "ORDERID_" + orderId;
+    /* let params = {
+              orderId: orderId,
+              email: email,
+              amount: yourBill + 100,
+              phone_number: phone_number,
+            }; */
+
+    let params = [];
+    if (coupon) {
+      params = {
+        orderId: orderId,
+        email: email,
+        amount: totalBill,
+        phone_number: phone_number,
+      };
+    } else {
+      params = {
+        orderId: orderId,
+        email: email,
+        amount: yourBill,
+        phone_number: phone_number,
+      };
+    }
+
+    var url = "https://paytm-payment-gateway.herokuapp.com/payment";
+    // var url = "http://localhost:7000/payment";
+    var request = {
+      url: url,
+      params: params,
+      method: "get",
+    };
+
+    const response = await axios(request);
+    // console.log(response);
+    const processParams = await response.data;
+    console.log(processParams);
+
+    var details = {
+      // action: "https://securegw-stage.paytm.in/order/process",
+      action: "https://securegw.paytm.in/order/process",
+      params: processParams,
+    };
+
+    post(details);
   };
 
   const handleSaveOrder = async () => {
@@ -1671,10 +1719,10 @@ textarea.form-control {
 
                   {coupon ? (
                     <React.Fragment>
-                      <div className="order-subtotal">
+                      {/* <div className="order-subtotal">
                         <div className="order-line-title">Discount</div>
                         <div className="order-line-total">- 10%</div>
-                      </div>
+                      </div> */}
                       <div className="order-total">
                         <div className="order-line-title">Total</div>
                         <div className="order-line-total">Rs. {totalBill}</div>
@@ -1769,16 +1817,13 @@ textarea.form-control {
         message=""
         key={vertical + horizontal}
       >
-        {/* <Alert severity="error" onClose={handleClose}>
-          Please Login!
-        </Alert> */}
         {!isPaymentSelected ? (
           <Alert severity="error" onClose={handleClose}>
             Please Select Payment mode
           </Alert>
         ) : (
-          <Alert severity="info" onClose={handleClose}>
-            Sorry! Currently, We are not accepting orders.
+          <Alert severity="error" onClose={handleClose}>
+            Please Login!
           </Alert>
         )}
       </Snackbar>

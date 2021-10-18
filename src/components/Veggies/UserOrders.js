@@ -1369,17 +1369,17 @@ a {
                                             Sub Total:
                                           </span>
                                           <span className="entity-list-value">
-                                            Rs. {eachOrder.order[3].total - 100}
+                                            Rs. {eachOrder.order[3].total}
                                           </span>
                                         </li>
-                                        <li className="entity-detail-subtotal">
+                                        {/* <li className="entity-detail-subtotal">
                                           <span className="entity-list-title">
                                             Shipping:
                                           </span>
                                           <span className="entity-list-value">
                                             Rs. 100.00
                                           </span>
-                                        </li>
+                                        </li> */}
                                         <li className="separator-line my-3"></li>
                                         <li className="entity-detail-total">
                                           <span className="entity-list-title">

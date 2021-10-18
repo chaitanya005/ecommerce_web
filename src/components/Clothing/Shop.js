@@ -1561,20 +1561,20 @@ button, select {
 
       <section
         className="
-        after-head
-        top-block-page
-        with-back
-        section-white-text
-        actualwhite-curve-after
+        
       "
         style={{ backgroundImage: "url('assets/images/parts/curve.png)" }}
       >
         <div className="category-banner position-relative">
           <figure className="mb-0">
-            <img src="/images/category-bg.jpg" alt="background" />
+            <img
+              src="/images/shop.jpg"
+              alt="background"
+              style={{ objectFit: "contain", minHeight: "0rem" }}
+            />
           </figure>
 
-          <div className="container justify-content-between position-absolute d-flex">
+          {/* <div className="container justify-content-between position-absolute d-flex">
             <div
               className="banner-content banner-layer-left"
               data-animation-name="fadeIn"
@@ -1615,11 +1615,11 @@ button, select {
                 GET 1<small className="d-inline-block text-center"></small>
               </h3>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
-      <div className="container mb-3">
+      <div className="container mb-3" style={{ marginTop: "3%" }}>
         <div className="row">
           <div className="col-lg-9">
             {/* <nav className="toolbox">
@@ -2209,12 +2209,21 @@ button, select {
                               />
                             </div>
                           )}
-                          <div className="label-group">
+                          <div
+                            className="label-group"
+                            style={{ right: "0.8rem", left: "unset" }}
+                          >
+                            <div
+                              className="product-label label-sale"
+                              // style={{ backgroundColor: "#62b959" }}
+                            >
+                              BUY 1
+                            </div>
                             <div
                               className="product-label label-hot"
                               // style={{ backgroundColor: "#62b959" }}
                             >
-                              BUY 1 GET 1
+                              GET 1 FREE
                             </div>
                           </div>
                           {shirt.in_stock ? (
@@ -2246,9 +2255,9 @@ button, select {
                                 {shirt.categoryType}
                               </a>
                             </div>
-                            <a href="#/" className="btn-icon-wish">
+                            {/* <a href="#/" className="btn-icon-wish">
                               <FavoriteBorderIcon />
-                            </a>
+                            </a> */}
                           </div>
                           <h2 className="product-title">
                             <a href={`/product?id=${shirt.clothingId}`}>

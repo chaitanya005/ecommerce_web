@@ -1646,10 +1646,10 @@ a:hover {
                   <a className="content-link" href="/">
                     Home
                   </a>
-                  <span className="mx-2">\</span>
-                  <a className="content-link" href="/dryfruits">
+                  {/* <span className="mx-2">\</span> */}
+                  {/* <a className="content-link" href="/dryfruits">
                     Shop
-                  </a>
+                  </a> */}
                   <span className="mx-2">\</span>
                   <span>Cart</span>
                 </div>
@@ -1665,7 +1665,8 @@ a:hover {
               <h2 className="cart-title">Products in Cart</h2>
               <div className="cart-item-title">Product</div>
               <div className="cart-item-price">Price</div>
-              <div className="cart-item-quantity">Quantity</div>
+              <div className="cart-item-price">Market Price</div>
+              {/* <div className="cart-item-quantity">Quantity</div> */}
               <div className="cart-item-total">Total</div>
               <div className="cart-item-remove"></div>
             </div>
@@ -1746,25 +1747,25 @@ a:hover {
               </div>
             </div> */}
             <div className="separator-line"></div>
-            <div className="cart-footer">
+            {/* <div className="cart-footer">
               <div className="grid-sm row">
                 <div className="col-sm-6 col-md-4 col-lg-3">
-                  {/* <button className="btn btn-theme-bordered" type="submit">
+                  <button className="btn btn-theme-bordered" type="submit">
                     clear shopping cart
-                  </button> */}
+                  </button>
                 </div>
                 <div className="col-sm-6 col-md-4 col-lg-3 mr-auto">
-                  {/* <button className="btn btn-theme-bordered" type="submit">
+                  <button className="btn btn-theme-bordered" type="submit">
                     update shopping cart
-                  </button> */}
+                  </button>
                 </div>
                 <div className="col-md-4 col-lg-3">
-                  <a href="/dryfruits" className="btn btn-theme">
+                  <a href="/shop/sarees" className="btn btn-theme">
                     Continue Shopping
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="section-block">
             <div className="cols-xl row">
@@ -1863,10 +1864,10 @@ a:hover {
                     </li>
                     {clicked ? (
                       <React.Fragment>
-                        <li>
+                        {/*  <li>
                           <span className="list-item-title">Discount</span>
                           <span className="list-item-value"> - 10%</span>
-                        </li>
+                        </li> */}
                         <li className="cart-total">
                           <span className="list-item-title">Grand Total</span>
                           <span className="list-item-value">
@@ -2147,19 +2148,27 @@ const CartItems = ({ cartItem }) => {
             ) */}
 
             <div className="cart-item-price">Rs. {cartItem.price} </div>
-            <div className="cart-item-price">Rs. {cartItem.actual_price} </div>
+            <div
+              className="cart-item-price"
+              style={{
+                color: "grey",
+                textDecoration: "line-through",
+              }}
+            >
+              Rs. {cartItem.actual_price}{" "}
+            </div>
           </React.Fragment>
         )}
 
-        <div className="cart-item-quantity">
+        {/* <div className="cart-item-quantity">
           <div className="input-view-flat input-gray-shadow input-spin input-group">
-            {/* <input
-              className="form-control"
-              min="1"
-              name="text"
-              type="text"
-              value={count}
-            /> */}
+           <input
+          className="form-control"
+          min="1"
+          name="text"
+          type="text"
+          value={count}
+        /> 
             <div className="form-control">{count}</div>
             <span className="input-actions">
               <span className="input-decrement" onClick={handleDecrement}>
@@ -2170,7 +2179,7 @@ const CartItems = ({ cartItem }) => {
               </span>
             </span>
           </div>
-        </div>
+        </div> */}
         <div className="cart-item-total" style={{ fontSize: "1.5rem" }}>
           <span className="cart-item-total-text">Item total:</span>
           Rs.{updatePrice}

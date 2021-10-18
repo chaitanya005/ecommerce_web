@@ -208,12 +208,12 @@ const ProductPage = () => {
                                   key={index}
                                   // style={{ width: "400px", height: "400px" }}
                                 >
-                                  {/* <InnerImageZoom
+                                  <InnerImageZoom
                                     src={slideImage}
                                     zoomSrc={slideImage}
                                     fullscreenOnMobile={true}
-                                  /> */}
-                                  <img src={slideImage} alt="" />
+                                  />
+                                  {/* <img src={slideImage} alt="" /> */}
                                 </div>
                               ))}
                             </Slide>
