@@ -193,7 +193,7 @@ const CheckoutPage = () => {
             let order = [];
             if (coupon) {
               order = [
-                { orderId: orderId },
+                { orderId: "ORDERID_" + orderId },
                 { orderItems: [...cartItems] },
                 { ...values },
                 { total: totalBill },
@@ -202,7 +202,7 @@ const CheckoutPage = () => {
               ];
             } else {
               order = [
-                { orderId: orderId },
+                { orderId: "ORDERID_" + orderId },
                 { orderItems: [...cartItems] },
                 { ...values },
                 { total: yourBill },
@@ -216,7 +216,7 @@ const CheckoutPage = () => {
                 .collection("orders")
                 .doc(userDetails.uid)
                 .collection("order")
-                .doc(orderId)
+                .doc("ORDERID_" + orderId)
                 .set({
                   order,
                 })

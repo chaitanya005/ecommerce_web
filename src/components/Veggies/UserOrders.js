@@ -7,6 +7,9 @@ import { getUserDetails } from "../../features/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { storeOrders, getOrders } from "../../features/order";
 import { Helmet } from "react-helmet";
+import { useCollection } from "react-firebase-hooks/firestore";
+import db from "../../firebase";
+import { useHistory } from "react-router";
 
 const UserOrders = () => {
   const [stateUpdate, setStateUpdate] = useState({
@@ -15,7 +18,11 @@ const UserOrders = () => {
   });
   const userDetails = useSelector(getUserDetails);
 
+  const [userOrders, loading, error] = useCollection(
+    db.collection("orders").doc(userDetails.uid).collection("order")
+  );
   const order = useSelector(getOrders);
+  const history = useHistory();
 
   const dispatch = useDispatch([]);
 
@@ -28,10 +35,10 @@ const UserOrders = () => {
     }));
   };
 
-  let documents = [];
+  // let documents = [];
 
   useEffect(() => {
-    if (userDetails.uid) {
+    /* if (userDetails.uid) {
       const fetchData = async () => {
         const doc = firestore
           .collection(`orders`)
@@ -55,12 +62,33 @@ const UserOrders = () => {
       };
 
       fetchData();
-    }
+    } */
   }, []);
+
+  let documents = [];
+
+  useEffect(() => {
+    if (userDetails.uid) {
+      userOrders &&
+        userOrders.docs.map((order) => {
+          // console.log(order.data().order);
+          let id = order.id;
+          documents = [...documents, { orderId: id, ...order.data().order }];
+        });
+      // console.log(orders);
+      dispatch(
+        storeOrders({
+          documents,
+        })
+      );
+    } else {
+      history.push("/login");
+    }
+  }, [userOrders]);
 
   // console.log(order.yourOrders && order.yourOrders);
 
-  // console.log(order.yourOrders);
+  console.log(order);
 
   return (
     <React.Fragment>
@@ -1187,8 +1215,9 @@ a {
           {order &&
             order.yourOrders.map((eachOrder, i) => (
               <React.Fragment>
-                {/* eachOrder.order.map() */}
-                <Accordion style={{ backgroundColor: "#1d1c22" }}>
+                <Accordion
+                  style={{ backgroundColor: "#1d1c22", marginTop: "3%" }}
+                >
                   <div className="entity-accordion-group">
                     <div
                       className="
@@ -1198,11 +1227,15 @@ a {
         "
                       id="order-923776A"
                       data-theme-accordion="orders-list"
+                      style={{
+                        backgroundColor: "#292830",
+                        borderRadius: "0.75rem",
+                      }}
                     >
                       <AccordionSummary
                         aria-controls="panel1a-content"
                         id="panel1a-header"
-                        onClick={() => handleIsOpen(eachOrder.id)}
+                        onClick={() => handleIsOpen(eachOrder.orderId)}
                       >
                         <div className="entity-line-head entity-expand-head">
                           <div className="entity-expand">
@@ -1214,25 +1247,24 @@ a {
                             className="entity-number"
                             style={{ color: "#ffb524" }}
                           >
-                            #{eachOrder.id}
+                            #{eachOrder.orderId}
                           </div>
                           <div className="entity-break d-sm-none"></div>
                           <div className="entity-title"></div>
                           <div className="entity-break d-md-none"></div>
                           <div className="entity-total">
-                            {/* console.log(eachOrder.order[3].total) */}
-                            Rs.{eachOrder.order[3].total}
+                            Rs.{eachOrder[3].total}
                           </div>
-                          {eachOrder.paymentStatus &&
-                          eachOrder.paymentStatus === "Success" ? (
+                          {eachOrder[5] &&
+                          eachOrder[5].paymentStatus === "Success" ? (
                             <div className="entity-status text-success">
                               Order Placed
                             </div>
                           ) : (
                             ""
                           )}
-                          {eachOrder.paymentStatus &&
-                          eachOrder.paymentStatus === "Not Yet Done" ? (
+                          {eachOrder[5] &&
+                          eachOrder[5].paymentStatus === "Not Yet Done" ? (
                             <div className="entity-status text-success">
                               Order Not Placed
                             </div>
@@ -1241,8 +1273,7 @@ a {
                           )}
                         </div>
                       </AccordionSummary>
-                      {/* entity-expanded-content */}
-                      {stateUpdate.id == eachOrder.id &&
+                      {stateUpdate.id == eachOrder.orderId &&
                       stateUpdate.isOpen === true ? (
                         <React.Fragment>
                           <AccordionDetails style={{ display: "block" }}>
@@ -1250,58 +1281,52 @@ a {
                               <div className="">
                                 <div className="separator-dashed"></div>
                                 <div className="entity-line-items">
-                                  {eachOrder.order[1].orderItems.map(
-                                    (orderItems) => (
-                                      <React.Fragment>
-                                        <div className="line-entity">
-                                          {/* console.log(orderItems) */}
-                                          <div className="entity-line-image">
-                                            <a
-                                              className="entity-preview-show-up entity-preview"
-                                              href="#/"
-                                            >
-                                              <span className="embed-responsive embed-responsive-4by3">
-                                                <img
-                                                  className="embed-responsive-item"
-                                                  src={orderItems.img}
-                                                  alt=""
-                                                />
-                                              </span>
-                                              <span className="with-back entity-preview-content">
-                                                <span className="h3 m-auto text-theme text-center">
-                                                  <i className="fas fa-search"></i>
-                                                </span>
-                                                <span className="overflow-back bg-body-back opacity-70"></span>
-                                              </span>
-                                            </a>
-                                          </div>
-                                          <div className="entity-title">
-                                            <a
-                                              className="content-link"
-                                              href="#/"
-                                            >
-                                              {orderItems.name}
-                                            </a>
-                                          </div>
-                                          <div className="entity-break d-md-none"></div>
-                                          <div className="entity-price">
-                                            Rs. {orderItems.price}
-                                          </div>
-                                          <div
-                                            className="entity-quantity"
-                                            style={{ color: "#fff" }}
+                                  {eachOrder[1].orderItems.map((orderItems) => (
+                                    <React.Fragment>
+                                      <div className="line-entity">
+                                        <div className="entity-line-image">
+                                          <a
+                                            className="entity-preview-show-up entity-preview"
+                                            href="#/"
                                           >
-                                            x{orderItems.qty}
-                                          </div>
-                                          <div className="entity-total">
-                                            Rs. {orderItems.newPrice}
-                                          </div>
+                                            <span className="embed-responsive embed-responsive-4by3">
+                                              <img
+                                                className="embed-responsive-item"
+                                                src={orderItems.img}
+                                                alt=""
+                                              />
+                                            </span>
+                                            <span className="with-back entity-preview-content">
+                                              <span className="h3 m-auto text-theme text-center">
+                                                <i className="fas fa-search"></i>
+                                              </span>
+                                              <span className="overflow-back bg-body-back opacity-70"></span>
+                                            </span>
+                                          </a>
                                         </div>
-                                      </React.Fragment>
-                                    )
-                                  )}
+                                        <div className="entity-title">
+                                          <a className="content-link" href="#/">
+                                            {orderItems.name}
+                                          </a>
+                                        </div>
+                                        <div className="entity-break d-md-none"></div>
+                                        <div className="entity-price">
+                                          Rs. {orderItems.price}
+                                        </div>
+                                        <div
+                                          className="entity-quantity"
+                                          style={{ color: "#fff" }}
+                                        >
+                                          x{orderItems.qty}
+                                        </div>
+                                        <div className="entity-total">
+                                          Rs. {orderItems.newPrice}
+                                        </div>
+                                      </div>
+                                    </React.Fragment>
+                                  ))}
                                 </div>
-                                {/* console.log(eachOrder.order[2].name) */}
+
                                 <div className="separator-dashed"></div>
                                 <div className="entity-content-details">
                                   <div
@@ -1324,7 +1349,7 @@ a {
                                             className="entity-list-value"
                                             style={{ color: "#ffb524" }}
                                           >
-                                            {eachOrder.order[2].name}
+                                            {eachOrder[2].name}
                                           </span>
                                         </li>
                                         <li>
@@ -1342,38 +1367,13 @@ a {
                                             className="entity-list-value"
                                             style={{ color: "#ffb524" }}
                                           >
-                                            {eachOrder.order[2].address}
+                                            {eachOrder[2].address}
                                           </span>
                                         </li>
                                       </ul>
                                     </div>
                                     <div className="col-md-6 col-lg-4">
-                                      <ul className="main-list entity-list">
-                                        {/* <li>
-                                          <span className="entity-list-title">
-                                            Tracking number:
-                                          </span>
-                                          <span className="entity-list-value">
-                                            -
-                                          </span>
-                                        </li>
-                                        <li>
-                                          <span className="entity-list-title">
-                                            Logistics company:
-                                          </span>
-                                          <span className="entity-list-value">
-                                            ePacket
-                                          </span>
-                                        </li>
-                                        <li>
-                                          <span className="entity-list-title">
-                                            Shipment date:
-                                          </span>
-                                          <span className="entity-list-value">
-                                            -
-                                          </span>
-                                        </li> */}
-                                      </ul>
+                                      <ul className="main-list entity-list"></ul>
                                     </div>
                                     <div className="mt-4 mt-lg-0 col-md-6 col-lg-4">
                                       <ul className="flex-list entity-list">
@@ -1382,24 +1382,17 @@ a {
                                             Sub Total:
                                           </span>
                                           <span className="entity-list-value">
-                                            Rs. {eachOrder.order[3].total}
+                                            Rs. {eachOrder[3].total}
                                           </span>
                                         </li>
-                                        {/* <li className="entity-detail-subtotal">
-                                          <span className="entity-list-title">
-                                            Shipping:
-                                          </span>
-                                          <span className="entity-list-value">
-                                            Rs. 100.00
-                                          </span>
-                                        </li> */}
+
                                         <li className="separator-line my-3"></li>
                                         <li className="entity-detail-total">
                                           <span className="entity-list-title">
                                             Total:
                                           </span>
                                           <span className="entity-list-value">
-                                            Rs. {eachOrder.order[3].total}
+                                            Rs. {eachOrder[3].total}
                                           </span>
                                         </li>
                                       </ul>

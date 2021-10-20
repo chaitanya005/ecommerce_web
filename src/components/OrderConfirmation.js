@@ -11,7 +11,7 @@ import {
 } from "../features/cart/cart";
 // import firestore from "../firebase";
 // firestoree
-import { getUserDetails } from "../features/user/userSlice";
+import { getUserDetails, getUserUid } from "../features/user/userSlice";
 import { firestore } from "../firebase";
 import axios from "axios";
 import Loading from "./Loading";
@@ -26,6 +26,7 @@ const OrderConfirmation = () => {
   const amount = new URLSearchParams(search).get("txn_amount");
   const cartItems = useSelector(storeCart);
   const userDetails = useSelector(getUserDetails);
+  const uId = useSelector(getUserUid);
   const [loading, setLoading] = useState(true);
   const coupon = useSelector(couponApplied);
   // console.log(billing_Info, cartItems);
@@ -70,7 +71,7 @@ const OrderConfirmation = () => {
       ];
     }
 
-    const orderRef = firestore.doc(`orders/${userDetails.uid}/order/${id}`);
+    const orderRef = firestore.doc(`orders/${uId}/order/${id}`);
 
     const snapshot = await orderRef.get();
 
@@ -80,7 +81,7 @@ const OrderConfirmation = () => {
       try {
         firestore
           .collection("orders")
-          .doc(userDetails.uid)
+          .doc(uId)
           .collection("order")
           .doc(id)
           .set({
@@ -103,7 +104,7 @@ const OrderConfirmation = () => {
       try {
         firestore
           .collection("orders")
-          .doc(userDetails.uid)
+          .doc(uId)
           .collection("order")
           .doc(id)
           .set({ order })
