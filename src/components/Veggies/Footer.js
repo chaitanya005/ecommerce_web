@@ -12,7 +12,7 @@ const Footer = () => {
       <Helmet>
         {/*  <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" /> */}
         {/* <link href="/assets/css/theme.min.css" rel="stylesheet" /> */}
-        {/* <style>{`
+        <style>{`
         :root {
           --blue: #007bff;
           --indigo: #6610f2;
@@ -258,7 +258,7 @@ hr {
 body {
   font-family: "Poppins";
   color: #747d88;
-  background-color: #1d1c22;
+  // background-color: #1d1c22;
   font-size: 1rem;
   line-height: 1.7;
   position: relative;
@@ -306,7 +306,7 @@ a {
   outline: 0 none;
 }
 .bg-vegetables-pattern-white {
-  background-image: url("assets/images/parts/vegetables-pattern-white.png");
+  background-image: url("/assets/images/parts/vegetables-pattern-white.png");
   background-position: 0 0;
   background-repeat: repeat;
 }
@@ -471,7 +471,7 @@ a {
 
 
 
-`}</style> */}
+`}</style>
       </Helmet>
       <footer className="white-curve-before curve-before-80 page-footer footer-view-links section-white-text">
         <div className="overflow-back bg-vegetables-pattern-white opacity-3"></div>
@@ -626,18 +626,29 @@ a {
                   <div className="footer-text-info">
                     <WhatsAppIcon fontSize="small" /> +91 8790462050 <br />
                     <PhoneIcon fontSize="small" /> +91 9030462050 <br />
-                    <a href="mailto:updates@spontstore.com">
+                    <a
+                      href="mailto:updates@spontstore.com"
+                      style={{ color: "#fff" }}
+                    >
                       <MailIcon fontSize="small" />
                       {"  "}
                       updates@spontstore.com
                     </a>
-                    <p>1/A Rajupalem Street, Swarna Road</p>
-                    <p> Chirala-523155</p>
+                    <p style={{ color: "#fff" }}>
+                      1/A Rajupalem Street, Swarna Road
+                    </p>
+                    <p style={{ color: "#fff" }}> Chirala-523155</p>
                     Follow us on{" "}
-                    <a href="https://www.facebook.com/spontstore/">
+                    <a
+                      href="https://www.facebook.com/spontstore/"
+                      style={{ color: "#fff" }}
+                    >
                       <FacebookIcon />
                     </a>{" "}
-                    <a href="https://youtube.com/channel/UCjOYdGM9m9VAjD0Jr7k8Qzg">
+                    <a
+                      href="https://youtube.com/channel/UCjOYdGM9m9VAjD0Jr7k8Qzg"
+                      style={{ color: "#fff" }}
+                    >
                       <YouTubeIcon />
                     </a>
                   </div>

@@ -732,7 +732,7 @@ const Header = () => {
             </Menu> */}
           </NavMenu>
           <CartIcon>
-            <a href="/cart">
+            <a href="/cart" style={{ color: "#fff" }}>
               <ShoppingCartIcon />
             </a>
           </CartIcon>

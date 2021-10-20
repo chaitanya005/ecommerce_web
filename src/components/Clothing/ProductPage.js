@@ -114,6 +114,7 @@ const ProductPage = () => {
   return (
     <React.Fragment>
       <Helmet>
+        <title>Spont Store | {id}</title>
         <style>{`
         body {
           background-color: #fff;
@@ -210,7 +211,7 @@ a:hover {
 }
 
 .bg-vegetables-pattern-white {
-  background-image: url("/assets/images/parts/vegetables-pattern-white.png");
+  background-image: url("/assets/images/parts/vegetables-pattern-white.png"); !important
   background-position: 0 0;
   background-repeat: repeat;
 }
@@ -232,7 +233,7 @@ a:hover {
   left: 0;
   width: 100%;
   height: 55px;
-  background-image: url("/assets/images/parts/black-curve.png");
+  background-image: url("/assets/images/parts/curve.png");
   background-repeat: repeat-x;
 }
 

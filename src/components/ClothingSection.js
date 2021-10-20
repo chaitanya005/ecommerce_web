@@ -131,6 +131,7 @@ const ClothingSection = () => {
                   backgroundColor: "rgba(80,17,204)",
                   padding: "0.75rem 2rem",
                   cursor: "pointer",
+                  color: "#fff",
                 }}
                 // onClick={handleOpen}
               >

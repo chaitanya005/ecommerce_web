@@ -134,6 +134,7 @@ const FruitsSection = () => {
                 padding: "0.75rem 2rem",
                 cursor: "pointer",
                 marginTop: "0",
+                color: "#fff",
               }}
               // onClick={handleOpen}
             >
