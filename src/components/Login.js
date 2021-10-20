@@ -17,9 +17,11 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const uId = useSelector(getUserUid);
   const [err, setErr] = useState("");
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
   const configureCaptcha = () => {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha");
+    setIsCaptchaVerified(true);
     /* if (window.recaptchaVerifier !== undefined) {
       setTimeout(() => {
         setIsLoading(false);
@@ -193,7 +195,7 @@ const Login = () => {
                       )}
                       {isLoading ? <Loading /> : ""}
                       {!codeSent ? <div id="recaptcha"></div> : ""}
-                      {!codeSent ? (
+                      {!isCaptchaVerified ? (
                         <div className="form-footer">
                           <button
                             type="submit"
