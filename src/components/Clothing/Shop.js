@@ -256,6 +256,23 @@ const Shop = () => {
           }
         }
       `}</style>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/images/favicons/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/images/favicons/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/images/favicons/favicon-16x16.png"
+        />
         <style>{`
       body {
         font-family: "Poppins";
@@ -1376,7 +1393,7 @@ button, select {
         <div className="category-banner position-relative">
           <figure className="mb-0">
             <img
-              src="/images/shop.jpg"
+              src="/images/shop.webp"
               alt="background"
               style={{ objectFit: "contain", minHeight: "0rem" }}
             />

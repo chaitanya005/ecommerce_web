@@ -23,6 +23,7 @@ import emailjs from "emailjs-com";
 import { init } from "emailjs-com";
 import { Helmet } from "react-helmet";
 import MetaTags from "react-meta-tags";
+import moment from "moment";
 // import RadioGroup from "@material-ui/core/RadioGroup";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
 // import Radio from "@material-ui/core/Radio";
@@ -191,6 +192,7 @@ const CheckoutPage = () => {
             // var amount = totalBill;
 
             let order = [];
+            let date = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
             if (coupon) {
               order = [
                 { orderId: "ORDERID_" + orderId },
@@ -219,6 +221,7 @@ const CheckoutPage = () => {
                 .doc("ORDERID_" + orderId)
                 .set({
                   order,
+                  date,
                 })
                 .then(() => {
                   // history.push("/veggies/shop");

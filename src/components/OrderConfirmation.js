@@ -15,6 +15,7 @@ import { getUserDetails, getUserUid } from "../features/user/userSlice";
 import { firestore } from "../firebase";
 import axios from "axios";
 import Loading from "./Loading";
+import moment from "moment";
 
 const OrderConfirmation = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ const OrderConfirmation = () => {
     // handleNotion();
   }, [msg]);
 
+  let payment_dateTime = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
   const handleFireStore = async () => {
     // console.log("hanlde fire soter");
     let order;
@@ -107,7 +109,7 @@ const OrderConfirmation = () => {
           .doc(uId)
           .collection("order")
           .doc(id)
-          .set({ order })
+          .set({ order, payment_dateTime })
           .then(() => handleNotion());
         /* firestore
           .collection("orders")
@@ -145,6 +147,7 @@ const OrderConfirmation = () => {
         orderId,
         total,
         coupon,
+        payment_dateTime,
       })
       .then((res) => {
         // console.log(res);

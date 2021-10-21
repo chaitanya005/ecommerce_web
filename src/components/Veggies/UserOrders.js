@@ -71,9 +71,16 @@ const UserOrders = () => {
     if (userDetails.uid) {
       userOrders &&
         userOrders.docs.map((order) => {
-          // console.log(order.data().order);
+          // console.log(order.data().payment_dateTime);
           let id = order.id;
-          documents = [...documents, { orderId: id, ...order.data().order }];
+          documents = [
+            ...documents,
+            {
+              orderId: id,
+              ...order.data().order,
+              date: order.data().payment_dateTime,
+            },
+          ];
         });
       // console.log(orders);
       dispatch(
@@ -87,8 +94,6 @@ const UserOrders = () => {
   }, [userOrders]);
 
   // console.log(order.yourOrders && order.yourOrders);
-
-  console.log(order);
 
   return (
     <React.Fragment>
@@ -1265,7 +1270,10 @@ a {
                           )}
                           {eachOrder[5] &&
                           eachOrder[5].paymentStatus === "Not Yet Done" ? (
-                            <div className="entity-status text-success">
+                            <div
+                              className="entity-status text-warning"
+                              style={{ color: "red" }}
+                            >
                               Order Not Placed
                             </div>
                           ) : (
@@ -1373,7 +1381,24 @@ a {
                                       </ul>
                                     </div>
                                     <div className="col-md-6 col-lg-4">
-                                      <ul className="main-list entity-list"></ul>
+                                      <ul className="main-list entity-list">
+                                        {eachOrder.date !== undefined && (
+                                          <li>
+                                            <span
+                                              class="entity-list-title"
+                                              style={{ color: "#fff" }}
+                                            >
+                                              Date & Time:
+                                            </span>
+                                            <span
+                                              class="entity-list-value"
+                                              style={{ color: "#ffb524" }}
+                                            >
+                                              {eachOrder.date}
+                                            </span>
+                                          </li>
+                                        )}
+                                      </ul>
                                     </div>
                                     <div className="mt-4 mt-lg-0 col-md-6 col-lg-4">
                                       <ul className="flex-list entity-list">

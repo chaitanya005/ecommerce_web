@@ -98,7 +98,7 @@ const ClothingSection = () => {
             <Image
               style={{ maxWidth: "100%" }}
               css={Object.assign(tw`bg-cover`, imageCss)}
-              // src="/images/svg/home_cloth.svg"
+              // src="/images/svg/cloth.svg"
               src="/images/cloth.jpg"
               imageBorder={false}
               imageShadow={false}
