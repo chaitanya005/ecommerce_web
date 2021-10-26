@@ -192,7 +192,9 @@ const CheckoutPage = () => {
             // var amount = totalBill;
 
             let order = [];
-            let date = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
+            let payment_dateTime = moment(Date.now()).format(
+              "YYYY-MM-DD HH:mm:ss"
+            );
             if (coupon) {
               order = [
                 { orderId: "ORDERID_" + orderId },
@@ -221,7 +223,7 @@ const CheckoutPage = () => {
                 .doc("ORDERID_" + orderId)
                 .set({
                   order,
-                  date,
+                  payment_dateTime,
                 })
                 .then(() => {
                   // history.push("/veggies/shop");

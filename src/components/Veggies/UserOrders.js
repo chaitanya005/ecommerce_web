@@ -19,7 +19,11 @@ const UserOrders = () => {
   const userDetails = useSelector(getUserDetails);
 
   const [userOrders, loading, error] = useCollection(
-    db.collection("orders").doc(userDetails.uid).collection("order")
+    db
+      .collection("orders")
+      .doc(userDetails.uid)
+      .collection("order")
+      .orderBy("payment_dateTime", "desc")
   );
   const order = useSelector(getOrders);
   const history = useHistory();
