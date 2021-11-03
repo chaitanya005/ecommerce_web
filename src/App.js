@@ -45,6 +45,8 @@ import ClothShop from "./components/Clothing/Shop";
 import ProductPage from "./components/Clothing/ProductPage";
 import Productpage from "./components/Men/Product_page";
 import OtpLogin from "./OtpLogin";
+import Blog from "./components/Blog/Blog";
+import ShipmentPolicy from "./components/Shipment_Policy";
 
 // import './App.css'
 
@@ -188,6 +190,9 @@ const App = () => {
             <Route path="/returnandrefund">
               <ReturnRefund />
             </Route>
+            <Route path="/shipment">
+              <ShipmentPolicy />
+            </Route>
             <Route path="/privacy">
               <Privacy />
             </Route>
@@ -220,6 +225,9 @@ const App = () => {
             </Route>
             <Route path="/footer">
               <Footer />
+            </Route>
+            <Route path="/blog">
+              <Blog />
             </Route>
             <Route path="*">
               <PageNotFound />

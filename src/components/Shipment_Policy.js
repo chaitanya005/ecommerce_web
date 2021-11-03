@@ -1,11 +1,16 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 
-const Return_Refund = () => {
+const ShipmentPolicy = () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Spont Store | Return Refund</title>
+        <title>Spont Store | Shipment</title>
+        <style>{`
+          body {
+            background-color: #1d1c22;
+          }
+        `}</style>
         <style>
           {`
         :root {
@@ -288,7 +293,7 @@ button, select {
       body {
         // font-family: "Poppins";
         color: #747d88;
-        background-color: #1d1c22;
+        background-color: #1d1c22 !important;
         font-size: 1rem;
         line-height: 1.7;
         position: relative;
@@ -631,7 +636,7 @@ a {
               />
             </div>
             <div className="z-index-4 position-relative text-center">
-              <h1 className="section-title">Return & Refund</h1>
+              <h1 className="section-title">Shipment Policy</h1>
             </div>
           </div>
         </div>
@@ -639,68 +644,35 @@ a {
       <div className="container">
         <br />
         <div style={{ textAlign: "center", fontSize: "20px" }}>
-          Our focus is complete customer satisfaction. In the event, if you are
-          displeased with the services provided, we will refund back the money,
-          provided the reasons are genuine and proved after investigation.
+          All the products at <a href="/">www.spontstore.com</a>
         </div>
         <br />
         <div style={{ fontSize: "20px" }}>
-          In case of dissatisfaction from our services, clients have the liberty
-          to return/refund their products. Our Policy for the return and refund
-          will be as follows:
+          Below mentioned delivery timelines are approximate. Please note that
+          Couriers are third party services and we don’t have full control over
+          it. If you didn’t receive the product within the below mentioned
+          timeline, kindly call us. We will initiate a faster delivery
+          immediately.
         </div>
         <br />
-
-        {/* <h4> Cancellation Policy:</h4>
-        <div style={{ fontSize: "20px" }}>
-          For Cancellations please contact the us via{" "}
-          <a href="mailto:updates@spontstore.com">
-            <b>
-              <i>mail: updates@spontstore.com</i>
-            </b>
-          </a>{" "}
-          or via phone:{" "}
-          <b>
-            <i>+91 8790462050</i>
-          </b>
-          . Requests received later than 5 business days prior to the end of the
-          current service period will be treated as cancellation of services for
-          the next service period.
-        </div> */}
-
-        {/* <div style={{ textAlign: "center", fontSize: "20px" }}>
-          In case of return you can inform us via{" "}
-          <a href="mailto:updates@spontstore.com">
-            <b>
-              <i>mail: updates@spontstore.com</i>
-            </b>
-          </a>{" "}
-          <br />
-          via phone:{" "}
-          <b>
-            <i>+91 8790462050 / +91 9030462050</i>
-          </b>
-        </div> */}
-
         <br />
-        <h4>Return & Exchange Policy:</h4>
         <div style={{ fontSize: "20px" }}>
-          Once a product is delivered, we accept a return & exchange of products
-          within 3 days from date of delivery, only in case there is a
-          significant difference in the products ordered from the products
-          delivered like wrong colour, wrong size or damaged product (Applicable
-          for customers who ordered one and received different one Only). <br />{" "}
-          Since, we don’t have a provision to pick up the delivered products
-          back. Kindly send it back to the below address (Dtdc preferred) and
-          send us the courier slip and we will pay you back the courier charges
-          (Upto Rs. 100 Only). <br /> Kindly make sure the Product and its
-          Packaging should be in its original condition (should be unused,
-          unaltered, unsoiled).
+          We dispatch our products immediately from the ordered time / within 1
+          day from the order date, from Monday to Sunday(excluding sum Indian
+          public holidays), and it takes another 2 to 8 working days for the
+          order to reach you based on your location.
           <br />
-          <hr style={{ color: "white" }} />
-          <b>Address</b>: Spont Store Door No: 1/a, Raju Pallam Street, Swarna
-          Road, Chirala (A.P) - 523155.
-          <br /> <b> Phone</b>: 8790462050, 9030462050
+          Delivery expected timeline : (approximate)
+          <br />
+          Andhra pradesh, Telangana: Prakasam, Guntur, Krishna, Nellore,
+          Hyderabad, Ranga Reddy, Khammam, Warangal, 2 to 4 business days to
+          deliver. <br />
+          For other districts in Andhra pradesh & Telangana it usually takes 2
+          to 5 business days.
+          <br /> <b>Chennai & Bangalore:</b> 2 to 6 business days. <br />
+          <b>Other cities:</b> 3 to 6 business days. International shipments: 5
+          to 8 business days.
+          <br /> For assistance please call 8790462050.
         </div>
         <br />
       </div>
@@ -708,4 +680,4 @@ a {
   );
 };
 
-export default Return_Refund;
+export default ShipmentPolicy;

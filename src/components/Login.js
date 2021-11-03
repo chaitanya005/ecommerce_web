@@ -524,8 +524,12 @@ button:focus {
       >
         <div
           className="modal-dialog modal-dialog-centered"
-          role="document"
-          style={{ margin: "10px auto", justifyContent: "center" }}
+          style={{
+            margin: "auto",
+            position: "relative",
+            top: "50px",
+            marginBottom: "80px",
+          }}
         >
           <div className="modal-content">
             <div className="modal-body">

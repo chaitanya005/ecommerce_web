@@ -819,7 +819,7 @@ const Header = () => {
 };
 
 const Nav = styled.nav`
-  position: relative;
+  position: fixed;
   height: 70px;
   width: 100%;
   background-color: rgb(52, 58, 64);

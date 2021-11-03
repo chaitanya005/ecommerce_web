@@ -1385,10 +1385,12 @@ button, select {
           </section>*/}
 
       <section
-        className="
-        
-      "
-        style={{ backgroundImage: "url('assets/images/parts/curve.png)" }}
+        className=""
+        style={{
+          backgroundImage: "url('assets/images/parts/curve.png)",
+          top: "70px",
+          position: "relative",
+        }}
       >
         <div className="category-banner position-relative">
           <figure className="mb-0">
@@ -1444,7 +1446,7 @@ button, select {
         </div>
       </section>
 
-      <div className="container mb-3" style={{ marginTop: "3%" }}>
+      <div className="container mb-3" style={{ marginTop: "90px" }}>
         <div className="row">
           <div className="col-lg-9">
             {/* <nav className="toolbox">

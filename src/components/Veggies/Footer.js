@@ -327,7 +327,7 @@ a {
   left: 0;
   width: 100%;
   height: 55px;
-  background-image: url("assets/images/parts/black-curve.png");
+  // background-image: url("assets/images/parts/black-curve.png");
   background-repeat: repeat-x;
 }
 .white-curve-before:before {

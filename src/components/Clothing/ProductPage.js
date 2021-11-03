@@ -1064,7 +1064,7 @@ body {
         {/* <link rel="stylesheet" href="/assets/porto.css" /> */}
         {/* <link rel="stylesheet" href="/assets/style.css" /> */}
       </Helmet>
-      <main className="main" style={{ marginTop: "2%" }}>
+      <main className="main" style={{ position: "relative", top: "100px" }}>
         {!loading ? (
           <div className="container">
             <div className="row">
