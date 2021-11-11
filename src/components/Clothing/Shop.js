@@ -101,7 +101,7 @@ const Shop = () => {
       setItems(menShirts.menshirts.concat(Array.from({ length: 2 })));
   }, [menShirts]);
 
-  // console.log(displayProds && displayProds);
+  console.log(displayProds && displayProds);
   // console.log(menShirts);
 
   /* const handleAddToCart = (shirt) => {
@@ -1642,6 +1642,9 @@ button, select {
                                   cursor: "pointer",
                                   fontSize: "0.7rem",
                                 }}
+                                onClick={() =>
+                                  handleCategoryFilter("chiffonsaree")
+                                }
                               >
                                 CHIFFON SAREES
                               </div>
@@ -2106,23 +2109,27 @@ button, select {
                               />
                             </div>
                           )}
-                          <div
-                            className="label-group"
-                            style={{ right: "0.8rem", left: "unset" }}
-                          >
+                          {shirt.categoryType !== "chiffonsaree" ? (
                             <div
-                              className="product-label label-sale"
-                              // style={{ backgroundColor: "#62b959" }}
+                              className="label-group"
+                              style={{ right: "0.8rem", left: "unset" }}
                             >
-                              BUY 1
+                              <div
+                                className="product-label label-sale"
+                                // style={{ backgroundColor: "#62b959" }}
+                              >
+                                BUY 1
+                              </div>
+                              <div
+                                className="product-label label-hot"
+                                // style={{ backgroundColor: "#62b959" }}
+                              >
+                                GET 1 FREE
+                              </div>
                             </div>
-                            <div
-                              className="product-label label-hot"
-                              // style={{ backgroundColor: "#62b959" }}
-                            >
-                              GET 1 FREE
-                            </div>
-                          </div>
+                          ) : (
+                            ""
+                          )}
                           {shirt.in_stock ? (
                             <a
                               href={`/saree?id=${shirt.clothingId}`}
@@ -2268,7 +2275,12 @@ button, select {
                         </div>
                       </li>
                       <li>
-                        <div style={{ cursor: "pointer" }}>CHIFFON SAREES</div>
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleCategoryFilter("chiffonsaree")}
+                        >
+                          CHIFFON SAREES
+                        </div>
                       </li>
                       <li>
                         <div style={{ cursor: "pointer" }}>WEDDING SAREES</div>
