@@ -101,7 +101,7 @@ const Shop = () => {
       setItems(menShirts.menshirts.concat(Array.from({ length: 2 })));
   }, [menShirts]);
 
-  console.log(displayProds && displayProds);
+  // console.log(displayProds && displayProds);
   // console.log(menShirts);
 
   /* const handleAddToCart = (shirt) => {
@@ -273,6 +273,7 @@ const Shop = () => {
           sizes="16x16"
           href="/images/favicons/favicon-16x16.png"
         />
+
         <style>{`
       body {
         font-family: "Poppins";
@@ -1335,6 +1336,11 @@ button, select {
       
         `}</style>
 
+        <style>{`
+          a:active {
+            color: blue;
+          }
+        `}</style>
         {/* <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" /> */}
         {/* <link href="/assets/css/theme.min.css" rel="stylesheet" /> */}
         {/* <link rel="stylesheet" href="/assets/porto.css" /> */}
@@ -1565,6 +1571,71 @@ button, select {
                                   fontSize: "0.7rem",
                                 }}
                                 onClick={() =>
+                                  handleCategoryFilter("georgettesaree")
+                                }
+                              >
+                                GEORGETTE SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  fontSize: "0.7rem",
+                                }}
+                                onClick={() =>
+                                  handleCategoryFilter("chiffonsaree")
+                                }
+                              >
+                                CHIFFON SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  fontSize: "0.7rem",
+                                }}
+                                onClick={() =>
+                                  handleCategoryFilter("dolaprintsaree")
+                                }
+                              >
+                                DOLA PRINT SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  fontSize: "0.7rem",
+                                }}
+                                onClick={() =>
+                                  handleCategoryFilter("dolapartusaree")
+                                }
+                              >
+                                DOLA PARTU SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  fontSize: "0.7rem",
+                                }}
+                                onClick={() =>
+                                  handleCategoryFilter("dotnetsaree")
+                                }
+                              >
+                                DOT NET SAREES
+                              </div>
+                            </li>
+                            <li>
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  fontSize: "0.7rem",
+                                }}
+                                onClick={() =>
                                   handleCategoryFilter("cottonsaree")
                                 }
                               >
@@ -1623,33 +1694,7 @@ button, select {
                                 CREPE SAREES
                               </div>
                             </li>
-                            <li>
-                              <div
-                                style={{
-                                  cursor: "pointer",
-                                  fontSize: "0.7rem",
-                                }}
-                                onClick={() =>
-                                  handleCategoryFilter("georgettesaree")
-                                }
-                              >
-                                GEORGETTE SAREES
-                              </div>
-                            </li>
-                            <li>
-                              <div
-                                style={{
-                                  cursor: "pointer",
-                                  fontSize: "0.7rem",
-                                }}
-                                onClick={() =>
-                                  handleCategoryFilter("chiffonsaree")
-                                }
-                              >
-                                CHIFFON SAREES
-                              </div>
-                            </li>
-                            <li>
+                            {/* <li>
                               <div
                                 style={{
                                   cursor: "pointer",
@@ -1708,7 +1753,7 @@ button, select {
                               >
                                 FANCY SAREES{" "}
                               </div>
-                            </li>
+                            </li> */}
                           </ul>
                         </div>
                       </div>
@@ -2109,7 +2154,7 @@ button, select {
                               />
                             </div>
                           )}
-                          {shirt.categoryType !== "chiffonsaree" ? (
+                          {shirt.categoryType === "georgettesaree" ? (
                             <div
                               className="label-group"
                               style={{ right: "0.8rem", left: "unset" }}
@@ -2156,7 +2201,7 @@ button, select {
                           <div className="category-wrap">
                             <div className="category-list">
                               <a href="#/" className="product-category">
-                                {shirt.categoryType}
+                                {/* shirt.categoryType */}
                               </a>
                             </div>
                             {/* <a href="#/" className="btn-icon-wish">
@@ -2164,7 +2209,10 @@ button, select {
                             </a> */}
                           </div>
                           <h2 className="product-title">
-                            <a href={`/product?id=${shirt.clothingId}`}>
+                            <a
+                              href={`/product?id=${shirt.clothingId}`}
+                              style={{ color: "black", fontSize: "16px" }}
+                            >
                               {shirt.name}
                             </a>
                           </h2>
@@ -2227,12 +2275,58 @@ button, select {
                   <div className="widget-body">
                     <ul className="cat-list">
                       <li>
-                        <div
-                          style={{ cursor: "pointer" }}
+                        <a
+                          href="#"
+                          style={{ textDecoration: "none" }}
+                          onClick={() => handleCategoryFilter("georgettesaree")}
+                        >
+                          GEORGETTE SAREES
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          style={{ textDecoration: "none" }}
+                          onClick={() => handleCategoryFilter("chiffonsaree")}
+                        >
+                          CHIFFON SAREES
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          style={{ textDecoration: "none" }}
+                          onClick={() => handleCategoryFilter("dolaprintsaree")}
+                        >
+                          DOLA PRINT SAREES
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          style={{ textDecoration: "none" }}
+                          onClick={() => handleCategoryFilter("dolapartusaree")}
+                        >
+                          DOLA PARTU SAREES
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          style={{ textDecoration: "none" }}
+                          onClick={() => handleCategoryFilter("dotnetsaree")}
+                        >
+                          DOT NET SAREES
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          style={{ textDecoration: "none" }}
                           onClick={() => handleCategoryFilter("cottonsaree")}
                         >
                           COTTON SAREES
-                        </div>
+                        </a>
                       </li>
                       <li>
                         <div
@@ -2266,23 +2360,7 @@ button, select {
                           CREPE SAREES
                         </div>
                       </li>
-                      <li>
-                        <div
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleCategoryFilter("georgettesaree")}
-                        >
-                          GEORGETTE SAREES
-                        </div>
-                      </li>
-                      <li>
-                        <div
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleCategoryFilter("chiffonsaree")}
-                        >
-                          CHIFFON SAREES
-                        </div>
-                      </li>
-                      <li>
+                      {/* <li>
                         <div style={{ cursor: "pointer" }}>WEDDING SAREES</div>
                       </li>
                       <li>
@@ -2303,7 +2381,7 @@ button, select {
                       </li>
                       <li>
                         <div style={{ cursor: "pointer" }}>FANCY SAREES </div>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>

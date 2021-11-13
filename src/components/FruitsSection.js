@@ -140,6 +140,10 @@ const FruitsSection = () => {
             >
               Shop Now
             </PrimaryButton>
+            <br />
+            <br />
+            <br />
+            <br />
           </TextContent>
         </TextColumn>
       </TwoColumn>

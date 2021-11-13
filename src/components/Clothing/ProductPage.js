@@ -1160,6 +1160,17 @@ body {
                       </div>
                       <div className="product-desc">
                         <p>{product && product.data().info}</p>
+                        <div>
+                          {product &&
+                            product.data().desc &&
+                            Object.entries(product.data().desc).map((item) => (
+                              <React.Fragment>
+                                <div style={{ display: "flex" }}>
+                                  <p>{item[0]}</p>: <p> {item[1]}</p>
+                                </div>
+                              </React.Fragment>
+                            ))}
+                        </div>
                       </div>
                       <div className="product-filters-container">
                         {/* <div className="product-single-filter">
